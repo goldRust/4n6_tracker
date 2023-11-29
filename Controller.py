@@ -18,6 +18,7 @@ class Controller:
         file = self.team.name + ".4n6"
         with open(file, 'wb') as f:
             pickle.dump(self.team, f, protocol=pickle.HIGHEST_PROTOCOL)
+        print(f"{file} has been saved.")
 
     def new_team(self, team_name):
         self.team = Team(team_name)
@@ -57,7 +58,6 @@ class Controller:
 
             if response == "save":
                 ctrl.save()
-                print(f"{ctrl.team.name}.4n6 saved.")
 
             if response == "load":
                 file = input("Enter the file name: ")
