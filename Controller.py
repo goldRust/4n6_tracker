@@ -4,9 +4,12 @@ from Performance import Performance
 from Tournament import Tournament
 import sys
 import pickle
+from Gui_F import Ui_MainWindow
 class Controller:
     def __int__(self):
-        pass
+        self.view = Ui_MainWindow
+        self.view.setupUi()
+
 
 
 
