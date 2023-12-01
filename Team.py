@@ -1,10 +1,12 @@
 from Student import Student
+from Tournament import Tournament
 
 class Team:
 
     def __init__(self, name):
         self.name = name
         self.students = []
+        self.tournaments = []
 
     def new_student(self, fname, lname):
         stud = Student(fname,lname)
@@ -22,6 +24,17 @@ class Team:
                 return student
 
         return "Student not found."
+
+
+    def add_tournament(self,tournament):
+        self.tournaments.append[tournament]
+
+    def get_tourament(self,host):
+        for tournament in self.tournaments:
+            if tournament.school == host:
+                return tournament
+        print("Tournament not found.")
+        return
 
     def tournament_report(self, school):
         # Returns a list of tuples (student name, [performances])
