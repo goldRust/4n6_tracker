@@ -2,13 +2,22 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>847</width>
-    <height>699</height>
+    <width>1080</width>
+    <height>900</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -19,12 +28,18 @@
      <rect>
       <x>-1</x>
       <y>-1</y>
-      <width>851</width>
-      <height>671</height>
+      <width>1071</width>
+      <height>871</height>
      </rect>
     </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -35,8 +50,8 @@
        <rect>
         <x>10</x>
         <y>40</y>
-        <width>831</width>
-        <height>611</height>
+        <width>1051</width>
+        <height>801</height>
        </rect>
       </property>
      </widget>
@@ -48,6 +63,12 @@
         <width>141</width>
         <height>16</height>
        </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
       <property name="font">
        <font>
@@ -72,6 +93,12 @@
         <height>22</height>
        </rect>
       </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
      </widget>
      <widget class="QLabel" name="label_3">
       <property name="geometry">
@@ -81,6 +108,12 @@
         <width>71</width>
         <height>21</height>
        </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
       <property name="font">
        <font>
@@ -100,6 +133,12 @@
         <height>131</height>
        </rect>
       </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -115,6 +154,12 @@
          <height>20</height>
         </rect>
        </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
       </widget>
       <widget class="QLabel" name="label_7">
        <property name="geometry">
@@ -124,6 +169,12 @@
          <width>61</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="font">
         <font>
@@ -143,6 +194,12 @@
          <height>16</height>
         </rect>
        </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -161,6 +218,12 @@
          <height>20</height>
         </rect>
        </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
       </widget>
       <widget class="QPushButton" name="add_stud_button">
        <property name="geometry">
@@ -170,6 +233,12 @@
          <width>56</width>
          <height>17</height>
         </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string>Add Student</string>
@@ -183,6 +252,12 @@
          <width>101</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="font">
         <font>
@@ -203,6 +278,12 @@
         <height>351</height>
        </rect>
       </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
      </widget>
      <widget class="QFrame" name="add_performance_frame">
       <property name="enabled">
@@ -215,6 +296,12 @@
         <width>361</width>
         <height>131</height>
        </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -231,6 +318,12 @@
          <height>20</height>
         </rect>
        </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
       </widget>
       <widget class="QLabel" name="label_10">
        <property name="geometry">
@@ -240,6 +333,12 @@
          <width>61</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="font">
         <font>
@@ -259,6 +358,12 @@
          <height>16</height>
         </rect>
        </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="font">
         <font>
          <pointsize>12</pointsize>
@@ -277,6 +382,12 @@
          <height>17</height>
         </rect>
        </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
         <string>Add Performance</string>
        </property>
@@ -289,6 +400,12 @@
          <width>141</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="font">
         <font>
@@ -308,6 +425,12 @@
          <height>22</height>
         </rect>
        </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
       </widget>
       <widget class="QLineEdit" name="np_rank">
        <property name="geometry">
@@ -317,6 +440,12 @@
          <width>113</width>
          <height>20</height>
         </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="text">
         <string/>
@@ -330,6 +459,12 @@
          <width>61</width>
          <height>16</height>
         </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
        <property name="font">
         <font>
@@ -350,6 +485,12 @@
         <height>16</height>
        </rect>
       </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="font">
        <font>
         <pointsize>20</pointsize>
@@ -369,15 +510,15 @@
        <rect>
         <x>10</x>
         <y>110</y>
-        <width>831</width>
-        <height>541</height>
+        <width>1051</width>
+        <height>731</height>
        </rect>
       </property>
      </widget>
      <widget class="QComboBox" name="tourney_selector">
       <property name="geometry">
        <rect>
-        <x>360</x>
+        <x>80</x>
         <y>80</y>
         <width>231</width>
         <height>22</height>
@@ -387,7 +528,7 @@
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>290</x>
+        <x>10</x>
         <y>80</y>
         <width>71</width>
         <height>21</height>
@@ -405,7 +546,7 @@
      <widget class="QFrame" name="nt_frame">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>860</x>
         <y>0</y>
         <width>191</width>
         <height>101</height>
@@ -519,6 +660,12 @@
         <height>22</height>
        </rect>
       </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
      </widget>
      <widget class="QLabel" name="label_2">
       <property name="geometry">
@@ -528,6 +675,12 @@
         <width>71</width>
         <height>21</height>
        </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
       <property name="font">
        <font>
@@ -543,9 +696,15 @@
        <rect>
         <x>10</x>
         <y>70</y>
-        <width>831</width>
-        <height>571</height>
+        <width>1051</width>
+        <height>771</height>
        </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
       </property>
      </widget>
     </widget>
@@ -556,7 +715,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>847</width>
+     <width>1080</width>
      <height>18</height>
     </rect>
    </property>
@@ -571,10 +730,16 @@
     <property name="enabled">
      <bool>false</bool>
     </property>
+    <property name="title">
+     <string/>
+    </property>
    </widget>
    <widget class="QMenu" name="menu">
     <property name="enabled">
      <bool>false</bool>
+    </property>
+    <property name="title">
+     <string/>
     </property>
    </widget>
    <addaction name="menuFile"/>
