@@ -18,7 +18,9 @@ class Student:
         return self.first_name + " " + self.last_name
 
     def add_performance(self, performance):
+
         self.performances.append(performance)
+        return performance
 
     def get_perfs_by_event(self,event):
         perfs = []

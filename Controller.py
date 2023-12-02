@@ -4,15 +4,200 @@ from Performance import Performance
 from Tournament import Tournament
 import sys
 import pickle
-from Gui_F import Ui_MainWindow
-class Controller:
-    def __int__(self):
-        self.view = Ui_MainWindow
-        self.view.setupUi()
+from PyQt5.uic import loadUi
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QMainWindow, QApplication
+
+class Controller(QMainWindow):
+    def __init__(self):
+        #Load testing file
+        self.load("NHHS.4n6")
+
+        super(Controller, self).__init__()
+        loadUi("Forensics_Organizer.ui", self)
+
+        self.setColumns()
+        self.team_name.setText(self.team.name)
+        self.update_team_report()
+        self.update_student_list()
+        self.update_event_list()
+        self.update_tourney_list()
+        self.set_interactive()
+
+    def update_student_list(self):
+        students = []
+        for student in self.team.students:
+            students.append(student.full_name)
+
+        self.stud_selector.addItems(students)
+
+    def update_event_list(self):
+        events = []
+        for student in self.team.students:
+            for perf in student.performances:
+                if perf.event not in events:
+                    events.append(perf.event)
+        self.event_selector.addItems(events)
+
+    def update_tourney_list(self):
+        tourneys = []
+        for student in self.team.students:
+            for perf in student.performances:
+                if str(perf.tournament) not in tourneys:
+                    tourneys.append(str(perf.tournament))
+        self.tourney_selector.addItems(tourneys)
+        self.np_tourney.addItems(tourneys)
+    def update_team_report(self):
+
+
+        table = []
+
+        for student in self.team.students:
+            events = ""
+            tournaments = ""
+            for perf in student.performances:
+                if perf.event not in events:
+                    events += f"{perf.event}, "
+                if perf.tournament.school not in tournaments:
+                    tournaments += f"{str(perf.tournament)} | "
+            table.append([student.full_name, tournaments, events])
+        row_ind =0
+        col_ind = 0
+        self.team_report.setColumnCount(len(table[0]))
+        self.team_report.setRowCount(len(table))
+
+        for row in table:
+            print(row)
+            for col in row:
+                self.team_report.setItem(row_ind, col_ind, QtWidgets.QTableWidgetItem(col))
+                col_ind += 1
 
 
 
 
+
+    def update_student_report(self, student):
+        self.selected_student.setText(student)
+        self.stud_report.setRowCount(len(self.team.get_student(student).performances))
+        perf_ind = 0
+        for perf in self.team.get_student(student).performances:
+            rank = perf.placement
+            if rank == -1:
+                rank = "Unranked"
+            self.stud_report.setItem(perf_ind,0,QtWidgets.QTableWidgetItem(perf.event))
+            self.stud_report.setItem(perf_ind,1,QtWidgets.QTableWidgetItem(rank))
+            self.stud_report.setItem(perf_ind,2,QtWidgets.QTableWidgetItem(str(perf.tournament)))
+            perf_ind += 1
+
+        self.add_performance_frame.enabled = True
+        self.np_tourney.enabled = True
+
+
+
+    def update_event_report(self,event):
+
+        self.event_label.setText(event)
+        table = []
+        for student in self.team.students:
+            for perf in student.performances:
+                if perf.event == event:
+                    rank = perf.placement
+                    if rank == -1:
+                        rank = "Unranked"
+                    rank = str(rank)
+                    table.append([student.full_name,rank,str(perf.tournament)])
+
+        self.event_report.setRowCount(len(table))
+        row_ind = 0
+        col_ind = 0
+        for row in table:
+            for col in row:
+
+                self.event_report.setItem(row_ind,col_ind,QtWidgets.QTableWidgetItem(col))
+                col_ind += 1
+            col_ind = 0
+            row_ind += 1
+
+    def update_tournament_report(self, host):
+
+        table = []
+        for student in self.team.students:
+            for perf in student.performances:
+                if str(perf.tournament) == host:
+                    rank = perf.placement
+                    if rank == -1:
+                        rank = "Unranked"
+                    rank = str(rank)
+                    table.append([student.full_name, perf.event, rank])
+
+        self.tourney_report.setRowCount(len(table))
+        row_ind = 0
+        col_ind = 0
+        for row in table:
+            for col in row:
+
+                self.tourney_report.setItem(row_ind,col_ind,QtWidgets.QTableWidgetItem(col))
+                col_ind += 1
+            col_ind = 0
+            row_ind += 1
+    def setColumns(self):
+        for i in range(self.stud_report.columnCount()):
+            self.stud_report.setColumnWidth(i, 200)
+        for i in range(self.team_report.columnCount()):
+            self.team_report.setColumnWidth(i, 200)
+        for i in range(self.tourney_report.columnCount()):
+            self.tourney_report.setColumnWidth(i, 200)
+        for i in range(self.event_report.columnCount()):
+            self.event_report.setColumnWidth(i, 200)
+
+    def set_interactive(self):
+        # Change the selected student.
+        self.stud_selector.currentTextChanged.connect(self.update_student_report)
+
+        # Change the selected event.
+        self.event_selector.currentTextChanged.connect(self.update_event_report)
+
+        # Change the selected tournament
+        self.tourney_selector.currentTextChanged.connect(self.update_tournament_report)
+
+        # Add Student with button
+        self.add_stud_button.clicked.connect(self.gui_add_student)
+
+        # Save
+        self.actionSave.triggered.connect(self.save)
+
+        # Add Student
+        self.add_perf_button.clicked.connect(self.gui_add_performance)
+
+    def gui_add_student(self):
+        first = self.ns_first.text()
+        last = self.ns_last.text()
+
+        student = self.team.new_student(first, last)
+        if student != None:
+            self.stud_selector.addItem(student.full_name)
+        self.update_student_report(f"{first} {last}")
+        self.ns_first.clear()
+        self.ns_last.clear()
+
+    def gui_add_performance(self):
+        student = self.team.get_student(self.selected_student.text())
+
+        if student == None:
+            raise ValueError("Student not found!")
+        print("Student Found")
+        tourney = self.np_tourney.currentText().split(" -- ")
+        print(tourney)
+        tourney = Tournament(tourney[1], tourney[0])
+        print(tourney)
+        print(self.np_event.text())
+        performance = Performance(tourney, self.np_event.text())
+        performance = student.add_performance(performance)
+        print(performance)
+        performance.placement = self.np_rank.text()
+        self.np_rank.clear()
+        self.np_event.clear()
+        self.update_student_report(student.full_name)
     def load(self, file):
         with open(file,'rb') as f:
             self.team = pickle.load(f)
@@ -26,7 +211,7 @@ class Controller:
     def new_team(self, team_name):
         self.team = Team(team_name)
 
-
+    '''
     @staticmethod
     def main(args):
         ctrl = Controller()
@@ -77,9 +262,21 @@ class Controller:
 
             if response == "exit":
                 return
+    '''
+    @staticmethod
+    def main(args):
+        app = QApplication(args)
+        mainwindow = Controller()
+        widget = QtWidgets.QStackedWidget()
+        widget.addWidget(mainwindow)
+        widget.setFixedHeight(850)
+        widget.setFixedWidth(1120)
+        widget.show()
 
-
-
+        try:
+            app.exec_()
+        except Exception as e:
+            print(f"Exiting due to {e}")
 
 
 

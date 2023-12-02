@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1080</width>
-    <height>900</height>
+    <width>1088</width>
+    <height>905</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -39,13 +39,13 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
       <string>Team</string>
      </attribute>
-     <widget class="QTableView" name="team_report">
+     <widget class="QTableWidget" name="team_report">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -54,14 +54,29 @@
         <height>801</height>
        </rect>
       </property>
+      <column>
+       <property name="text">
+        <string>Student</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Tournaments</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Events</string>
+       </property>
+      </column>
      </widget>
      <widget class="QLabel" name="team_name">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>20</y>
+        <y>10</y>
         <width>141</width>
-        <height>16</height>
+        <height>31</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -87,7 +102,7 @@
      <widget class="QComboBox" name="stud_selector">
       <property name="geometry">
        <rect>
-        <x>60</x>
+        <x>70</x>
         <y>20</y>
         <width>231</width>
         <height>22</height>
@@ -127,7 +142,7 @@
      <widget class="QFrame" name="new_studen_frame">
       <property name="geometry">
        <rect>
-        <x>610</x>
+        <x>800</x>
         <y>0</y>
         <width>231</width>
         <height>131</height>
@@ -164,10 +179,10 @@
       <widget class="QLabel" name="label_7">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>10</x>
          <y>30</y>
-         <width>61</width>
-         <height>16</height>
+         <width>81</width>
+         <height>20</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -188,10 +203,10 @@
       <widget class="QLabel" name="label_8">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>10</x>
          <y>60</y>
-         <width>61</width>
-         <height>16</height>
+         <width>81</width>
+         <height>20</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -228,10 +243,10 @@
       <widget class="QPushButton" name="add_stud_button">
        <property name="geometry">
         <rect>
-         <x>90</x>
-         <y>100</y>
-         <width>56</width>
-         <height>17</height>
+         <x>65</x>
+         <y>96</y>
+         <width>81</width>
+         <height>21</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -247,10 +262,10 @@
       <widget class="QLabel" name="label_9">
        <property name="geometry">
         <rect>
-         <x>80</x>
+         <x>50</x>
          <y>0</y>
-         <width>101</width>
-         <height>16</height>
+         <width>141</width>
+         <height>20</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -269,12 +284,12 @@
        </property>
       </widget>
      </widget>
-     <widget class="QTableView" name="stud_report">
+     <widget class="QTableWidget" name="stud_report">
       <property name="geometry">
        <rect>
         <x>10</x>
         <y>130</y>
-        <width>831</width>
+        <width>1051</width>
         <height>351</height>
        </rect>
       </property>
@@ -284,17 +299,32 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <column>
+       <property name="text">
+        <string>Event</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Rank</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Tournament</string>
+       </property>
+      </column>
      </widget>
      <widget class="QFrame" name="add_performance_frame">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
-        <x>220</x>
-        <y>500</y>
-        <width>361</width>
-        <height>131</height>
+        <x>350</x>
+        <y>520</y>
+        <width>381</width>
+        <height>171</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -312,8 +342,8 @@
       <widget class="QLineEdit" name="np_event">
        <property name="geometry">
         <rect>
-         <x>50</x>
-         <y>60</y>
+         <x>60</x>
+         <y>80</y>
          <width>113</width>
          <height>20</height>
         </rect>
@@ -328,8 +358,8 @@
       <widget class="QLabel" name="label_10">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>60</y>
+         <x>20</x>
+         <y>80</y>
          <width>61</width>
          <height>16</height>
         </rect>
@@ -352,9 +382,9 @@
       <widget class="QLabel" name="label_11">
        <property name="geometry">
         <rect>
-         <x>0</x>
-         <y>20</y>
-         <width>71</width>
+         <x>20</x>
+         <y>40</y>
+         <width>101</width>
          <height>16</height>
         </rect>
        </property>
@@ -376,10 +406,10 @@
       <widget class="QPushButton" name="add_perf_button">
        <property name="geometry">
         <rect>
-         <x>90</x>
-         <y>100</y>
-         <width>81</width>
-         <height>17</height>
+         <x>140</x>
+         <y>120</y>
+         <width>101</width>
+         <height>31</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -395,10 +425,10 @@
       <widget class="QLabel" name="label_12">
        <property name="geometry">
         <rect>
-         <x>110</x>
+         <x>100</x>
          <y>0</y>
-         <width>141</width>
-         <height>16</height>
+         <width>171</width>
+         <height>31</height>
         </rect>
        </property>
        <property name="sizePolicy">
@@ -419,9 +449,9 @@
       <widget class="QComboBox" name="np_tourney">
        <property name="geometry">
         <rect>
-         <x>70</x>
-         <y>20</y>
-         <width>281</width>
+         <x>140</x>
+         <y>40</y>
+         <width>231</width>
          <height>22</height>
         </rect>
        </property>
@@ -435,8 +465,8 @@
       <widget class="QLineEdit" name="np_rank">
        <property name="geometry">
         <rect>
-         <x>230</x>
-         <y>60</y>
+         <x>250</x>
+         <y>80</y>
          <width>113</width>
          <height>20</height>
         </rect>
@@ -454,8 +484,8 @@
       <widget class="QLabel" name="label_13">
        <property name="geometry">
         <rect>
-         <x>190</x>
-         <y>60</y>
+         <x>210</x>
+         <y>80</y>
          <width>61</width>
          <height>16</height>
         </rect>
@@ -480,9 +510,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>110</y>
-        <width>141</width>
-        <height>16</height>
+        <y>90</y>
+        <width>791</width>
+        <height>41</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -505,7 +535,7 @@
      <attribute name="title">
       <string>Tournaments</string>
      </attribute>
-     <widget class="QTableView" name="tourney_report">
+     <widget class="QTableWidget" name="tourney_report">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -514,11 +544,26 @@
         <height>731</height>
        </rect>
       </property>
+      <column>
+       <property name="text">
+        <string>Student</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Event</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Rank</string>
+       </property>
+      </column>
      </widget>
      <widget class="QComboBox" name="tourney_selector">
       <property name="geometry">
        <rect>
-        <x>80</x>
+        <x>120</x>
         <y>80</y>
         <width>231</width>
         <height>22</height>
@@ -530,7 +575,7 @@
        <rect>
         <x>10</x>
         <y>80</y>
-        <width>71</width>
+        <width>101</width>
         <height>21</height>
        </rect>
       </property>
@@ -546,9 +591,9 @@
      <widget class="QFrame" name="nt_frame">
       <property name="geometry">
        <rect>
-        <x>860</x>
+        <x>780</x>
         <y>0</y>
-        <width>191</width>
+        <width>271</width>
         <height>101</height>
        </rect>
       </property>
@@ -561,10 +606,10 @@
       <widget class="QPushButton" name="nt_button">
        <property name="geometry">
         <rect>
-         <x>80</x>
+         <x>60</x>
          <y>80</y>
-         <width>91</width>
-         <height>17</height>
+         <width>111</width>
+         <height>21</height>
         </rect>
        </property>
        <property name="text">
@@ -576,7 +621,7 @@
         <rect>
          <x>0</x>
          <y>30</y>
-         <width>71</width>
+         <width>91</width>
          <height>21</height>
         </rect>
        </property>
@@ -592,7 +637,7 @@
       <widget class="QDateEdit" name="nt_date">
        <property name="geometry">
         <rect>
-         <x>70</x>
+         <x>90</x>
          <y>50</y>
          <width>111</width>
          <height>22</height>
@@ -602,7 +647,7 @@
       <widget class="QLineEdit" name="nt_host">
        <property name="geometry">
         <rect>
-         <x>70</x>
+         <x>90</x>
          <y>30</y>
          <width>113</width>
          <height>20</height>
@@ -612,7 +657,7 @@
       <widget class="QLabel" name="label_5">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>50</x>
          <y>50</y>
          <width>71</width>
          <height>21</height>
@@ -630,9 +675,9 @@
       <widget class="QLabel" name="label_6">
        <property name="geometry">
         <rect>
-         <x>60</x>
+         <x>40</x>
          <y>0</y>
-         <width>121</width>
+         <width>161</width>
          <height>21</height>
         </rect>
        </property>
@@ -651,10 +696,10 @@
      <attribute name="title">
       <string>Event Reports</string>
      </attribute>
-     <widget class="QComboBox" name="even_selector">
+     <widget class="QComboBox" name="event_selector">
       <property name="geometry">
        <rect>
-        <x>50</x>
+        <x>60</x>
         <y>20</y>
         <width>231</width>
         <height>22</height>
@@ -691,13 +736,13 @@
        <string>Event</string>
       </property>
      </widget>
-     <widget class="QTableView" name="event_report">
+     <widget class="QTableWidget" name="event_report">
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>70</y>
+        <y>130</y>
         <width>1051</width>
-        <height>771</height>
+        <height>711</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -705,6 +750,45 @@
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
+      </property>
+      <column>
+       <property name="text">
+        <string>Student</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Rank</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Tournament</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QLabel" name="event_label">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>70</y>
+        <width>271</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>26</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Event</string>
       </property>
      </widget>
     </widget>
@@ -715,8 +799,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1080</width>
-     <height>18</height>
+     <width>1088</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

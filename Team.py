@@ -12,18 +12,18 @@ class Team:
         stud = Student(fname,lname)
         if stud in self.students:
             print(f"{stud.full_name} is already on the team!")
-            stud = self.get_student(fname, lname)
+            return None
         else:
             self.students.append(stud)
             print(f"{stud.full_name} has been added to the team!")
         return stud
 
-    def get_student(self, fname, lname):
+    def get_student(self, full_name):
         for student in self.students:
-            if student.first_name == fname and student.last_name == lname:
+            if student.full_name == full_name:
                 return student
 
-        return "Student not found."
+        return None
 
 
     def add_tournament(self,tournament):
