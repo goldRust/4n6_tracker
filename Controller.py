@@ -1,28 +1,32 @@
-from Student import Student
 from Team import Team
 from Performance import Performance
 from Tournament import Tournament
+from ErrorMessage import ErrorMessage
 import sys
 import pickle
 from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
+
 
 class Controller(QMainWindow):
     def __init__(self):
-        #Load testing file
-        self.load("NHHS.4n6")
+        self.team = None
+
 
         super(Controller, self).__init__()
         loadUi("Forensics_Organizer.ui", self)
 
         self.setColumns()
+
+        self.set_interactive()
+
+    def load_team_info(self):
         self.team_name.setText(self.team.name)
         self.update_team_report()
         self.update_student_list()
         self.update_event_list()
         self.update_tourney_list()
-        self.set_interactive()
 
     def update_student_list(self):
         students = []
@@ -63,7 +67,7 @@ class Controller(QMainWindow):
             table.append([student.full_name, tournaments, events])
         row_ind =0
         col_ind = 0
-        self.team_report.setColumnCount(len(table[0]))
+
         self.team_report.setRowCount(len(table))
 
         for row in table:
@@ -106,7 +110,8 @@ class Controller(QMainWindow):
                         rank = "Unranked"
                     rank = str(rank)
                     table.append([student.full_name,rank,str(perf.tournament)])
-
+        if len(table) < 1:
+            ErrorMessage("No Performances to show.",self)
         self.event_report.setRowCount(len(table))
         row_ind = 0
         col_ind = 0
@@ -166,13 +171,36 @@ class Controller(QMainWindow):
         # Save
         self.actionSave.triggered.connect(self.save)
 
+        # Load
+        self.actionLoad.triggered.connect(self.load)
+
         # Add Student
         self.add_perf_button.clicked.connect(self.gui_add_performance)
+
+        # New Team
+        self.actionNew.triggered.connect(self.gui_new_team)
+
+
+    def gui_new_team(self):
+        new_team, done = QtWidgets.QInputDialog.getText(
+            self, "New Team","Team Name"
+        )
+        if done:
+            print("Done")
+            print(new_team)
+            self.team = Team(new_team)
+            self.load_team_info()
+        else:
+            print("nope")
+            return
+
 
     def gui_add_student(self):
         first = self.ns_first.text()
         last = self.ns_last.text()
-
+        if len(first) < 1 or len(last) < 1:
+            ErrorMessage("First and last name required.",self)
+            return
         student = self.team.new_student(first, last)
         if student != None:
             self.stud_selector.addItem(student.full_name)
@@ -180,33 +208,52 @@ class Controller(QMainWindow):
         self.ns_first.clear()
         self.ns_last.clear()
 
+
+
     def gui_add_performance(self):
         student = self.team.get_student(self.selected_student.text())
 
         if student == None:
-            raise ValueError("Student not found!")
-        print("Student Found")
+            ErrorMessage("Student not found!",self)
+            return
+
         tourney = self.np_tourney.currentText().split(" -- ")
-        print(tourney)
+        if len(tourney) < 1:
+            ErrorMessage("No Tournament Selected",self)
+            return
+
         tourney = Tournament(tourney[1], tourney[0])
-        print(tourney)
-        print(self.np_event.text())
+
+        if len(self.np_event.text()) <1:
+            ErrorMessage("Event Required",self)
+            return
+
         performance = Performance(tourney, self.np_event.text())
         performance = student.add_performance(performance)
-        print(performance)
+
         performance.placement = self.np_rank.text()
         self.np_rank.clear()
         self.np_event.clear()
         self.update_student_report(student.full_name)
-    def load(self, file):
-        with open(file,'rb') as f:
-            self.team = pickle.load(f)
+    def load(self):
+        file = self.openFileNameDialog()
+        if file:
+            if ".4n6" not in file:
+                ErrorMessage("Only able to load .4n6 files!",self)
+                return
+
+        try:
+            with open(file,'rb') as f:
+                self.team = pickle.load(f)
+                self.load_team_info()
+        except Exception as e:
+            ErrorMessage(e,self)
 
     def save(self):
         file = self.team.name + ".4n6"
         with open(file, 'wb') as f:
             pickle.dump(self.team, f, protocol=pickle.HIGHEST_PROTOCOL)
-        print(f"{file} has been saved.")
+        ErrorMessage(f"{file} has been saved.",self)
 
     def new_team(self, team_name):
         self.team = Team(team_name)
@@ -263,6 +310,15 @@ class Controller(QMainWindow):
             if response == "exit":
                 return
     '''
+
+    def openFileNameDialog(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "",
+                                                  "All Files (*);;Python Files (*.py)", options=options)
+        return fileName
+
+
     @staticmethod
     def main(args):
         app = QApplication(args)
@@ -276,7 +332,7 @@ class Controller(QMainWindow):
         try:
             app.exec_()
         except Exception as e:
-            print(f"Exiting due to {e}")
+            ErrorMessage(e,mainwindow)
 
 
 
