@@ -1,3 +1,5 @@
+import time
+
 from Team import Team
 from Performance import Performance
 from Tournament import Tournament
@@ -117,7 +119,7 @@ class Controller(QMainWindow):
         self.add_performance_frame.enabled = True
         self.np_tourney.enabled = True
 
-        self.stud_report.cellDoubleClicked.connect(self.edit_performance)
+
 
     def update_event_report(self, event):
         if len(event) < 1:
@@ -206,6 +208,9 @@ class Controller(QMainWindow):
         # New Tournament
         self.nt_button.clicked.connect(self.gui_add_tournament)
 
+        # Student report click to edit
+        self.stud_report.cellClicked.connect(self.edit_performance)
+
     def gui_new_team(self):
         new_team = ""
         while len(new_team)<1:
@@ -290,23 +295,19 @@ class Controller(QMainWindow):
         self.update_event_list()
         self.update_team_report()
 
-    def edit_performance(self,row):
+    def edit_performance(self,row,col):
+        print(f"{row} {col} Clicked")
         tournaments = [str(tournament) for tournament in self.team.tournaments]
         perf = (self.stud_report.item(row,0).text(), self.stud_report.item(row,1).text() , self.stud_report.item(row,2).text())
-        """
-        # On cell edit - didn't work because cells keep editing
-        date, host = self.stud_report.item(row,2).text().split(" -- ")
-        tournament = Tournament(host, date)
-        new_performance = Performance(tournament, self.stud_report.item(row,0).text())
-        student = self.team.get_student(self.selected_student.text())
-        old_performance = student.performances[row]
-        student.delete_performance(old_performance)
-        student.add_performance(new_performance)
-        """
 
-        EditPerformanceDialog(perf,tournaments,self).exec_()
-        self.stud_report.clearContents()
-        self.update_student_report(self.selected_student.text())
+        rebuild = EditPerformanceDialog(perf,tournaments, row, self).exec_()
+        if rebuild:
+            self.stud_report.clearContents()
+            
+            self.update_student_report(self.selected_student.text())
+
+
+
 
     def clicked(self, row, col):
         print(f"{row} {col} Clicked")
