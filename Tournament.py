@@ -4,9 +4,10 @@ class Tournament:
         self.date = date
 
     def __eq__(self, other):
+        print(f"Comparing: {self} : {other}")
         if isinstance(other, Tournament):
-            return self.school == other.school and self.date == other.date
+            return str(self) == str(other)
         return False
 
     def __str__(self):
-        return  f"{self.date} -- {self.school}"
+        return  f"{self.school} -- {self.date}"

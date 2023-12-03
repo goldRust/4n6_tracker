@@ -28,9 +28,9 @@ class Team:
     def add_tournament(self,tournament):
         self.tournaments.append[tournament]
 
-    def get_tourament(self,host):
+    def get_tourament(self, host):
         for tournament in self.tournaments:
-            if tournament.school == host:
+            if str(tournament) == str(host):
                 return tournament
         print("Tournament not found.")
         return

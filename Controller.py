@@ -6,6 +6,8 @@ from Tournament import Tournament
 from ErrorMessage import ErrorMessage
 from Partner_Dialog import Partner_Dialog
 from EditPerfromanceDialog import EditPerformanceDialog
+from  Awards import Award
+from PDF_Gen import PDF_Gen
 import sys
 import pickle
 from PyQt5.uic import loadUi
@@ -168,7 +170,7 @@ class Controller(QMainWindow):
                 col_ind += 1
             col_ind = 0
             row_ind += 1
-        self.tourney_report.cellClicked.connect(self.clicked)
+        self.awards_button.setEnabled(True)
 
     def set_columns(self):
         for i in range(self.stud_report.columnCount()):
@@ -213,6 +215,9 @@ class Controller(QMainWindow):
 
         # Team Report click to view student
         self.team_report.cellClicked.connect(self.view_student)
+
+        # Awards maker button
+        self.awards_button.clicked.connect(self.make_awards)
 
     def view_student(self, row, column):
         print(f"{row} {column} Clicked")
@@ -415,10 +420,16 @@ class Controller(QMainWindow):
     def openFileNameDialog(self, type):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "",
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open .4N6 File", "",
                                                   type, options=options)
         return fileName
 
+    def openFolderNameDialog(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        folderName = QFileDialog.getExistingDirectory(self, "Select Directory", "", options=options)
+        print(folderName)
+        return folderName
     def closeEvent(self, event):
         save_first = QtWidgets.QMessageBox.question(self,"QUIT", "Do you wish to save before you exit?",
                                                QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
@@ -430,6 +441,34 @@ class Controller(QMainWindow):
         else:
             if not type(event) == bool:
                 sys.exit()
+
+    def make_awards(self):
+        print("Making awards")
+        tourament = self.team.get_tourament(self.tourney_selector.currentText())
+        print(tourament)
+        awards = []
+        for student in self.team.students:
+            print(student)
+            for perf in student.performances:
+                print(perf.tournament == tourament)
+                if perf.tournament == tourament:
+                    rank = perf.placement
+                    print(rank)
+                    if rank.isnumeric() and int(rank) < 10:
+                        print("Award added")
+                        award = Award(student.first, student.last, perf.event, rank)
+                        awards.append(award)
+        print("getting folder")
+        folder = self.openFolderNameDialog()
+        print(folder)
+        pdf = PDF_Gen()
+        print("PDF class made.")
+        pdf.create_awards(awards, folder, str(tourament))
+
+
+
+
+
 
     @staticmethod
     def main(args):
@@ -443,11 +482,9 @@ class Controller(QMainWindow):
         widget.setWindowTitle("4N6 Season Tracker")
         widget.show()
 
-        try:
-            app.exec_()
-        except Exception as e:
-            print(e)
-            ErrorMessage(e, mainwindow)
+
+        app.exec_()
+
 
 
 # Main Guard
