@@ -412,6 +412,8 @@ class Controller(QMainWindow):
         widget.addWidget(mainwindow)
         widget.setFixedHeight(850)
         widget.setFixedWidth(1120)
+        widget.setWindowIcon(QtGui.QIcon("4n6_icon.png"))
+        widget.setWindowTitle("4N6 Season Tracker")
         widget.show()
 
         try:

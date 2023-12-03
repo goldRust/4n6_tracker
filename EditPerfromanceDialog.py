@@ -24,10 +24,17 @@ class EditPerformanceDialog(QDialog):
         self.edit_tournament.setCurrentText(str(self.perf.tournament))
         self.student = parent.team.get_student(parent.selected_student.text())
 
+
+
+        self.edit_tournament.currentTextChanged.connect(self.enableSave)
+        self.edit_rank.textChanged.connect(self.enableSave)
+        self.edit_event.textChanged.connect(self.enableSave)
         self.delete_button.clicked.connect(self.delete)
         self.cancel_button.clicked.connect(self.close)
         self.save_button.clicked.connect(self.save)
 
+    def enableSave(self):
+        self.save_button.setEnabled(True)
     def save(self):
         tournament = self.edit_tournament.currentText().split(" -- ")
         tournament = Tournament(tournament[1], tournament[0])
