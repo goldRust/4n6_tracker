@@ -25,7 +25,6 @@ class Team:
 
         return None
 
-
     def add_tournament(self,tournament):
         self.tournaments.append[tournament]
 

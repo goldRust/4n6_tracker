@@ -13,12 +13,14 @@ class Performance:
     def result(self):
         return self.placement
 
+    def __eq__(self, other):
+        if isinstance(other, Performance):
+            return str(self) == str(other)
+        return False
+
     def __str__(self):
         output = ""
         output += self.event
-        if self.placement != -1:
-            output += f" -- #{self.placement} "
-        else:
-            output += " -- Unranked "
+
         output += f"-- {self.tournament}"
         return output

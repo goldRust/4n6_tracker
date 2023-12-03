@@ -36,10 +36,39 @@ class Student:
                 perfs.append(perf)
         return perfs
 
+    def delete_performance(self, performance):
+        if performance in self.performances:
+            self.performances.remove(performance)
+
+    def get_performance(self, performance):
+        if performance in self.performances:
+            return self.performances[self.performances.index(performance)]
+
+
     def __eq__(self, other):
         if isinstance(other, Student):
             return self.full_name == other.full_name
         return False
+
+    def __lt__(self, other):
+        if self.last_name == other.last_name:
+            return self.first_name < other.first_name
+        return self.last_name < other.last_name
+
+    def __gt__(self, other):
+        if self.last_name == other.last_name:
+            return self.first_name > other.first_name
+        return self.last_name > other.last_name
+
+    def __le__(self, other):
+        if self.last_name == other.last_name:
+            return self.first_name <= other.first_name
+        return self.last_name <= other.last_name
+
+    def __ge__(self, other):
+        if self.last_name == other.last_name:
+            return self.first_name >= other.first_name
+        return self.last_name >= other.last_name
 
     def __str__(self):
         output = ""
