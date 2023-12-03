@@ -211,6 +211,20 @@ class Controller(QMainWindow):
         # Student report click to edit
         self.stud_report.cellClicked.connect(self.edit_performance)
 
+        # Team Report click to view student
+        self.team_report.cellClicked.connect(self.view_student)
+
+    def view_student(self, row, column):
+        print(f"{row} {column} Clicked")
+        if column != 0:
+            return
+        name = self.team_report.item(row, column).text()
+        print(name)
+        self.update_student_report(name)
+        self.stud_selector.setCurrentText(name)
+        self.tabWidget.setCurrentIndex(1)
+
+
     def gui_new_team(self):
         new_team = ""
         while len(new_team)<1:
@@ -404,6 +418,18 @@ class Controller(QMainWindow):
         fileName, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileName()", "",
                                                   type, options=options)
         return fileName
+
+    def closeEvent(self, event):
+        save_first = QtWidgets.QMessageBox.question(self,"QUIT", "Do you wish to save before you exit?",
+                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+        if save_first == QtWidgets.QMessageBox.Yes:
+            self.save()
+            if not type(event) == bool:
+                event.accept()
+                sys.exit()
+        else:
+            if not type(event) == bool:
+                sys.exit()
 
     @staticmethod
     def main(args):
