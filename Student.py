@@ -38,7 +38,10 @@ class Student:
 
     def delete_performance(self, performance):
         if performance in self.performances:
+            print("Performance deleted")
             self.performances.remove(performance)
+        else:
+            print("Performance not found.")
 
     def get_performance(self, performance):
         if performance in self.performances:

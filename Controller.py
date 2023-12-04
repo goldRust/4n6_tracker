@@ -11,7 +11,7 @@ from PDF_Gen import PDF_Gen
 import sys
 import pickle
 from PyQt5.uic import loadUi
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
 
 
@@ -201,6 +201,9 @@ class Controller(QMainWindow):
         # Load
         self.actionLoad.triggered.connect(self.load)
 
+        # Exit
+        self.actionExit.triggered.connect(self.close)
+
         # Add Student
         self.add_perf_button.clicked.connect(self.gui_add_performance)
 
@@ -218,6 +221,8 @@ class Controller(QMainWindow):
 
         # Awards maker button
         self.awards_button.clicked.connect(self.make_awards)
+
+
 
     def view_student(self, row, column):
         print(f"{row} {column} Clicked")
@@ -292,7 +297,7 @@ class Controller(QMainWindow):
             ErrorMessage("No Tournament Selected", self)
             return
 
-        tourney = Tournament(tourney[1], tourney[0])
+        tourney = Tournament(tourney[0], tourney[1])
 
         if len(self.np_event.text()) < 1:
             ErrorMessage("Event Required", self)
@@ -480,6 +485,7 @@ class Controller(QMainWindow):
         widget.setFixedWidth(1120)
         widget.setWindowIcon(QtGui.QIcon("4n6_icon.png"))
         widget.setWindowTitle("4N6 Season Tracker")
+        widget.setWindowFlag(QtCore.Qt.WindowCloseButtonHint, False)
         widget.show()
 
 

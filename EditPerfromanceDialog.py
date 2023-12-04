@@ -14,7 +14,7 @@ class EditPerformanceDialog(QDialog):
 
         super().__init__(parent)
         loadUi("edit_performance_dialog.ui", self)
-        date, host = perf[2].split(" -- ")
+        host, date = perf[2].split(" -- ")
 
         self.perf = Performance(Tournament(host, date),perf[0])
 
@@ -41,7 +41,7 @@ class EditPerformanceDialog(QDialog):
         self.save_button.setEnabled(True)
     def save(self):
         tournament = self.edit_tournament.currentText().split(" -- ")
-        tournament = Tournament(tournament[1], tournament[0])
+        tournament = Tournament(tournament[0], tournament[1])
         new_perf = Performance(tournament, self.edit_event.text())
         new_perf.placement = self.edit_rank.text()
 

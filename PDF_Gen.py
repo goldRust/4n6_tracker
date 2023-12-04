@@ -17,13 +17,13 @@ class PDF_Gen:
         folder = f"{folder}/{pdf_file_name}.pdf"
         pdf = canvas.Canvas(folder, pagesize=portrait(letter))
 
-        ix_pos = 0
-        iy_pos = 0
-        xpos = 88
-        first_ypos = 320
-        last_ypos = 295
-        event_ypos = 250
-        place_ypos = 70
+        ix_pos = 12
+        iy_pos = 20
+        xpos = .75 * inch
+        first_ypos = 2.6 * inch
+        last_ypos = 2.35 * inch
+        event_ypos = 2 * inch
+        place_ypos = .5 * inch
 
         gold = '.\\images\\gold.jpg'
         silver = '.\\images\\silver.jpg'
@@ -41,43 +41,39 @@ class PDF_Gen:
             print(f"{image}  is a good path: {os.path.isfile(image)}")
 
             # Insert the image
-            print(f"Image: {image}, X: {ix_pos}, Y: {iy_pos}")
+            pdf.drawImage(image, ix_pos, iy_pos, width=1.5 * inch, height=3 * inch)
 
-            pdf.drawImage(image, ix_pos, iy_pos)
-
-            print("Image drawn.")
             # Set the font size for names
             name_font = 24
 
             # Check the length of the strings to see if the font size needs to change.
-            if len(award.first) or len(award.last) > 9:
-                name_font = 18
+            if len(award.first) or len(award.last) > 8:
+                name_font = 16
+            if len(award.first) or len(award.last)>10:
+                name_font = 14
 
-            event_font = 44 - 2.3 * len(award.event)
+            event_font = 28 - 2.3 * len(award.event)
 
-            print("Inserting Text...")
             # Insert the text
-            pdf.setFont('Courier', name_font, leading=None)
+            pdf.setFont('Times-Roman', name_font, leading=None)
             pdf.drawCentredString(xpos + ix_pos, first_ypos + iy_pos, award.first)
             pdf.drawCentredString(xpos + ix_pos, last_ypos + iy_pos, award.last)
-            pdf.setFont('Courier', event_font, leading=None)
+            pdf.setFont('Times-Roman', event_font, leading=None)
             pdf.drawCentredString(xpos + ix_pos, event_ypos + iy_pos, award.event)
-            pdf.setFont('Courier', 64, leading=None)
+            pdf.setFont('Times-Roman', 60, leading=None)
             pdf.drawCentredString(xpos + ix_pos, place_ypos + iy_pos, award.place)
 
             award_count += 1
-            ix_pos += 200
+            ix_pos += 150
 
-            if award_count == 3:
-                iy_pos += 400
-                ix_pos = 0
-            if award_count > 5:
+            if award_count == 4 or award_count == 8:
+                iy_pos += 3 * inch + 10
+                ix_pos = 12
+            if award_count > 11:
                 award_count = 0
-                ix_pos = 0
-                iy_pos = 0
+                ix_pos = 12
+                iy_pos = 20
                 pdf.showPage()
-            print("Award Made")
-        print("showing page")
         pdf.showPage()
 
         print("Skip team picture")
