@@ -4,6 +4,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.pagesizes import portrait
 from reportlab.lib.units import inch
 from reportlab.lib.colors import white, red, darkred, black
+from reportlab.platypus import Table, SimpleDocTemplate
 import os
 
 class PDF_Gen:
@@ -61,7 +62,7 @@ class PDF_Gen:
             pdf.drawCentredString(xpos + ix_pos, last_ypos + iy_pos, award.last)
             pdf.setFont('Courier', event_font, leading=None)
             pdf.drawCentredString(xpos + ix_pos, event_ypos + iy_pos, award.event)
-            pdf.setFont('Courier', 60, leading=None)
+            pdf.setFont('Courier', 64, leading=None)
             pdf.drawCentredString(xpos + ix_pos, place_ypos + iy_pos, award.place)
 
             award_count += 1
@@ -101,3 +102,27 @@ class PDF_Gen:
         pdf.setFillColor(white)
         pdf.drawCentredString(center_pic_x, tourn_y, tournament)
         pdf.showPage()
+
+    def team_report(self, team, folder):
+        pdf = SimpleDocTemplate("complex_cell_values.pdf", pagesize=letter)
+        data = [["Student","Tournaments","Events"]]
+        for student in team.students:
+            row = [student.full_name]
+            tournaments = ""
+            events = ""
+            for perf in student.performances:
+                if str(perf.tournament) not in tournaments:
+                    tournaments += f"{str(perf.tournament)}\n"
+                if perf.event not in events:
+                    events += f"{perf.event}, "
+            row.append(tournaments)
+            row.append(events)
+
+        table = Table(data)
+
+
+    def student_report(self, student, folder):
+        pdf = canvas.Canvas(folder, pagesize=portrait(letter))
+
+    def tournament_report(self, tournament, folder):
+        pdf = canvas.Canvas(folder, pagesize=portrait(letter))
