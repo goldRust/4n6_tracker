@@ -244,6 +244,8 @@ class Controller(QMainWindow):
             new_team, done = QtWidgets.QInputDialog.getText(
                 self, "New Team", "Team Name"
             )
+            if not done:
+                return
         if done:
             print("Done")
             print(new_team)
@@ -372,59 +374,6 @@ class Controller(QMainWindow):
     def new_team(self, team_name):
         self.team = Team(team_name)
 
-    '''
-    @staticmethod
-    def main(args):
-        ctrl = Controller()
-        if len(args) == 2:
-            ctrl.load(args[1])
-        else:
-            team = input("Enter your team name: ")
-            ctrl.new_team(team)
-
-        # Show menu:
-        while True:
-            print("To add or edit a student, enter 'new_student'")
-            print("To show a report, enter 'report'")
-            print("To exit, enter 'exit'")
-            response = input(">>")
-            if response == "new_student":
-                first = input("First name: ")
-                last = input("Last name: ")
-                student = ctrl.team.new_student(first, last)
-                add_performance = input(f"Would you like to add a performance to {student.full_name}?")
-                while add_performance == "y" or add_performance == "yes":
-                    tourney = input("Tournament: ")
-                    date = input("Date: ")
-                    event = input("Event: ")
-                    student.add_performance(Performance(Tournament(tourney,date),event))
-
-                    add_performance = input(f"Would you like to add a performance to {student.full_name}?")
-                ctrl.save()
-
-            if response == "report":
-                print(ctrl.team)
-
-            if response == "save":
-                ctrl.save()
-
-            if response == "load":
-                file = input("Enter the file name: ")
-                ctrl.load(file)
-
-            if response == "tr":
-                ctrl.team.tournament_report(input("Host School: "))
-
-            if response == "er":
-                report = ctrl.team.event_report(input("Event: "))
-
-            if response == 'sr':
-                print(ctrl.team.get_student(input("First Name: "),input("Last Name: ")))
-
-            if response == "exit":
-                return
-    '''
-
     def openFileNameDialog(self, type):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
@@ -481,6 +430,11 @@ class Controller(QMainWindow):
         folder = self.openFolderNameDialog()
         pdf = PDF_Gen()
         pdf.team_report(self.team, folder)
+        msg_box = QtWidgets.QMessageBox()
+        msg_box.setIcon(QtWidgets.QMessageBox.Information)
+        msg_box.setText(f"{self.team.name} team report has been saved.")
+        msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        retval = msg_box.exec_()
 
 
 

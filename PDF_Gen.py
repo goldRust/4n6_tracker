@@ -4,6 +4,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.pagesizes import portrait
 from reportlab.lib.units import inch
 from reportlab.lib import colors
+from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import Table, SimpleDocTemplate, TableStyle, Paragraph
 import os
 
@@ -95,7 +96,7 @@ class PDF_Gen:
         pdf.drawImage(team_pic, inch, inch, 7 * inch, 4 * inch)
         pdf.setFont('Courier', 32)
         pdf.drawCentredString(center_pic_x, tn_y, team_name)
-        pdf.setFillColor(white)
+        pdf.setFillColor(colors.white)
         pdf.drawCentredString(center_pic_x, tourn_y, tournament)
         pdf.showPage()
 
@@ -103,6 +104,8 @@ class PDF_Gen:
         file_name = f"{folder}/{team.name}-Season_Report.pdf"
         pdf = SimpleDocTemplate(file_name, pagesize=letter)
         data = [["Student","Tournaments","Events"]]
+        empty = [[" ", " ", " "]]
+        empty_table = Table(empty)
         for student in team.students:
             row = [student.full_name]
             tournaments = ""
@@ -117,7 +120,11 @@ class PDF_Gen:
             data.append(row)
 
         all_items = []
-        all_items.append(Paragraph(f"{team.name} Full Season Report\n\n"))
+
+
+        all_items.append(Paragraph(f"<font size=24>{team.name} Full Season Report</font>"))
+
+        all_items.append((empty_table))
 
 
 
@@ -128,17 +135,12 @@ class PDF_Gen:
     ('ALIGN', (1,1), (-1,-1), 'RIGHT'),]
     )
         print("Style set.")
-        #t_style.add('INNERGRID', (0,0), (-1,-1), 0.25, colors.black)
-        print("Grid Added")
+        t_style.add('INNERGRID', (0,0), (-1,-1), 0.25, colors.black)
         table = Table(data)
-        print("Setting the style.")
         table.setStyle(t_style)
-        print("Style set.")
-
         all_items.append(table)
-        print("Table Appeneded")
         pdf.build(all_items)
-        print("Done")
+
 
 
 
