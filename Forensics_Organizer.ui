@@ -851,7 +851,7 @@
      <x>0</x>
      <y>0</y>
      <width>1069</width>
-     <height>18</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -880,9 +880,19 @@
      <string/>
     </property>
    </widget>
+   <widget class="QMenu" name="menuPDF_Reports">
+    <property name="title">
+     <string>PDF Reports</string>
+    </property>
+    <addaction name="actionTeam_Report_2"/>
+    <addaction name="actionStudent_Report_2"/>
+    <addaction name="actionTournament_Report_2"/>
+    <addaction name="actionEvent_Report_2"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_2"/>
    <addaction name="menu"/>
+   <addaction name="menuPDF_Reports"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionSave">
@@ -953,6 +963,26 @@
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionTeam_Report_2">
+   <property name="text">
+    <string>Team Report</string>
+   </property>
+  </action>
+  <action name="actionStudent_Report_2">
+   <property name="text">
+    <string>Student Report</string>
+   </property>
+  </action>
+  <action name="actionTournament_Report_2">
+   <property name="text">
+    <string>Tournament Report</string>
+   </property>
+  </action>
+  <action name="actionEvent_Report_2">
+   <property name="text">
+    <string>Event Report</string>
    </property>
   </action>
  </widget>

@@ -113,8 +113,16 @@ class PDF_Gen:
                     events += f"{perf.event}, "
             row.append(tournaments)
             row.append(events)
+            data.append(row)
 
+        print("making table")
         table = Table(data)
+        print("appending table to pdf")
+        all_items = []
+        all_items.append(table)
+        pdf.build(all_items)
+        print("done!")
+
 
 
     def student_report(self, student, folder):

@@ -222,6 +222,9 @@ class Controller(QMainWindow):
         # Awards maker button
         self.awards_button.clicked.connect(self.make_awards)
 
+        # Team PDF menu item
+        self.actionTeam_Report_2.triggered.connect(self.pdf_team_report)
+
 
 
     def view_student(self, row, column):
@@ -471,7 +474,13 @@ class Controller(QMainWindow):
         pdf.create_awards(awards, folder, str(tourament))
 
 
-
+    def pdf_team_report(self):
+        if self.team is None:
+            ErrorMessage("Load a team file or create new team.",self)
+            return
+        folder = self.openFolderNameDialog()
+        pdf = PDF_Gen()
+        pdf.team_report(self.team, folder)
 
 
 
