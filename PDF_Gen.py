@@ -142,10 +142,95 @@ class PDF_Gen:
         pdf.build(all_items)
 
 
-
-
     def student_report(self, student, folder):
-        pdf = canvas.Canvas(folder, pagesize=portrait(letter))
+        file_name = f"{folder}/{student.full_name}-Season_Report.pdf"
+        pdf = SimpleDocTemplate(file_name, pagesize=letter)
+        data = [["Event", "Rank", "Tournament"]]
+        empty = [[" ", " ", " "]]
+        empty_table = Table(empty)
+        for performance in student.performances:
+            row = [performance.event,performance.placement,str(performance.tournament)]
+            data.append(row)
 
-    def tournament_report(self, tournament, folder):
-        pdf = canvas.Canvas(folder, pagesize=portrait(letter))
+        all_items = []
+        all_items.append(Paragraph(f"<font size=24>{student.full_name} Full Season Report</font>"))
+
+        all_items.append((empty_table))
+
+        t_style = TableStyle(
+            [('LINEABOVE', (0, 0), (-1, 0), 2, colors.green),
+             ('LINEABOVE', (0, 1), (-1, -1), 0.25, colors.black),
+             ('LINEBELOW', (0, -1), (-1, -1), 2, colors.green),
+             ('ALIGN', (1, 1), (-1, -1), 'RIGHT'), ]
+        )
+        print("Style set.")
+        t_style.add('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)
+        table = Table(data)
+        table.setStyle(t_style)
+        all_items.append(table)
+        pdf.build(all_items)
+
+    def tournament_report(self, team, tournament, folder):
+        file_name = f"{folder}/{tournament.school}_Report.pdf"
+        pdf = SimpleDocTemplate(file_name, pagesize=letter)
+        data = [["Student","Event", "Rank"]]
+        empty = [[" ", " ", " "]]
+        empty_table = Table(empty)
+        for student in team.students:
+            print(student.full_name)
+            for performance in student.performances:
+                print(performance)
+                if performance.tournament == tournament:
+                    print(performance)
+
+                    row = [student.full_name, performance.event, performance.placement]
+                    data.append(row)
+
+        all_items = []
+        all_items.append(Paragraph(f"<font size=24>{tournament} Report</font>"))
+
+        all_items.append((empty_table))
+
+        t_style = TableStyle(
+            [('LINEABOVE', (0, 0), (-1, 0), 2, colors.green),
+             ('LINEABOVE', (0, 1), (-1, -1), 0.25, colors.black),
+             ('LINEBELOW', (0, -1), (-1, -1), 2, colors.green),
+             ('ALIGN', (1, 1), (-1, -1), 'RIGHT'), ]
+        )
+        print("Style set.")
+        t_style.add('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)
+        table = Table(data)
+        table.setStyle(t_style)
+        all_items.append(table)
+        pdf.build(all_items)
+
+    def event_report(self, team, event, folder):
+        file_name = f"{folder}/{event}_Report.pdf"
+        pdf = SimpleDocTemplate(file_name, pagesize=letter)
+        data = [["Student", "Rank", "Tournament"]]
+        empty = [[" ", " ", " "]]
+        empty_table = Table(empty)
+        for student in team.students:
+            for performance in student.performances:
+                if performance.event == event:
+
+                    row = [student.full_name, performance.placement, str(performance.tournament)]
+                    data.append(row)
+
+        all_items = []
+        all_items.append(Paragraph(f"<font size=24>{event} Report</font>"))
+
+        all_items.append((empty_table))
+
+        t_style = TableStyle(
+            [('LINEABOVE', (0, 0), (-1, 0), 2, colors.green),
+             ('LINEABOVE', (0, 1), (-1, -1), 0.25, colors.black),
+             ('LINEBELOW', (0, -1), (-1, -1), 2, colors.green),
+             ('ALIGN', (1, 1), (-1, -1), 'RIGHT'), ]
+        )
+        print("Style set.")
+        t_style.add('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)
+        table = Table(data)
+        table.setStyle(t_style)
+        all_items.append(table)
+        pdf.build(all_items)

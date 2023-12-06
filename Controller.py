@@ -225,6 +225,15 @@ class Controller(QMainWindow):
         # Team PDF menu item
         self.actionTeam_Report_2.triggered.connect(self.pdf_team_report)
 
+        # Student PDF menu item
+        self.actionStudent_Report_2.triggered.connect(self.pdf_student_report)
+
+        # Tournament PDF menu item
+        self.actionTournament_Report_2.triggered.connect(self.pdf_tournament_report)
+
+        # Event PDF menu item
+        self.actionEvent_Report_2.triggered.connect(self.pdf_event_report)
+
 
 
     def view_student(self, row, column):
@@ -436,7 +445,41 @@ class Controller(QMainWindow):
         msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
         retval = msg_box.exec_()
 
+    def pdf_student_report(self):
+        folder = self.openFolderNameDialog()
+        student = self.team.get_student(self.selected_student.text())
+        pdf = PDF_Gen()
+        pdf.student_report(student,folder)
 
+        msg_box = QtWidgets.QMessageBox()
+        msg_box.setIcon(QtWidgets.QMessageBox.Information)
+        msg_box.setText(f"{student.full_name} report has been saved.")
+        msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        retval = msg_box.exec_()
+
+    def pdf_tournament_report(self):
+        folder = self.openFolderNameDialog()
+        host, date = self.tourney_selector.currentText().split(" -- ")
+        tournament = Tournament(host,date)
+        pdf = PDF_Gen()
+        pdf.tournament_report(self.team, tournament, folder)
+
+        msg_box = QtWidgets.QMessageBox()
+        msg_box.setIcon(QtWidgets.QMessageBox.Information)
+        msg_box.setText(f"{tournament} report has been saved.")
+        msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        retval = msg_box.exec_()
+
+    def pdf_event_report(self):
+        folder = self.openFolderNameDialog()
+        pdf = PDF_Gen()
+        pdf.event_report(self.team, self.event_label.text(),folder)
+
+        msg_box = QtWidgets.QMessageBox()
+        msg_box.setIcon(QtWidgets.QMessageBox.Information)
+        msg_box.setText(f"{self.event_label.text()} event report has been saved.")
+        msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        retval = msg_box.exec_()
 
     @staticmethod
     def main(args):
