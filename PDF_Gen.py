@@ -12,10 +12,9 @@ class PDF_Gen:
     def __init__(self):
         pass
     def create_awards(self,awards, folder, tournament, team_pic=None):
-        print("Awards accepted.")
         award_count = 0
         pdf_file_name = tournament.replace("/", "-")
-        folder = f"{folder}/{pdf_file_name}.pdf"
+        folder = f"{folder}/Awards for {pdf_file_name}.pdf"
         pdf = canvas.Canvas(folder, pagesize=portrait(letter))
 
         ix_pos = 12
@@ -29,9 +28,9 @@ class PDF_Gen:
         gold = '.\\images\\gold.jpg'
         silver = '.\\images\\silver.jpg'
         bronze = '.\\images\\bronze.jpg'
-        print("Cycling through awards.")
+
         for award in awards:
-            print("Making award...")
+
             # Assign the proper image for this award
             if int(award.place) == 1:
                 image = gold
@@ -39,7 +38,7 @@ class PDF_Gen:
                 image = silver
             else:
                 image = bronze
-            print(f"{image}  is a good path: {os.path.isfile(image)}")
+
 
             # Insert the image
             pdf.drawImage(image, ix_pos, iy_pos, width=1.5 * inch, height=3 * inch)
@@ -77,16 +76,16 @@ class PDF_Gen:
                 pdf.showPage()
         pdf.showPage()
 
-        print("Skip team picture")
+
         if team_pic is not None:
             self.team_picture(pdf, tournament, team_pic)
 
-        print("Save pdf")
+
         try:
             pdf.save()
         except Exception as e:
-            print(f"Error saving file: {e}")
-        print("Saved - carry on. ")
+            print(e)
+
     def team_picture(self,pdf, tournament, team_pic):
 
         team_name = 'Osage City High School'
@@ -122,19 +121,19 @@ class PDF_Gen:
         all_items = []
 
 
-        all_items.append(Paragraph(f"<font size=24>{team.name} Full Season Report</font>"))
+        all_items.append(Paragraph(f"<font size=16>{team.name} Full Season Report</font>"))
 
         all_items.append((empty_table))
 
 
 
         t_style = TableStyle(
-    [('LINEABOVE', (0,0), (-1,0), 2, colors.green),
+    [('LINEABOVE', (0,0), (-1,0), 2, colors.crimson),
     ('LINEABOVE', (0,1), (-1,-1), 0.25, colors.black),
-    ('LINEBELOW', (0,-1), (-1,-1), 2, colors.green),
-    ('ALIGN', (1,1), (-1,-1), 'RIGHT'),]
+    ('LINEBELOW', (0,-1), (-1,-1), 2, colors.crimson),
+    ('ALIGN', (1,1), (-1,-1), 'LEFT'),]
     )
-        print("Style set.")
+
         t_style.add('INNERGRID', (0,0), (-1,-1), 0.25, colors.black)
         table = Table(data)
         table.setStyle(t_style)
@@ -153,17 +152,17 @@ class PDF_Gen:
             data.append(row)
 
         all_items = []
-        all_items.append(Paragraph(f"<font size=24>{student.full_name} Full Season Report</font>"))
+        all_items.append(Paragraph(f"<font size=16>{student.full_name} Full Season Report</font>"))
 
         all_items.append((empty_table))
 
         t_style = TableStyle(
-            [('LINEABOVE', (0, 0), (-1, 0), 2, colors.green),
+            [('LINEABOVE', (0, 0), (-1, 0), 2, colors.crimson),
              ('LINEABOVE', (0, 1), (-1, -1), 0.25, colors.black),
-             ('LINEBELOW', (0, -1), (-1, -1), 2, colors.green),
+             ('LINEBELOW', (0, -1), (-1, -1), 2, colors.crimson),
              ('ALIGN', (1, 1), (-1, -1), 'RIGHT'), ]
         )
-        print("Style set.")
+
         t_style.add('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)
         table = Table(data)
         table.setStyle(t_style)
@@ -177,27 +176,22 @@ class PDF_Gen:
         empty = [[" ", " ", " "]]
         empty_table = Table(empty)
         for student in team.students:
-            print(student.full_name)
-            for performance in student.performances:
-                print(performance)
+           for performance in student.performances:
                 if performance.tournament == tournament:
-                    print(performance)
-
                     row = [student.full_name, performance.event, performance.placement]
                     data.append(row)
 
         all_items = []
-        all_items.append(Paragraph(f"<font size=24>{tournament} Report</font>"))
+        all_items.append(Paragraph(f"<font size=16>{tournament} Report</font>"))
 
         all_items.append((empty_table))
 
         t_style = TableStyle(
-            [('LINEABOVE', (0, 0), (-1, 0), 2, colors.green),
+            [('LINEABOVE', (0, 0), (-1, 0), 2, colors.crimson),
              ('LINEABOVE', (0, 1), (-1, -1), 0.25, colors.black),
-             ('LINEBELOW', (0, -1), (-1, -1), 2, colors.green),
+             ('LINEBELOW', (0, -1), (-1, -1), 2, colors.crimson),
              ('ALIGN', (1, 1), (-1, -1), 'RIGHT'), ]
         )
-        print("Style set.")
         t_style.add('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)
         table = Table(data)
         table.setStyle(t_style)
@@ -218,17 +212,17 @@ class PDF_Gen:
                     data.append(row)
 
         all_items = []
-        all_items.append(Paragraph(f"<font size=24>{event} Report</font>"))
+        all_items.append(Paragraph(f"<font size=16>{event} Report</font>"))
 
         all_items.append((empty_table))
 
         t_style = TableStyle(
-            [('LINEABOVE', (0, 0), (-1, 0), 2, colors.green),
+            [('LINEABOVE', (0, 0), (-1, 0), 2, colors.crimson),
              ('LINEABOVE', (0, 1), (-1, -1), 0.25, colors.black),
-             ('LINEBELOW', (0, -1), (-1, -1), 2, colors.green),
+             ('LINEBELOW', (0, -1), (-1, -1), 2, colors.crimson),
              ('ALIGN', (1, 1), (-1, -1), 'RIGHT'), ]
         )
-        print("Style set.")
+
         t_style.add('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)
         table = Table(data)
         table.setStyle(t_style)

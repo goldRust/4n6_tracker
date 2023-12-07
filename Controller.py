@@ -15,7 +15,7 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
 
 
-#TODO - Improve UI layout.
+# TODO - Improve UI layout.
 class Controller(QMainWindow):
     def __init__(self):
         self.team = None
@@ -31,6 +31,9 @@ class Controller(QMainWindow):
         self.set_interactive()
 
     def load_team_info(self):
+        if self.team is None:
+            ErrorMessage("Load a file or create a new team first.",self)
+            return
         self.team_name.setText(self.team.name)
 
         self.update_team_report()
@@ -79,6 +82,9 @@ class Controller(QMainWindow):
         self.np_tourney.addItems(tourneys)
 
     def update_team_report(self):
+        if self.team is None:
+            ErrorMessage("Load a file or create a new team first.",self)
+            return
 
         table = []
 
@@ -103,6 +109,9 @@ class Controller(QMainWindow):
                 col_ind += 1
 
     def update_student_report(self, student):
+        if self.team is None:
+            ErrorMessage("Load a file or create a new team first.",self)
+            return
         if len(student) < 1:
             return
         self.selected_student.setText(student)
@@ -124,6 +133,9 @@ class Controller(QMainWindow):
 
 
     def update_event_report(self, event):
+        if self.team is None:
+            ErrorMessage("Load a file or create a new team first.",self)
+            return
         if len(event) < 1:
             return
         self.event_label.setText(event)
@@ -149,6 +161,9 @@ class Controller(QMainWindow):
             row_ind += 1
 
     def update_tournament_report(self, host):
+        if self.team is None:
+            ErrorMessage("Load a file or create a new team first.",self)
+            return
         if len(host) < 1:
             return
         table = []
@@ -234,7 +249,18 @@ class Controller(QMainWindow):
         # Event PDF menu item
         self.actionEvent_Report_2.triggered.connect(self.pdf_event_report)
 
+        # Switch tabs.
+        self.tabWidget.tabBarClicked.connect(self.click_tab)
 
+    def click_tab(self, tab):
+        if tab == 0:
+            self.load_team_info()
+        if tab == 1:
+            self.update_student_report(self.selected_student.text())
+        if tab == 2:
+            self.update_tournament_report(self.tourney_selector.currentText())
+        if tab == 3:
+            self.update_event_report(self.event_label.text())
 
     def view_student(self, row, column):
         print(f"{row} {column} Clicked")
@@ -281,6 +307,13 @@ class Controller(QMainWindow):
         self.update_student_report(f"{first} {last}")
         self.ns_first.clear()
         self.ns_last.clear()
+
+    def gui_remove_student(self):
+        confirm = QtWidgets.QMessageBox.question(self, "QUIT", "Are you certain you want to remove this student's records?",
+                                       QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+        if confirm == QtWidgets.QMessageBox.Yes:
+            student = self.team.get_student(self.selected_student.text())
+            self.team.delete_student(student)
 
     def gui_add_tournament(self):
         if self.team is None:

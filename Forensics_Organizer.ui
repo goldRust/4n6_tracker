@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1069</width>
-    <height>868</height>
+    <width>1067</width>
+    <height>862</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -39,7 +39,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -617,7 +617,7 @@
         <rect>
          <x>60</x>
          <y>80</y>
-         <width>111</width>
+         <width>141</width>
          <height>21</height>
         </rect>
        </property>
@@ -850,8 +850,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1069</width>
-     <height>21</height>
+     <width>1067</width>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

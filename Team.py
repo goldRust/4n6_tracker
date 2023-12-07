@@ -60,6 +60,9 @@ class Team:
         print(output)
         return report
 
+    def delete_student(self, student):
+        self.students.remove(student)
+
     def __str__(self):
         output = "*"*10
         output += f"{self.name}\n\n" + "*"*10
