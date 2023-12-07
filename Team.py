@@ -33,7 +33,7 @@ class Team:
             if str(tournament) == str(host):
                 return tournament
         print("Tournament not found.")
-        return
+        return None
 
     def tournament_report(self, school):
         # Returns a list of tuples (student name, [performances])

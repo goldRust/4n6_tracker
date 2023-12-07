@@ -253,8 +253,10 @@ class Controller(QMainWindow):
             new_team, done = QtWidgets.QInputDialog.getText(
                 self, "New Team", "Team Name"
             )
+            print(done)
             if not done:
                 return
+
         if done:
             print("Done")
             print(new_team)
@@ -446,6 +448,9 @@ class Controller(QMainWindow):
         retval = msg_box.exec_()
 
     def pdf_student_report(self):
+        if self.team is None:
+            ErrorMessage("Load a team file or create new team.",self)
+            return
         folder = self.openFolderNameDialog()
         student = self.team.get_student(self.selected_student.text())
         pdf = PDF_Gen()
@@ -458,6 +463,9 @@ class Controller(QMainWindow):
         retval = msg_box.exec_()
 
     def pdf_tournament_report(self):
+        if self.team is None:
+            ErrorMessage("Load a team file or create new team.",self)
+            return
         folder = self.openFolderNameDialog()
         host, date = self.tourney_selector.currentText().split(" -- ")
         tournament = Tournament(host,date)
@@ -471,6 +479,9 @@ class Controller(QMainWindow):
         retval = msg_box.exec_()
 
     def pdf_event_report(self):
+        if self.team is None:
+            ErrorMessage("Load a team file or create new team.",self)
+            return
         folder = self.openFolderNameDialog()
         pdf = PDF_Gen()
         pdf.event_report(self.team, self.event_label.text(),folder)
