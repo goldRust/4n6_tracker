@@ -15,7 +15,7 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
 
 
-
+#TODO - Improve UI layout.
 class Controller(QMainWindow):
     def __init__(self):
         self.team = None

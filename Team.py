@@ -22,7 +22,6 @@ class Team:
         for student in self.students:
             if student.full_name == full_name:
                 return student
-
         return None
 
     def add_tournament(self,tournament):
