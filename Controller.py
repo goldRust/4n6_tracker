@@ -103,7 +103,7 @@ class Controller(QMainWindow):
         self.team_report.setRowCount(len(table))
 
         for row in table:
-            print(row)
+            # print(row)
             for col in row:
                 self.team_report.setItem(row_ind, col_ind, QtWidgets.QTableWidgetItem(col))
                 col_ind += 1
@@ -127,8 +127,11 @@ class Controller(QMainWindow):
 
             perf_ind += 1
 
-        self.add_performance_frame.enabled = True
-        self.np_tourney.enabled = True
+        self.add_performance_frame.setEnabled(True)
+        self.np_tourney.setEnabled(True)
+
+        self.delete_student.setEnabled(True)
+
 
 
 
@@ -200,57 +203,42 @@ class Controller(QMainWindow):
     def set_interactive(self):
         # Change the selected student.
         self.stud_selector.currentTextChanged.connect(self.update_student_report)
-
         # Change the selected event.
         self.event_selector.currentTextChanged.connect(self.update_event_report)
-
         # Change the selected tournament
         self.tourney_selector.currentTextChanged.connect(self.update_tournament_report)
-
         # Add Student with button
         self.add_stud_button.clicked.connect(self.gui_add_student)
-
         # Save
         self.actionSave.triggered.connect(self.save)
-
         # Load
         self.actionLoad.triggered.connect(self.load)
-
         # Exit
         self.actionExit.triggered.connect(self.close)
-
         # Add Student
         self.add_perf_button.clicked.connect(self.gui_add_performance)
-
         # New Team
         self.actionNew.triggered.connect(self.gui_new_team)
-
         # New Tournament
         self.nt_button.clicked.connect(self.gui_add_tournament)
-
         # Student report click to edit
         self.stud_report.cellClicked.connect(self.edit_performance)
-
         # Team Report click to view student
         self.team_report.cellClicked.connect(self.view_student)
-
         # Awards maker button
         self.awards_button.clicked.connect(self.make_awards)
-
         # Team PDF menu item
         self.actionTeam_Report_2.triggered.connect(self.pdf_team_report)
-
         # Student PDF menu item
         self.actionStudent_Report_2.triggered.connect(self.pdf_student_report)
-
         # Tournament PDF menu item
         self.actionTournament_Report_2.triggered.connect(self.pdf_tournament_report)
-
         # Event PDF menu item
         self.actionEvent_Report_2.triggered.connect(self.pdf_event_report)
-
         # Switch tabs.
         self.tabWidget.tabBarClicked.connect(self.click_tab)
+        # Student removal button
+        self.delete_student.clicked.connect(self.gui_remove_student)
 
     def click_tab(self, tab):
         if tab == 0:
@@ -267,7 +255,7 @@ class Controller(QMainWindow):
         if column != 0:
             return
         name = self.team_report.item(row, column).text()
-        print(name)
+
         self.update_student_report(name)
         self.stud_selector.setCurrentText(name)
         self.tabWidget.setCurrentIndex(1)
@@ -309,11 +297,17 @@ class Controller(QMainWindow):
         self.ns_last.clear()
 
     def gui_remove_student(self):
-        confirm = QtWidgets.QMessageBox.question(self, "QUIT", "Are you certain you want to remove this student's records?",
+        confirm = QtWidgets.QMessageBox.question(self, "DELETE STUDENT!", "Are you certain you want to remove this student and all their records?\nThis cannot be undone!",
                                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
         if confirm == QtWidgets.QMessageBox.Yes:
-            student = self.team.get_student(self.selected_student.text())
-            self.team.delete_student(student)
+            try:
+                student = self.team.get_student(self.selected_student.text())
+                self.team.delete_student(student)
+                self.update_student_list()
+                self.update_student_report(self.stud_selector.curentText())
+            except Exception as e:
+                print(e)
+
 
     def gui_add_tournament(self):
         if self.team is None:
@@ -405,6 +399,10 @@ class Controller(QMainWindow):
             ErrorMessage(e, self)
 
     def save(self):
+        if self.team is None:
+            ErrorMessage("No team found! Create a new team or load an existing team file.", self)
+            return
+
         file = self.team.name + ".4n6"
         with open(file, 'wb') as f:
             pickle.dump(self.team, f, protocol=pickle.HIGHEST_PROTOCOL)
@@ -429,7 +427,7 @@ class Controller(QMainWindow):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         folderName = QFileDialog.getExistingDirectory(self, "Select Directory", "", options=options)
-        print(folderName)
+       # print(folderName)
         return folderName
     def closeEvent(self, event):
         save_first = QtWidgets.QMessageBox.question(self,"QUIT", "Do you wish to save before you exit?",
@@ -444,26 +442,26 @@ class Controller(QMainWindow):
                 sys.exit()
 
     def make_awards(self):
-        print("Making awards")
+      #  print("Making awards")
         tourament = self.team.get_tourament(self.tourney_selector.currentText())
-        print(tourament)
+      #  print(tourament)
         awards = []
         for student in self.team.students:
-            print(student)
+          # print(student)
             for perf in student.performances:
-                print(perf.tournament == tourament)
+               # print(perf.tournament == tourament)
                 if perf.tournament == tourament:
                     rank = perf.placement
-                    print(rank)
+                  #  print(rank)
                     if rank.isnumeric() and int(rank) < 10:
-                        print("Award added")
+                       # print("Award added")
                         award = Award(student.first, student.last, perf.event, rank)
                         awards.append(award)
-        print("getting folder")
+       # print("getting folder")
         folder = self.openFolderNameDialog()
-        print(folder)
+      #  print(folder)
         pdf = PDF_Gen()
-        print("PDF class made.")
+       # print("PDF class made.")
         pdf.create_awards(awards, folder, str(tourament))
 
 

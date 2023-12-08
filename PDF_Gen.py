@@ -4,7 +4,6 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.pagesizes import portrait
 from reportlab.lib.units import inch
 from reportlab.lib import colors
-from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import Table, SimpleDocTemplate, TableStyle, Paragraph
 import os
 
