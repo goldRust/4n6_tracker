@@ -15,7 +15,6 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
 
 
-# TODO - Improve UI layout.
 class Controller(QMainWindow):
     def __init__(self):
         self.team = None
@@ -239,6 +238,7 @@ class Controller(QMainWindow):
         self.tabWidget.tabBarClicked.connect(self.click_tab)
         # Student removal button
         self.delete_student.clicked.connect(self.gui_remove_student)
+        self.delete_student.setStyleSheet("background-color: tomato")
 
     def click_tab(self, tab):
         if tab == 0:
@@ -297,9 +297,9 @@ class Controller(QMainWindow):
         self.ns_last.clear()
 
     def gui_remove_student(self):
-        confirm = QtWidgets.QMessageBox.question(self, "DELETE STUDENT!", "Are you certain you want to remove this student and all their records?\nThis cannot be undone!",
-                                       QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
-        if confirm == QtWidgets.QMessageBox.Yes:
+        confirm = QtWidgets.QMessageBox.question(self, "DELETE STUDENT!", f"This will completely remove all records of this student.\nThis cannot be undone!\nAre you certain you wish to remove {self.team.get_student(self.selected_student.text()).full_name}?",
+                                       QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.Yes)
+        if confirm == QtWidgets.QMessageBox.No:
             try:
                 student = self.team.get_student(self.selected_student.text())
                 self.team.delete_student(student)
