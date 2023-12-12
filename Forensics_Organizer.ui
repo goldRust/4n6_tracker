@@ -907,7 +907,7 @@
      <x>0</x>
      <y>0</y>
      <width>1067</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -944,6 +944,7 @@
     <addaction name="actionStudent_Report_2"/>
     <addaction name="actionTournament_Report_2"/>
     <addaction name="actionEvent_Report_2"/>
+    <addaction name="actionState_Qualifier_Report"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_2"/>
@@ -1039,6 +1040,11 @@
   <action name="actionEvent_Report_2">
    <property name="text">
     <string>Event Report</string>
+   </property>
+  </action>
+  <action name="actionState_Qualifier_Report">
+   <property name="text">
+    <string>State Qualifier Report</string>
    </property>
   </action>
  </widget>

@@ -118,8 +118,12 @@ class Controller(QMainWindow):
         perf_ind = 0
         for perf in self.team.get_student(student).performances:
             rank = perf.placement
-            if rank == -1:
+            if rank == -1 or rank == "":
                 rank = "Unranked"
+            state_qualifier = ""
+            if str(rank) == "1" or str(rank) == "2":
+                state_qualifier = " *State Qualified*"
+            rank = str(rank) + state_qualifier
             self.stud_report.setItem(perf_ind, 0, QtWidgets.QTableWidgetItem(perf.event))
             self.stud_report.setItem(perf_ind, 1, QtWidgets.QTableWidgetItem(rank))
             self.stud_report.setItem(perf_ind, 2, QtWidgets.QTableWidgetItem(str(perf.tournament)))
@@ -146,9 +150,12 @@ class Controller(QMainWindow):
             for perf in student.performances:
                 if perf.event == event:
                     rank = perf.placement
-                    if rank == -1:
+                    if rank == -1 or rank == "":
                         rank = "Unranked"
-                    rank = str(rank)
+                    state_qualifier = ""
+                    if str(rank) == "1" or str(rank) == "2":
+                        state_qualifier = " *State Qualified*"
+                    rank = str(rank) + state_qualifier
                     table.append([student.full_name, rank, str(perf.tournament)])
         if len(table) < 1:
             ErrorMessage("No Performances to show.", self)
@@ -171,11 +178,15 @@ class Controller(QMainWindow):
         table = []
         for student in self.team.students:
             for perf in student.performances:
+                state_qualifier = ""
                 if str(perf.tournament) == host:
                     rank = perf.placement
                     if rank == -1:
                         rank = "Unranked"
-                    rank = str(rank)
+                    if str(rank) == "1" or str(rank) == "2":
+                        state_qualifier = " *State Qualified*"
+                    rank = str(rank) + state_qualifier
+
                     table.append([student.full_name, perf.event, rank])
 
         self.tourney_report.setRowCount(len(table))
@@ -234,6 +245,8 @@ class Controller(QMainWindow):
         self.actionTournament_Report_2.triggered.connect(self.pdf_tournament_report)
         # Event PDF menu item
         self.actionEvent_Report_2.triggered.connect(self.pdf_event_report)
+        # State PDF menu item
+        self.actionState_Qualifier_Report.triggered.connect(self.pdf_state_report)
         # Switch tabs.
         self.tabWidget.tabBarClicked.connect(self.click_tab)
         # Student removal button
@@ -522,6 +535,20 @@ class Controller(QMainWindow):
         msg_box.setText(f"{self.event_label.text()} event report has been saved.")
         msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
         retval = msg_box.exec_()
+
+    def pdf_state_report(self):
+        if self.team is None:
+            ErrorMessage("Load a team file or create new team.",self)
+            return
+        folder = self.openFolderNameDialog()
+        pdf = PDF_Gen()
+        pdf.state_qualifier_report(self.team,folder)
+        msg_box = QtWidgets.QMessageBox()
+        msg_box.setIcon(QtWidgets.QMessageBox.Information)
+        msg_box.setText(f"{self.team.name} state qualifier report has been saved.")
+        msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        retval = msg_box.exec_()
+
 
     @staticmethod
     def main(args):

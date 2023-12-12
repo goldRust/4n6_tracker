@@ -227,3 +227,39 @@ class PDF_Gen:
         table.setStyle(t_style)
         all_items.append(table)
         pdf.build(all_items)
+
+    def state_qualifier_report(self, team, folder):
+        file_name = f"{folder}/{team.name}_State_Qualifier_Report.pdf"
+        pdf = SimpleDocTemplate(file_name, pagesize=letter)
+        data = [["Student","Event", "Rank", "Tournament"]]
+        empty = [[" ", " ", " "," "]]
+        empty_table = Table(empty)
+        print("Building report.")
+        try:
+            for student in team.students:
+                print(f"Searching student {student.full_name}")
+                for performance in student.performances:
+                    if str(performance.placement) == "1" or str(performance.placement) == "2" or ("State" in str(performance.placement)):
+                        row = [student.full_name,performance.event , performance.placement, str(performance.tournament)]
+                        data.append(row)
+                        print("Performance Added")
+
+            all_items = []
+            all_items.append(Paragraph(f"<font size=16>{team.name} State Qualifier Report</font>"))
+
+            all_items.append((empty_table))
+
+            t_style = TableStyle(
+                [('LINEABOVE', (0, 0), (-1, 0), 2, colors.crimson),
+                 ('LINEABOVE', (0, 1), (-1, -1), 0.25, colors.black),
+                 ('LINEBELOW', (0, -1), (-1, -1), 2, colors.crimson),
+                 ('ALIGN', (1, 1), (-1, -1), 'RIGHT'), ]
+            )
+
+            t_style.add('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black)
+            table = Table(data)
+            table.setStyle(t_style)
+            all_items.append(table)
+            pdf.build(all_items)
+        except Exception as e:
+            print(e)
