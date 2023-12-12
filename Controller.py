@@ -571,15 +571,16 @@ class Controller(QMainWindow):
         retval = msg_box.exec_()
 
     def get_team_picture(self):
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
-        fileName, _ = QFileDialog.getOpenFileName(self, "Attach Tournament Picture", "",
-                                                  type, options=options)
+        print("attaching team picture.")
+        file = self.openFileNameDialog("Image File(*.jpg)")
+        if not file:
+            return
+
         try:
             tournament = self.team.get_tourament(self.tourney_selector.currentText())
-            tournament.photo = fileName
-            pixmap = QPixmap(fileName)
-            self.team_photo.setPixmap(pixmap)
+            tournament.photo = file
+            pixmap = QPixmap(file)
+            self.team_picture.setPixmap(pixmap)
         except Exception as e:
             ErrorMessage(e,self)
 
