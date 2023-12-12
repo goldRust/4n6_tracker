@@ -234,15 +234,15 @@ class PDF_Gen:
         data = [["Student","Event", "Rank", "Tournament"]]
         empty = [[" ", " ", " "," "]]
         empty_table = Table(empty)
-        print("Building report.")
+
         try:
             for student in team.students:
-                print(f"Searching student {student.full_name}")
+
                 for performance in student.performances:
                     if str(performance.placement) == "1" or str(performance.placement) == "2" or ("State" in str(performance.placement)):
                         row = [student.full_name,performance.event , performance.placement, str(performance.tournament)]
                         data.append(row)
-                        print("Performance Added")
+
 
             all_items = []
             all_items.append(Paragraph(f"<font size=16>{team.name} State Qualifier Report</font>"))

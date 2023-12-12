@@ -6,13 +6,14 @@ from Tournament import Tournament
 from ErrorMessage import ErrorMessage
 from Partner_Dialog import Partner_Dialog
 from EditPerfromanceDialog import EditPerformanceDialog
-from  Awards import Award
+from Awards import Award
 from PDF_Gen import PDF_Gen
 import sys
 import pickle
 from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
+from PyQt5.QtGui import QPixmap
 
 
 class Controller(QMainWindow):
@@ -34,7 +35,7 @@ class Controller(QMainWindow):
             ErrorMessage("Load a file or create a new team first.",self)
             return
         self.team_name.setText(self.team.name)
-
+        # self.patch_tournaments()
         self.update_team_report()
         self.team.students.sort()
         self.update_student_list()
@@ -42,6 +43,7 @@ class Controller(QMainWindow):
         self.update_event_list()
 
         self.update_tourney_list()
+
 
     def clear_team_info(self):
 
@@ -169,12 +171,20 @@ class Controller(QMainWindow):
             col_ind = 0
             row_ind += 1
 
+    def patch_tournaments(self):
+        for i in range(len(self.team.tournaments)):
+            tournament = Tournament(self.team.tournaments[i].school, self.team.tournaments[i].date)
+            self.team.tournaments[i] = tournament
+
     def update_tournament_report(self, host):
         if self.team is None:
             ErrorMessage("Load a file or create a new team first.",self)
             return
+
         if len(host) < 1:
             return
+        tournament = self.team.get_tourament(host)
+
         table = []
         for student in self.team.students:
             for perf in student.performances:
@@ -198,6 +208,14 @@ class Controller(QMainWindow):
                 col_ind += 1
             col_ind = 0
             row_ind += 1
+        if tournament.photo is not None:
+            print(host)
+            try:
+                file = QPixmap(tournament.photo)
+                self.team_picture.setPixmap(file)
+            except Exception as e:
+                ErrorMessage(e,self)
+
         self.awards_button.setEnabled(True)
 
     def set_columns(self):
@@ -252,6 +270,9 @@ class Controller(QMainWindow):
         # Student removal button
         self.delete_student.clicked.connect(self.gui_remove_student)
         self.delete_student.setStyleSheet("background-color: tomato")
+
+        # Team Picture clickable
+        self.photo_button.clicked.connect(self.get_team_picture)
 
     def click_tab(self, tab):
         if tab == 0:
@@ -548,6 +569,22 @@ class Controller(QMainWindow):
         msg_box.setText(f"{self.team.name} state qualifier report has been saved.")
         msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
         retval = msg_box.exec_()
+
+    def get_team_picture(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fileName, _ = QFileDialog.getOpenFileName(self, "Attach Tournament Picture", "",
+                                                  type, options=options)
+        try:
+            tournament = self.team.get_tourament(self.tourney_selector.currentText())
+            tournament.photo = fileName
+            pixmap = QPixmap(fileName)
+            self.team_photo.setPixmap(pixmap)
+        except Exception as e:
+            ErrorMessage(e,self)
+
+
+
 
 
     @staticmethod

@@ -795,6 +795,38 @@
        <string>Awards PDF</string>
       </property>
      </widget>
+     <widget class="QLabel" name="team_picture">
+      <property name="geometry">
+       <rect>
+        <x>690</x>
+        <y>130</y>
+        <width>351</width>
+        <height>251</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Tahoma</family>
+        <pointsize>24</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string> Team Picture</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="photo_button">
+      <property name="geometry">
+       <rect>
+        <x>790</x>
+        <y>400</y>
+        <width>111</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add Team Photo</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
