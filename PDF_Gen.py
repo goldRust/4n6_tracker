@@ -89,9 +89,9 @@ class PDF_Gen:
 
         team_name = 'Osage City High School'
         center_pic_x = 4.5 * inch
-        tn_y = 4.25 * inch
-        tourn_y = 1.25 * inch
-        pdf.drawImage(team_pic, inch, inch, 7 * inch, 4 * inch)
+        tn_y = 5.75 * inch
+        tourn_y = inch
+        pdf.drawImage(team_pic, inch, inch, 7 * inch, 5.27* inch)
         pdf.setFont('Courier', 32)
         pdf.drawCentredString(center_pic_x, tn_y, team_name)
         pdf.setFillColor(colors.white)

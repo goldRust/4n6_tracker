@@ -8,7 +8,7 @@ from Partner_Dialog import Partner_Dialog
 from EditPerfromanceDialog import EditPerformanceDialog
 from Awards import Award
 from PDF_Gen import PDF_Gen
-import sys
+import sys, os
 import pickle
 from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets, QtGui, QtCore
@@ -209,13 +209,17 @@ class Controller(QMainWindow):
             col_ind = 0
             row_ind += 1
         if tournament.photo is not None:
-            print(host)
-            try:
-                file = QPixmap(tournament.photo)
-                self.team_picture.setPixmap(file)
-            except Exception as e:
-                ErrorMessage(e,self)
-
+            if os.path.isfile(tournament.photo):
+                try:
+                    file = QPixmap(tournament.photo).scaledToWidth(408)
+                    self.team_picture.setPixmap(file)
+                except Exception as e:
+                    ErrorMessage(e,self)
+            else:
+                ErrorMessage(f"{tournament.photo} is not a valid file path. Perhaps it was loaded on a different computer?",self)
+        else:
+            pixmap = QPixmap("./images/no_team.jpg").scaledToWidth(408)
+            self.team_picture.setPixmap(pixmap)
         self.awards_button.setEnabled(True)
 
     def set_columns(self):
@@ -496,7 +500,14 @@ class Controller(QMainWindow):
       #  print(folder)
         pdf = PDF_Gen()
        # print("PDF class made.")
-        pdf.create_awards(awards, folder, str(tourament))
+        pdf.create_awards(awards, folder, str(tourament), team_pic=tourament.photo)
+
+        msg_box = QtWidgets.QMessageBox()
+        msg_box.setIcon(QtWidgets.QMessageBox.Information)
+        msg_box.setText(f"{tourament} awards file has been saved.")
+        msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        retval = msg_box.exec_()
+
 
 
     def pdf_team_report(self):
@@ -579,7 +590,8 @@ class Controller(QMainWindow):
         try:
             tournament = self.team.get_tourament(self.tourney_selector.currentText())
             tournament.photo = file
-            pixmap = QPixmap(file)
+            pixmap = QPixmap(file).scaledToWidth(408)
+
             self.team_picture.setPixmap(pixmap)
         except Exception as e:
             ErrorMessage(e,self)
