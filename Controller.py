@@ -213,6 +213,7 @@ class Controller(QMainWindow):
                 try:
                     file = QPixmap(tournament.photo).scaledToWidth(408)
                     self.team_picture.setPixmap(file)
+                    self.photo_button.setText("Change Photo")
                 except Exception as e:
                     ErrorMessage(e,self)
             else:
