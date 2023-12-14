@@ -290,7 +290,7 @@ class Controller(QMainWindow):
             self.update_event_report(self.event_label.text())
 
     def view_student(self, row, column):
-        print(f"{row} {column} Clicked")
+
         if column != 0:
             return
         name = self.team_report.item(row, column).text()
@@ -306,12 +306,10 @@ class Controller(QMainWindow):
             new_team, done = QtWidgets.QInputDialog.getText(
                 self, "New Team", "Team Name"
             )
-            print(done)
             if not done:
                 return
 
         if done:
-            print("Done")
             print(new_team)
             self.team = Team(new_team)
             self.load_team_info()
@@ -583,7 +581,7 @@ class Controller(QMainWindow):
         retval = msg_box.exec_()
 
     def get_team_picture(self):
-        print("attaching team picture.")
+
         file = self.openFileNameDialog("Image File(*.jpg)")
         if not file:
             return
