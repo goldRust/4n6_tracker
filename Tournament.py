@@ -5,7 +5,7 @@ class Tournament:
         self.photo = None
 
     def __eq__(self, other):
-        print(f"Comparing: {self} : {other}")
+
         if isinstance(other, Tournament):
             return str(self) == str(other)
         return False

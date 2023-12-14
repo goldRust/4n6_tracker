@@ -11,11 +11,11 @@ class Team:
     def new_student(self, fname, lname):
         stud = Student(fname,lname)
         if stud in self.students:
-            print(f"{stud.full_name} is already on the team!")
+
             return None
         else:
             self.students.append(stud)
-            print(f"{stud.full_name} has been added to the team!")
+
         return stud
 
     def get_student(self, full_name):
@@ -31,7 +31,7 @@ class Team:
         for tournament in self.tournaments:
             if str(tournament) == str(host):
                 return tournament
-        print("Tournament not found.")
+
         return None
 
     def tournament_report(self, school):
@@ -44,8 +44,6 @@ class Team:
             for perf in perfs:
                 output += f"{student.full_name}: {perf}\n"
 
-
-        print(output)
         return report
 
     def event_report(self, event):
@@ -57,7 +55,7 @@ class Team:
             report.append((student.full_name, perfs))
             for perf in perfs:
                 output += f"{student.full_name}: {perf}\n"
-        print(output)
+
         return report
 
     def delete_student(self, student):

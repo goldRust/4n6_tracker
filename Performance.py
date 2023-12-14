@@ -14,7 +14,6 @@ class Performance:
         return self.placement
 
     def __eq__(self, other):
-        print(f"Comparing: {self} to {other}")
         if isinstance(other, Performance):
 
             return str(self) == str(other)

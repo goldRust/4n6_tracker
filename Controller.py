@@ -32,7 +32,7 @@ class Controller(QMainWindow):
 
     def load_team_info(self):
         if self.team is None:
-            ErrorMessage("Load a file or create a new team first.",self)
+            ErrorMessage("Load a file or create a new team first.", self)
             return
         self.team_name.setText(self.team.name)
         # self.patch_tournaments()
@@ -43,7 +43,6 @@ class Controller(QMainWindow):
         self.update_event_list()
 
         self.update_tourney_list()
-
 
     def clear_team_info(self):
 
@@ -84,7 +83,7 @@ class Controller(QMainWindow):
 
     def update_team_report(self):
         if self.team is None:
-            ErrorMessage("Load a file or create a new team first.",self)
+            ErrorMessage("Load a file or create a new team first.", self)
             return
 
         table = []
@@ -111,7 +110,7 @@ class Controller(QMainWindow):
 
     def update_student_report(self, student):
         if self.team is None:
-            ErrorMessage("Load a file or create a new team first.",self)
+            ErrorMessage("Load a file or create a new team first.", self)
             return
         if len(student) < 1:
             return
@@ -137,12 +136,9 @@ class Controller(QMainWindow):
 
         self.delete_student.setEnabled(True)
 
-
-
-
     def update_event_report(self, event):
         if self.team is None:
-            ErrorMessage("Load a file or create a new team first.",self)
+            ErrorMessage("Load a file or create a new team first.", self)
             return
         if len(event) < 1:
             return
@@ -178,7 +174,7 @@ class Controller(QMainWindow):
 
     def update_tournament_report(self, host):
         if self.team is None:
-            ErrorMessage("Load a file or create a new team first.",self)
+            ErrorMessage("Load a file or create a new team first.", self)
             return
 
         if len(host) < 1:
@@ -215,9 +211,11 @@ class Controller(QMainWindow):
                     self.team_picture.setPixmap(file)
                     self.photo_button.setText("Change Photo")
                 except Exception as e:
-                    ErrorMessage(e,self)
+                    ErrorMessage(e, self)
             else:
-                ErrorMessage(f"{tournament.photo} is not a valid file path. Perhaps it was loaded on a different computer?",self)
+                ErrorMessage(
+                    f"{tournament.photo} is not a valid file path. Perhaps it was loaded on a different computer?",
+                    self)
         else:
             pixmap = QPixmap("./images/no_team.jpg").scaledToWidth(408)
             self.team_picture.setPixmap(pixmap)
@@ -299,10 +297,9 @@ class Controller(QMainWindow):
         self.stud_selector.setCurrentText(name)
         self.tabWidget.setCurrentIndex(1)
 
-
     def gui_new_team(self):
         new_team = ""
-        while len(new_team)<1:
+        while len(new_team) < 1:
             new_team, done = QtWidgets.QInputDialog.getText(
                 self, "New Team", "Team Name"
             )
@@ -319,7 +316,7 @@ class Controller(QMainWindow):
 
     def gui_add_student(self):
         if self.team is None:
-            ErrorMessage("No team!\nLoad a team file or make a new one by clicking File in the top left.",self)
+            ErrorMessage("No team!\nLoad a team file or make a new one by clicking File in the top left.", self)
             return
         first = self.ns_first.text()
         last = self.ns_last.text()
@@ -334,9 +331,10 @@ class Controller(QMainWindow):
         self.ns_last.clear()
 
     def gui_remove_student(self):
-        confirm = QtWidgets.QMessageBox.question(self, "DELETE STUDENT!", f"This will completely remove all records of this student.\nThis cannot be undone!\nAre you certain you wish to remove {self.team.get_student(self.selected_student.text()).full_name}?",
-                                       QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.Yes)
-        if confirm == QtWidgets.QMessageBox.No:
+        confirm = QtWidgets.QMessageBox.question(self, "DELETE STUDENT!",
+                                                 f"This will completely remove all records of this student.\nThis cannot be undone!\nAre you certain you wish to remove {self.team.get_student(self.selected_student.text()).full_name}?",
+                                                 QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.Yes)
+        if confirm == QtWidgets.QMessageBox.Yes:
             try:
                 student = self.team.get_student(self.selected_student.text())
                 self.team.delete_student(student)
@@ -345,10 +343,9 @@ class Controller(QMainWindow):
             except Exception as e:
                 print(e)
 
-
     def gui_add_tournament(self):
         if self.team is None:
-            ErrorMessage("No team!\nLoad a team file or make a new one by clicking File in the top left.",self)
+            ErrorMessage("No team!\nLoad a team file or make a new one by clicking File in the top left.", self)
             return
 
         host = self.nt_host.text()
@@ -365,7 +362,7 @@ class Controller(QMainWindow):
 
     def gui_add_performance(self):
         if self.team is None:
-            ErrorMessage("No team!\nLoad a team file or make a new one by clicking File in the top left.",self)
+            ErrorMessage("No team!\nLoad a team file or make a new one by clicking File in the top left.", self)
         student = self.team.get_student(self.selected_student.text())
 
         if student is None:
@@ -387,9 +384,10 @@ class Controller(QMainWindow):
         performance = student.add_performance(performance)
         performance.placement = self.np_rank.text()
         if performance.event == "IDA" or performance.event == "DA" or performance.event == "DI":
-            students =  [stud.full_name for stud in self.team.students]
-            partner = self.team.get_student(Partner_Dialog((f"{student.full_name}'s partner for {performance.event}:",performance.event,performance.tournament,performance.placement), students, self).exec_())
-
+            students = [stud.full_name for stud in self.team.students]
+            partner = self.team.get_student(Partner_Dialog((f"{student.full_name}'s partner for {performance.event}:",
+                                                            performance.event, performance.tournament,
+                                                            performance.placement), students, self).exec_())
 
         self.np_rank.clear()
         self.np_event.clear()
@@ -399,19 +397,17 @@ class Controller(QMainWindow):
         self.update_event_list()
         self.update_team_report()
 
-    def edit_performance(self,row,col):
+    def edit_performance(self, row, col):
         print(f"{row} {col} Clicked")
         tournaments = [str(tournament) for tournament in self.team.tournaments]
-        perf = (self.stud_report.item(row,0).text(), self.stud_report.item(row,1).text() , self.stud_report.item(row,2).text())
+        perf = (self.stud_report.item(row, 0).text(), self.stud_report.item(row, 1).text(),
+                self.stud_report.item(row, 2).text())
 
-        rebuild = EditPerformanceDialog(perf,tournaments, row, self).exec_()
+        rebuild = EditPerformanceDialog(perf, tournaments, row, self).exec_()
         if rebuild:
             self.stud_report.clearContents()
-            
+
             self.update_student_report(self.selected_student.text())
-
-
-
 
     def clicked(self, row, col):
         print(f"{row} {col} Clicked")
@@ -449,7 +445,6 @@ class Controller(QMainWindow):
         msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
         retval = msg_box.exec_()
 
-
     def new_team(self, team_name):
         self.team = Team(team_name)
 
@@ -464,11 +459,12 @@ class Controller(QMainWindow):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         folderName = QFileDialog.getExistingDirectory(self, "Select Directory", "", options=options)
-       # print(folderName)
+        # print(folderName)
         return folderName
+
     def closeEvent(self, event):
-        save_first = QtWidgets.QMessageBox.question(self,"QUIT", "Do you wish to save before you exit?",
-                                               QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+        save_first = QtWidgets.QMessageBox.question(self, "QUIT", "Do you wish to save before you exit?",
+                                                    QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
         if save_first == QtWidgets.QMessageBox.Yes:
             self.save()
             if not type(event) == bool:
@@ -479,26 +475,20 @@ class Controller(QMainWindow):
                 sys.exit()
 
     def make_awards(self):
-      #  print("Making awards")
         tourament = self.team.get_tourament(self.tourney_selector.currentText())
-      #  print(tourament)
         awards = []
         for student in self.team.students:
-          # print(student)
             for perf in student.performances:
-               # print(perf.tournament == tourament)
                 if perf.tournament == tourament:
                     rank = perf.placement
-                  #  print(rank)
                     if rank.isnumeric() and int(rank) < 10:
-                       # print("Award added")
                         award = Award(student.first, student.last, perf.event, rank)
                         awards.append(award)
-       # print("getting folder")
         folder = self.openFolderNameDialog()
-      #  print(folder)
+        if len(folder) < 1:
+            return
+        print(folder)
         pdf = PDF_Gen()
-       # print("PDF class made.")
         pdf.create_awards(awards, folder, str(tourament), team_pic=tourament.photo)
 
         msg_box = QtWidgets.QMessageBox()
@@ -507,13 +497,13 @@ class Controller(QMainWindow):
         msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
         retval = msg_box.exec_()
 
-
-
     def pdf_team_report(self):
         if self.team is None:
-            ErrorMessage("Load a team file or create new team.",self)
+            ErrorMessage("Load a team file or create new team.", self)
             return
         folder = self.openFolderNameDialog()
+        if len(folder) < 1:
+            return
         pdf = PDF_Gen()
         pdf.team_report(self.team, folder)
         msg_box = QtWidgets.QMessageBox()
@@ -524,12 +514,14 @@ class Controller(QMainWindow):
 
     def pdf_student_report(self):
         if self.team is None:
-            ErrorMessage("Load a team file or create new team.",self)
+            ErrorMessage("Load a team file or create new team.", self)
             return
         folder = self.openFolderNameDialog()
+        if len(folder) < 1:
+            return
         student = self.team.get_student(self.selected_student.text())
         pdf = PDF_Gen()
-        pdf.student_report(student,folder)
+        pdf.student_report(student, folder)
 
         msg_box = QtWidgets.QMessageBox()
         msg_box.setIcon(QtWidgets.QMessageBox.Information)
@@ -539,11 +531,13 @@ class Controller(QMainWindow):
 
     def pdf_tournament_report(self):
         if self.team is None:
-            ErrorMessage("Load a team file or create new team.",self)
+            ErrorMessage("Load a team file or create new team.", self)
             return
         folder = self.openFolderNameDialog()
+        if len(folder) < 1:
+            return
         host, date = self.tourney_selector.currentText().split(" -- ")
-        tournament = Tournament(host,date)
+        tournament = Tournament(host, date)
         pdf = PDF_Gen()
         pdf.tournament_report(self.team, tournament, folder)
 
@@ -555,11 +549,13 @@ class Controller(QMainWindow):
 
     def pdf_event_report(self):
         if self.team is None:
-            ErrorMessage("Load a team file or create new team.",self)
+            ErrorMessage("Load a team file or create new team.", self)
             return
         folder = self.openFolderNameDialog()
+        if len(folder) < 1:
+            return
         pdf = PDF_Gen()
-        pdf.event_report(self.team, self.event_label.text(),folder)
+        pdf.event_report(self.team, self.event_label.text(), folder)
 
         msg_box = QtWidgets.QMessageBox()
         msg_box.setIcon(QtWidgets.QMessageBox.Information)
@@ -569,11 +565,11 @@ class Controller(QMainWindow):
 
     def pdf_state_report(self):
         if self.team is None:
-            ErrorMessage("Load a team file or create new team.",self)
+            ErrorMessage("Load a team file or create new team.", self)
             return
         folder = self.openFolderNameDialog()
         pdf = PDF_Gen()
-        pdf.state_qualifier_report(self.team,folder)
+        pdf.state_qualifier_report(self.team, folder)
         msg_box = QtWidgets.QMessageBox()
         msg_box.setIcon(QtWidgets.QMessageBox.Information)
         msg_box.setText(f"{self.team.name} state qualifier report has been saved.")
@@ -593,28 +589,16 @@ class Controller(QMainWindow):
 
             self.team_picture.setPixmap(pixmap)
         except Exception as e:
-            ErrorMessage(e,self)
-
-
-
-
+            ErrorMessage(e, self)
 
     @staticmethod
     def main(args):
         app = QApplication(args)
         mainwindow = Controller()
-        widget = QtWidgets.QStackedWidget()
-        widget.addWidget(mainwindow)
-        widget.setFixedHeight(850)
-        widget.setFixedWidth(1120)
-        widget.setWindowIcon(QtGui.QIcon("4n6_icon.png"))
-        widget.setWindowTitle("4N6 Season Tracker")
-        widget.setWindowFlag(QtCore.Qt.WindowCloseButtonHint, False)
-        widget.show()
-
-
+        mainwindow.setFixedHeight(855)
+        mainwindow.setFixedWidth(1070)
+        mainwindow.show()
         app.exec_()
-
 
 
 # Main Guard
