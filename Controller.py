@@ -167,6 +167,7 @@ class Controller(QMainWindow):
             col_ind = 0
             row_ind += 1
 
+    # Used to update old files in which the tournament class didn't have the photo attribute.
     def patch_tournaments(self):
         for i in range(len(self.team.tournaments)):
             tournament = Tournament(self.team.tournaments[i].school, self.team.tournaments[i].date)
@@ -595,7 +596,7 @@ class Controller(QMainWindow):
     def main(args):
         app = QApplication(args)
         mainwindow = Controller()
-        mainwindow.setFixedHeight(855)
+        mainwindow.setFixedHeight(900)
         mainwindow.setFixedWidth(1070)
         mainwindow.show()
         app.exec_()
