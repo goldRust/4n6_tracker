@@ -35,6 +35,7 @@ class Controller(QMainWindow):
             ErrorMessage("Load a file or create a new team first.", self)
             return
         self.team_name.setText(self.team.name)
+        self.team_name.resize(len(self.team.name)*24,24)
         # self.patch_tournaments()
         self.update_team_report()
         self.team.students.sort()
@@ -180,8 +181,8 @@ class Controller(QMainWindow):
 
         if len(host) < 1:
             return
-        tournament = self.team.get_tourament(host)
 
+        tournament = self.team.get_tourament(host)
         table = []
         for student in self.team.students:
             for perf in student.performances:
@@ -193,9 +194,6 @@ class Controller(QMainWindow):
                     if str(rank) == "1" or str(rank) == "2":
                         state_qualifier = " *State Qualified*"
                     rank = str(rank) + state_qualifier
-
-                    table.append([student.full_name, perf.event, rank])
-
         self.tourney_report.setRowCount(len(table))
         row_ind = 0
         col_ind = 0
@@ -282,7 +280,7 @@ class Controller(QMainWindow):
         if tab == 0:
             self.load_team_info()
         if tab == 1:
-            self.update_student_report(self.selected_student.text())
+            self.update_student_report(self.stud_selector.currentText())
         if tab == 2:
             self.update_tournament_report(self.tourney_selector.currentText())
         if tab == 3:
@@ -365,7 +363,7 @@ class Controller(QMainWindow):
         if self.team is None:
             ErrorMessage("No team!\nLoad a team file or make a new one by clicking File in the top left.", self)
         student = self.team.get_student(self.selected_student.text())
-
+        print(student)
         if student is None:
             ErrorMessage("Student not found!", self)
             return
@@ -374,13 +372,10 @@ class Controller(QMainWindow):
         if len(tourney) < 1:
             ErrorMessage("No Tournament Selected", self)
             return
-
         tourney = Tournament(tourney[0], tourney[1])
-
         if len(self.np_event.text()) < 1:
             ErrorMessage("Event Required", self)
             return
-
         performance = Performance(tourney, self.np_event.text())
         performance = student.add_performance(performance)
         performance.placement = self.np_rank.text()
@@ -389,11 +384,10 @@ class Controller(QMainWindow):
             partner = self.team.get_student(Partner_Dialog((f"{student.full_name}'s partner for {performance.event}:",
                                                             performance.event, performance.tournament,
                                                             performance.placement), students, self).exec_())
-
         self.np_rank.clear()
         self.np_event.clear()
         self.update_student_report(student.full_name)
-        self.update_tournament_report(performance.tournament.school)
+        self.update_tournament_report(str(performance.tournament))
         self.update_event_report(performance.event)
         self.update_event_list()
         self.update_team_report()
