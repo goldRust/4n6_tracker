@@ -5,7 +5,7 @@ a = Analysis(
     ['Controller.py'],
     pathex=[],
     binaries=[],
-    datas=[('Forensics_Organizer.ui', '.'), ('error.ui', '.'), ('edit_performance_dialog.ui', '.'), ('partner_dialog.ui', '.')],
+    datas=[],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
