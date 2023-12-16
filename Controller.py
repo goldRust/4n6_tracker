@@ -436,8 +436,8 @@ class Controller(QMainWindow):
         if self.team is None:
             ErrorMessage("No team found! Create a new team or load an existing team file.", self)
             return
-
-        file = self.team.name + ".4n6"
+        directory = self.openFolderNameDialog()
+        file = directory + self.team.name + ".4n6"
         with open(file, 'wb') as f:
             pickle.dump(self.team, f, protocol=pickle.HIGHEST_PROTOCOL)
         msg_box = QtWidgets.QMessageBox()
