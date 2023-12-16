@@ -182,7 +182,7 @@ class Controller(QMainWindow):
         if len(host) < 1:
             return
 
-        tournament = self.team.get_tourament(host)
+        tournament = self.team.get_tournament(host)
         table = []
         for student in self.team.students:
             for perf in student.performances:
@@ -194,6 +194,7 @@ class Controller(QMainWindow):
                     if str(rank) == "1" or str(rank) == "2":
                         state_qualifier = " *State Qualified*"
                     rank = str(rank) + state_qualifier
+                    table.append([student.full_name, perf.event, rank])
         self.tourney_report.setRowCount(len(table))
         row_ind = 0
         col_ind = 0
@@ -201,6 +202,7 @@ class Controller(QMainWindow):
             for col in row:
                 self.tourney_report.setItem(row_ind, col_ind, QtWidgets.QTableWidgetItem(col))
                 col_ind += 1
+
             col_ind = 0
             row_ind += 1
         if tournament.photo is not None:
@@ -216,6 +218,7 @@ class Controller(QMainWindow):
                     f"{tournament.photo} is not a valid file path. Perhaps it was loaded on a different computer?",
                     self)
         else:
+            print("loading default picture.")
             pixmap = QPixmap("./images/no_team.jpg").scaledToWidth(408)
             self.team_picture.setPixmap(pixmap)
         self.awards_button.setEnabled(True)
@@ -367,12 +370,15 @@ class Controller(QMainWindow):
         if student is None:
             ErrorMessage("Student not found!", self)
             return
-
-        tourney = self.np_tourney.currentText().split(" -- ")
-        if len(tourney) < 1:
-            ErrorMessage("No Tournament Selected", self)
+        try:
+            tourney = self.team.get_tournament(self.np_tourney.currentText())
+        except Exception as e:
+            print(e)
+        # tourney = self.np_tourney.currentText().split(" -- ")
+        if tourney is None:
+            ErrorMessage("No Tournament Selected. \nSelect a tournament from the list or make a new one in the Tournament tab.", self)
             return
-        tourney = Tournament(tourney[0], tourney[1])
+
         if len(self.np_event.text()) < 1:
             ErrorMessage("Event Required", self)
             return
@@ -470,11 +476,11 @@ class Controller(QMainWindow):
                 sys.exit()
 
     def make_awards(self):
-        tourament = self.team.get_tourament(self.tourney_selector.currentText())
+        tournament = self.team.get_tournament(self.tourney_selector.currentText())
         awards = []
         for student in self.team.students:
             for perf in student.performances:
-                if perf.tournament == tourament:
+                if perf.tournament == tournament:
                     rank = perf.placement
                     if rank.isnumeric() and int(rank) < 10:
                         award = Award(student.first, student.last, perf.event, rank)
@@ -484,11 +490,11 @@ class Controller(QMainWindow):
             return
         print(folder)
         pdf = PDF_Gen()
-        pdf.create_awards(awards, folder, str(tourament), team_pic=tourament.photo)
+        pdf.create_awards(awards, folder, str(tournament), team_pic=tournament.photo)
 
         msg_box = QtWidgets.QMessageBox()
         msg_box.setIcon(QtWidgets.QMessageBox.Information)
-        msg_box.setText(f"{tourament} awards file has been saved.")
+        msg_box.setText(f"{tournament} awards file has been saved.")
         msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
         retval = msg_box.exec_()
 
@@ -578,7 +584,7 @@ class Controller(QMainWindow):
             return
 
         try:
-            tournament = self.team.get_tourament(self.tourney_selector.currentText())
+            tournament = self.team.get_tournament(self.tourney_selector.currentText())
             tournament.photo = file
             pixmap = QPixmap(file).scaledToWidth(408)
 

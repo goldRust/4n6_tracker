@@ -27,7 +27,7 @@ class Team:
     def add_tournament(self,tournament):
         self.tournaments.append[tournament]
 
-    def get_tourament(self, host):
+    def get_tournament(self, host):
         for tournament in self.tournaments:
             if str(tournament) == str(host):
                 return tournament
