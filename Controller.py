@@ -521,6 +521,9 @@ class Controller(QMainWindow):
         if len(folder) < 1:
             return
         student = self.team.get_student(self.selected_student.text())
+        if student is None:
+            ErrorMessage("Student not found!", self)
+            return
         pdf = PDF_Gen()
         pdf.student_report(student, folder)
 
@@ -537,8 +540,12 @@ class Controller(QMainWindow):
         folder = self.openFolderNameDialog()
         if len(folder) < 1:
             return
-        host, date = self.tourney_selector.currentText().split(" -- ")
-        tournament = Tournament(host, date)
+
+        tournament = self.team.get_tournament( self.tourney_selector.currentText())
+        if tournament is None:
+            ErrorMessage("Tournament not found!",self)
+            return
+
         pdf = PDF_Gen()
         pdf.tournament_report(self.team, tournament, folder)
 
