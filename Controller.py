@@ -356,7 +356,7 @@ class Controller(QMainWindow):
             return
 
         host = self.nt_host.text()
-        if self.date_label.text() == "Date":
+        if self.date_label.text() == "Date" or self.date_label.text() == "Date:":
             ErrorMessage("Select the date of the tournament.\nClick 'Select Date'",self)
             return
         date = self.date_label.text().split(": ")[1]
@@ -411,7 +411,6 @@ class Controller(QMainWindow):
         self.update_team_report()
 
     def edit_performance(self, row, col):
-        print(f"{row} {col} Clicked")
         tournaments = [str(tournament) for tournament in self.team.tournaments]
         perf = (self.stud_report.item(row, 0).text(), self.stud_report.item(row, 1).text(),
                 self.stud_report.item(row, 2).text())
@@ -437,9 +436,6 @@ class Controller(QMainWindow):
         try:
             with open(file, 'rb') as f:
                 self.team = pickle.load(f)
-
-                # For some reason this causes an error. It seems to run completely, then causes the program to close.
-                # self.clear_team_info()
                 self.load_team_info()
         except Exception as e:
             ErrorMessage(e, self)
@@ -453,11 +449,6 @@ class Controller(QMainWindow):
         with open(file, 'wb') as f:
             pickle.dump(self.team, f, protocol=pickle.HIGHEST_PROTOCOL)
         InfoMessage(f"{file} has been saved.", self)
-        """msg_box = QtWidgets.QMessageBox()
-        msg_box.setIcon(QtWidgets.QMessageBox.Information)
-        msg_box.setText(f"{file} has been saved.")
-        msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
-        retval = msg_box.exec_()"""
 
     def new_team(self, team_name):
         self.team = Team(team_name)

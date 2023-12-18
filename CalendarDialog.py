@@ -3,6 +3,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QDialog
 from PyQt5.uic import loadUi
 
+
 class CalendarDialog(QDialog):
     def __init__(self, parent=None):
         self.parent = parent
@@ -23,10 +24,3 @@ class CalendarDialog(QDialog):
         self.parent.date_label.setText(display_text)
         self.accept()
         return self.calendar.selectedDate()
-
-
-
-
-
-
-
