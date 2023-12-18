@@ -8,6 +8,8 @@ from Partner_Dialog import Partner_Dialog
 from EditPerfromanceDialog import EditPerformanceDialog
 from Awards import Award
 from PDF_Gen import PDF_Gen
+from InfoMessage import InfoMessage
+from CalendarDialog import CalendarDialog
 import sys, os
 import pickle
 from PyQt5.uic import loadUi
@@ -279,6 +281,9 @@ class Controller(QMainWindow):
         # Team Picture clickable
         self.photo_button.clicked.connect(self.get_team_picture)
 
+        # Change tournament date
+        self.change_date.clicked.connect(self.change_tourney_date)
+
     def click_tab(self, tab):
         if tab == 0:
             self.load_team_info()
@@ -351,7 +356,7 @@ class Controller(QMainWindow):
             return
 
         host = self.nt_host.text()
-        date = self.nt_date.text()
+        date = self.date_label.text().split(": ")[1]
         if len(host) < 1:
             ErrorMessage("Host school name required.", self)
             return
@@ -360,7 +365,11 @@ class Controller(QMainWindow):
         self.tourney_selector.addItem(str(new_tourney))
         self.np_tourney.addItem(str(new_tourney))
         self.nt_host.clear()
-        self.nt_date.clear()
+        self.date_label.setText("Date:")
+
+    def change_tourney_date(self):
+        date = CalendarDialog(self).exec_()
+
 
     def gui_add_performance(self):
         if self.team is None:
@@ -440,11 +449,12 @@ class Controller(QMainWindow):
         file = directory +"/"+ self.team.name + ".4n6"
         with open(file, 'wb') as f:
             pickle.dump(self.team, f, protocol=pickle.HIGHEST_PROTOCOL)
-        msg_box = QtWidgets.QMessageBox()
+        InfoMessage(f"{file} has been saved.", self)
+        """msg_box = QtWidgets.QMessageBox()
         msg_box.setIcon(QtWidgets.QMessageBox.Information)
         msg_box.setText(f"{file} has been saved.")
         msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
-        retval = msg_box.exec_()
+        retval = msg_box.exec_()"""
 
     def new_team(self, team_name):
         self.team = Team(team_name)
