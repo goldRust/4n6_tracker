@@ -356,6 +356,9 @@ class Controller(QMainWindow):
             return
 
         host = self.nt_host.text()
+        if self.date_label.text() == "Date":
+            ErrorMessage("Select the date of the tournament.\nClick 'Select Date'",self)
+            return
         date = self.date_label.text().split(": ")[1]
         if len(host) < 1:
             ErrorMessage("Host school name required.", self)
