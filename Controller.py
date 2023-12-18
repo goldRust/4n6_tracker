@@ -599,7 +599,7 @@ class Controller(QMainWindow):
 
     def get_team_picture(self):
 
-        file = self.openFileNameDialog("Image File(*.jpg)")
+        file = self.openFileNameDialog("Image Files (*.png *.jpg *.bmp)")
         if not file:
             return
 
