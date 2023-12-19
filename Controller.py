@@ -496,11 +496,6 @@ class Controller(QMainWindow):
         pdf = PDF_Gen()
         pdf.create_awards(awards, folder, str(tournament), team_pic=tournament.photo)
         retval = InfoMessage(f"{tournament} awards file has been saved.",self).exec_()
-        """msg_box = QtWidgets.QMessageBox()
-        msg_box.setIcon(QtWidgets.QMessageBox.Information)
-        msg_box.setText(f"{tournament} awards file has been saved.")
-        msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
-        retval = msg_box.exec_()"""
 
     def pdf_team_report(self):
         if self.team is None:
@@ -512,11 +507,6 @@ class Controller(QMainWindow):
         pdf = PDF_Gen()
         pdf.team_report(self.team, folder)
         retval = InfoMessage(f"{self.team.name} team report has been saved.", self)
-        """msg_box = QtWidgets.QMessageBox()
-        msg_box.setIcon(QtWidgets.QMessageBox.Information)
-        msg_box.setText(f"{self.team.name} team report has been saved.")
-        msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
-        retval = msg_box.exec_()"""
 
     def pdf_student_report(self):
         if self.team is None:
@@ -532,11 +522,6 @@ class Controller(QMainWindow):
         pdf = PDF_Gen()
         pdf.student_report(student, folder)
         retval = InfoMessage(f"{student.full_name} report has been saved.",self)
-        """ msg_box = QtWidgets.QMessageBox()
-        msg_box.setIcon(QtWidgets.QMessageBox.Information)
-        msg_box.setText(f"{student.full_name} report has been saved.")
-        msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
-        retval = msg_box.exec_()"""
 
     def pdf_tournament_report(self):
         if self.team is None:
@@ -554,11 +539,6 @@ class Controller(QMainWindow):
         pdf = PDF_Gen()
         pdf.tournament_report(self.team, tournament, folder)
         retval = InfoMessage(f"{tournament} report has been saved.",self)
-        """msg_box = QtWidgets.QMessageBox()
-        msg_box.setIcon(QtWidgets.QMessageBox.Information)
-        msg_box.setText(f"{tournament} report has been saved.")
-        msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
-        retval = msg_box.exec_()"""
 
     def pdf_event_report(self):
         if self.team is None:
@@ -570,11 +550,6 @@ class Controller(QMainWindow):
         pdf = PDF_Gen()
         pdf.event_report(self.team, self.event_label.text(), folder)
         retval = InfoMessage(f"{self.event_label.text()} event report has been saved.",self)
-        """ msg_box = QtWidgets.QMessageBox()
-        msg_box.setIcon(QtWidgets.QMessageBox.Information)
-        msg_box.setText(f"{self.event_label.text()} event report has been saved.")
-        msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
-        retval = msg_box.exec_()"""
 
     def pdf_state_report(self):
         if self.team is None:
@@ -584,12 +559,6 @@ class Controller(QMainWindow):
         pdf = PDF_Gen()
         pdf.state_qualifier_report(self.team, folder)
         retval = InfoMessage(f"{self.team.name} state qualifier report has been saved.", self)
-
-        """msg_box = QtWidgets.QMessageBox()
-        msg_box.setIcon(QtWidgets.QMessageBox.Information)
-        msg_box.setText(f"{self.team.name} state qualifier report has been saved.")
-        msg_box.setStandardButtons(QtWidgets.QMessageBox.Ok)
-        retval = msg_box.exec_()"""
 
     def get_team_picture(self):
 
