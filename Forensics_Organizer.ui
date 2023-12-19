@@ -41,7 +41,7 @@
     <property name="currentIndex">
      <number>0</number>
     </property>
-    <widget class="QWidget" name="tab">
+    <widget class="QWidget" name="team_tab">
      <attribute name="title">
       <string>Team</string>
      </attribute>
@@ -98,9 +98,9 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_2">
+    <widget class="QWidget" name="student_tab">
      <attribute name="title">
-      <string>Students</string>
+      <string>Student</string>
      </attribute>
      <widget class="QComboBox" name="stud_selector">
       <property name="geometry">
@@ -814,7 +814,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="tab_3">
+    <widget class="QWidget" name="event_tab">
      <attribute name="title">
       <string>Event Reports</string>
      </attribute>

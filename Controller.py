@@ -16,6 +16,8 @@ from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
 from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 
 
 class Controller(QMainWindow):
@@ -31,6 +33,28 @@ class Controller(QMainWindow):
         self.set_columns()
 
         self.set_interactive()
+
+    # Working on resize... very buggy right now.
+    """def resizeEvent(self, event):
+        try:
+            x_center = int(self.width() /2)
+            y_center = int(self.height()/2)
+            self.tabWidget.resize(self.width() - 1, self.height() - 1)
+            tables = [self.team_report, self.stud_report, self.tourney_report, self.event_report]
+            for table in tables:
+                table.resize(self.width() - 20, table.height())
+
+            movable_items = [self.label_12, self.label_11, self.label_10, self.label_13, self.np_tourney, self.np_event, self.np_rank, self.add_perf_button,  self.add_performance_frame]
+            for item in movable_items:
+
+                new_x = self.width() - item.x()
+
+                new_y = self.height() - item.y()
+
+                item.setGeometry(new_x, new_y, item.height(), item.width())
+                print(new_x)
+        except Exception as e:
+            print(e)"""
 
     def load_team_info(self):
         if self.team is None:
@@ -283,6 +307,8 @@ class Controller(QMainWindow):
 
         # Change tournament date
         self.change_date.clicked.connect(self.change_tourney_date)
+
+
 
     def click_tab(self, tab):
         if tab == 0:
