@@ -35,8 +35,12 @@ class Controller(QMainWindow):
         self.set_interactive()
 
     # Working on resize... very buggy right now.
-    """def resizeEvent(self, event):
+    def resizeEvent(self, event):
         try:
+            original_w = 1070
+            original_h = 900
+            percent_w = self.width() / original_w
+            percent_h = self.height() / original_h
             x_center = int(self.width() /2)
             y_center = int(self.height()/2)
             self.tabWidget.resize(self.width() - 1, self.height() - 1)
@@ -46,15 +50,20 @@ class Controller(QMainWindow):
 
             movable_items = [self.label_12, self.label_11, self.label_10, self.label_13, self.np_tourney, self.np_event, self.np_rank, self.add_perf_button,  self.add_performance_frame]
             for item in movable_items:
+                h_center = item.x() + item.width() // 2
+                v_center = item.y() + item.height() // 2
 
-                new_x = self.width() - item.x()
 
-                new_y = self.height() - item.y()
+                new_x =  int(item.x()* percent_w)
 
-                item.setGeometry(new_x, new_y, item.height(), item.width())
+                new_y =  int(item.y() * percent_h)
+                new_width = int(item.width() * percent_w)
+                new_height = int(item.height() * percent_h)
+
+                item.setGeometry(new_x, new_y, new_width, new_height)
                 print(new_x)
         except Exception as e:
-            print(e)"""
+            print(e)
 
     def load_team_info(self):
         if self.team is None:
