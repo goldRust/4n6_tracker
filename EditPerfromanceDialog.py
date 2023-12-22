@@ -16,21 +16,23 @@ class EditPerformanceDialog(QDialog):
         loadUi("edit_performance_dialog.ui", self)
         host, date = perf[2].split(" -- ")
 
-        self.perf = Performance(Tournament(host, date),perf[0])
+        self.student = parent.team.get_student(parent.selected_student.text())
+        self.perf = self.student.get_performance(Performance(Tournament(host, date),perf[0]))
 
-        self.perf.placement = perf[1]
         self.edit_rank.setText(self.perf.placement)
         self.edit_event.setText(self.perf.event)
+        self.edit_competitors.setText(str(self.perf.competitors))
 
         self.edit_tournament.addItems(tournaments)
         self.edit_tournament.setCurrentText(str(self.perf.tournament))
-        self.student = parent.team.get_student(parent.selected_student.text())
+
 
 
 
         self.edit_tournament.currentTextChanged.connect(self.enableSave)
         self.edit_rank.textChanged.connect(self.enableSave)
         self.edit_event.textChanged.connect(self.enableSave)
+        self.edit_competitors.textChanged.connect(self.enableSave)
         self.delete_button.clicked.connect(self.delete)
         self.cancel_button.clicked.connect(self.reject)
         self.save_button.clicked.connect(self.save)
@@ -44,6 +46,7 @@ class EditPerformanceDialog(QDialog):
         tournament = Tournament(tournament[0], tournament[1])
         new_perf = Performance(tournament, self.edit_event.text())
         new_perf.placement = self.edit_rank.text()
+        new_perf.competitors = int(self.edit_competitors.text())
 
         self.parent.team.get_student(self.parent.selected_student.text()).delete_performance(self.perf)
         self.parent.team.get_student(self.parent.selected_student.text()).add_performance(new_perf)

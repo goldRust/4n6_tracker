@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>314</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -71,7 +71,7 @@
    <property name="geometry">
     <rect>
      <x>300</x>
-     <y>240</y>
+     <y>260</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -502,7 +502,7 @@
    <property name="geometry">
     <rect>
      <x>40</x>
-     <y>240</y>
+     <y>260</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -515,7 +515,7 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>240</y>
+     <y>260</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -569,6 +569,34 @@
      <y>90</y>
      <width>201</width>
      <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>210</y>
+     <width>141</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string># of Competitors</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_competitors">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>210</y>
+     <width>113</width>
+     <height>20</height>
     </rect>
    </property>
   </widget>

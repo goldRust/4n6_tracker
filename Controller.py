@@ -72,6 +72,7 @@ class Controller(QMainWindow):
         self.team_name.setText(self.team.name)
         self.team_name.resize(len(self.team.name)*24,24)
         # self.patch_tournaments()
+        # self.patch_performances()
         self.update_team_report()
         self.team.students.sort()
         self.update_student_list()
@@ -155,11 +156,14 @@ class Controller(QMainWindow):
         perf_ind = 0
         for perf in self.team.get_student(student).performances:
             rank = perf.placement
-            if rank == -1 or rank == "":
+            if rank == -1 or rank == "" or rank == "100":
                 rank = "Unranked"
             state_qualifier = ""
-            if str(rank) == "1" or str(rank) == "2":
+            print("Checking Qualified")
+            if perf.qualifier:
                 state_qualifier = " *State Qualified*"
+                print("Qualified")
+
             rank = str(rank) + state_qualifier
             self.stud_report.setItem(perf_ind, 0, QtWidgets.QTableWidgetItem(perf.event))
             self.stud_report.setItem(perf_ind, 1, QtWidgets.QTableWidgetItem(rank))
@@ -184,10 +188,10 @@ class Controller(QMainWindow):
             for perf in student.performances:
                 if perf.event == event:
                     rank = perf.placement
-                    if rank == -1 or rank == "":
+                    if rank == -1 or rank == "100":
                         rank = "Unranked"
                     state_qualifier = ""
-                    if str(rank) == "1" or str(rank) == "2":
+                    if perf.qualifier:
                         state_qualifier = " *State Qualified*"
                     rank = str(rank) + state_qualifier
                     table.append([student.full_name, rank, str(perf.tournament)])
@@ -209,6 +213,25 @@ class Controller(QMainWindow):
             tournament = Tournament(self.team.tournaments[i].school, self.team.tournaments[i].date)
             self.team.tournaments[i] = tournament
 
+    # Used to update old files in which the performance class didn't have the competitors attribute.
+    def patch_performances(self):
+        print("Patching performances")
+        for stud in self.team.students:
+            for i in range(len(stud.performances)):
+                new_perf = Performance(stud.performances[i].tournament, stud.performances[i].event)
+                new_perf.placement = stud.performances[i].placement
+                stud.performances[i] = new_perf
+                print(stud.performances[i].placement)
+                if len(stud.performances[i].placement) < 1:
+                    stud.performances[i].placement = "100"
+                if not stud.performances[i].placement.isnumeric():
+                    num = stud.performances[i].placement.split(" ")[0]
+                    print(num)
+                    stud.performances[i].placement = num
+
+
+        print("Patch complete.")
+
     def update_tournament_report(self, host):
         if self.team is None:
             ErrorMessage("Load a file or create a new team first.", self)
@@ -224,9 +247,9 @@ class Controller(QMainWindow):
                 state_qualifier = ""
                 if str(perf.tournament) == host:
                     rank = perf.placement
-                    if rank == -1:
+                    if rank == -1 or rank == "100":
                         rank = "Unranked"
-                    if str(rank) == "1" or str(rank) == "2":
+                    if perf.qualifier:
                         state_qualifier = " *State Qualified*"
                     rank = str(rank) + state_qualifier
                     table.append([student.full_name, perf.event, rank])
@@ -408,7 +431,6 @@ class Controller(QMainWindow):
     def change_tourney_date(self):
         date = CalendarDialog(self).exec_()
 
-
     def gui_add_performance(self):
         if self.team is None:
             ErrorMessage("No team!\nLoad a team file or make a new one by clicking File in the top left.", self)
@@ -431,7 +453,10 @@ class Controller(QMainWindow):
             return
         performance = Performance(tourney, self.np_event.text())
         performance = student.add_performance(performance)
-        performance.placement = self.np_rank.text()
+        placement = self.np_rank.text()
+        if not placement.isnumeric():
+            placement = "100"
+        performance.placement = placement
         if performance.event == "IDA" or performance.event == "DA" or performance.event == "DI":
             students = [stud.full_name for stud in self.team.students]
             partner = self.team.get_student(Partner_Dialog((f"{student.full_name}'s partner for {performance.event}:",
@@ -450,11 +475,14 @@ class Controller(QMainWindow):
         perf = (self.stud_report.item(row, 0).text(), self.stud_report.item(row, 1).text(),
                 self.stud_report.item(row, 2).text())
 
+
         rebuild = EditPerformanceDialog(perf, tournaments, row, self).exec_()
         if rebuild:
+            print("Clearing old")
             self.stud_report.clearContents()
-
+            print("Entering new")
             self.update_student_report(self.selected_student.text())
+            print("Updated")
 
     def clicked(self, row, col):
         print(f"{row} {col} Clicked")

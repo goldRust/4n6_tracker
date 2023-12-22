@@ -147,7 +147,10 @@ class PDF_Gen:
         empty = [[" ", " ", " "]]
         empty_table = Table(empty)
         for performance in student.performances:
-            row = [performance.event,performance.placement,str(performance.tournament)]
+            placement = performance.placement
+            if placement == "100":
+                placement = "Unranked"
+            row = [performance.event,placement,str(performance.tournament)]
             data.append(row)
 
         all_items = []
@@ -176,8 +179,11 @@ class PDF_Gen:
         empty_table = Table(empty)
         for student in team.students:
            for performance in student.performances:
+                placement = performance.placement
+                if placement == "100":
+                    placement = "Unranked"
                 if performance.tournament == tournament:
-                    row = [student.full_name, performance.event, performance.placement]
+                    row = [student.full_name, performance.event, placement]
                     data.append(row)
 
         all_items = []
@@ -239,7 +245,7 @@ class PDF_Gen:
             for student in team.students:
 
                 for performance in student.performances:
-                    if str(performance.placement) == "1" or str(performance.placement) == "2" or ("State" in str(performance.placement)):
+                    if performance.qualifier:
                         row = [student.full_name,performance.event , performance.placement, str(performance.tournament)]
                         data.append(row)
 
