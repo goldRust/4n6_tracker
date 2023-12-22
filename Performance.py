@@ -34,12 +34,6 @@ class Performance:
         else:
             return False
 
-
-
-
-
-
-
     @property
     def result(self):
         return self.placement

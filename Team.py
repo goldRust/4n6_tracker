@@ -8,6 +8,7 @@ class Team:
         self.students = []
         self.tournaments = []
 
+
     def new_student(self, fname, lname):
         stud = Student(fname,lname)
         if stud in self.students:

@@ -29,9 +29,7 @@ class Controller(QMainWindow):
 
         self.setWindowIcon(QtGui.QIcon("4n6_icon.png"))
         self.setWindowTitle("4N6 Season Organizer")
-
         self.set_columns()
-
         self.set_interactive()
 
     # Working on resize... very buggy right now.
@@ -80,6 +78,7 @@ class Controller(QMainWindow):
         self.update_event_list()
 
         self.update_tourney_list()
+        self.np_rank.clear()
 
     def clear_team_info(self):
 

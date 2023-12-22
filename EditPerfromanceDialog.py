@@ -19,7 +19,7 @@ class EditPerformanceDialog(QDialog):
         self.student = parent.team.get_student(parent.selected_student.text())
         self.perf = self.student.get_performance(Performance(Tournament(host, date),perf[0]))
 
-        self.edit_rank.setText(self.perf.placement)
+        self.edit_rank.setValue(int(self.perf.placement))
         self.edit_event.setText(self.perf.event)
         self.edit_competitors.setText(str(self.perf.competitors))
 
