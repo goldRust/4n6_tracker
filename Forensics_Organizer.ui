@@ -39,7 +39,7 @@
      </sizepolicy>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="team_tab">
      <attribute name="title">
@@ -414,7 +414,7 @@
         <rect>
          <x>140</x>
          <y>120</y>
-         <width>101</width>
+         <width>121</width>
          <height>31</height>
         </rect>
        </property>
@@ -764,7 +764,7 @@
        <rect>
         <x>370</x>
         <y>80</y>
-        <width>75</width>
+        <width>91</width>
         <height>23</height>
        </rect>
       </property>
@@ -922,7 +922,7 @@
      <x>0</x>
      <y>0</y>
      <width>1067</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
