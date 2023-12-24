@@ -339,6 +339,9 @@ class Controller(QMainWindow):
         # Change tournament date
         self.change_date.clicked.connect(self.change_tourney_date)
 
+        # Remove Photo
+        self.remove_photo_button.clicked.connect(self.remove_photo)
+
 
 
     def click_tab(self, tab):
@@ -636,6 +639,12 @@ class Controller(QMainWindow):
             self.team_picture.setPixmap(pixmap)
         except Exception as e:
             ErrorMessage(e, self)
+
+    def remove_photo(self):
+        tournament = self.team.get_tournament(self.tourney_selector.currentText())
+        tournament.photo = None
+        print("Updating Tournament")
+        self.update_tournament_report(self.tourney_selector.currentText())
 
     @staticmethod
     def main(args):
