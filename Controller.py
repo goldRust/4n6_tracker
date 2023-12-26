@@ -160,7 +160,7 @@ class Controller(QMainWindow):
             state_qualifier = ""
             print("Checking Qualified")
             if perf.qualifier:
-                state_qualifier = " *State Qualified*"
+                state_qualifier = perf.qualifier
                 print("Qualified")
 
             rank = str(rank) + state_qualifier
@@ -191,7 +191,7 @@ class Controller(QMainWindow):
                         rank = "Unranked"
                     state_qualifier = ""
                     if perf.qualifier:
-                        state_qualifier = " *State Qualified*"
+                        state_qualifier = perf.qualifier
                     rank = str(rank) + state_qualifier
                     table.append([student.full_name, rank, str(perf.tournament)])
         if len(table) < 1:
@@ -249,7 +249,7 @@ class Controller(QMainWindow):
                     if rank == -1 or rank == "100":
                         rank = "Unranked"
                     if perf.qualifier:
-                        state_qualifier = " *State Qualified*"
+                        state_qualifier = perf.qualifier
                     rank = str(rank) + state_qualifier
                     table.append([student.full_name, perf.event, rank])
         self.tourney_report.setRowCount(len(table))

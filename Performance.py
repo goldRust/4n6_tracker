@@ -20,6 +20,7 @@ class Performance:
         min = 2
         rank_num = int(self.placement.split(" ")[0])
         qual_mins = [25, 40, 60, 80]
+        fest_mins =  [10, 15, 19]
         if self.competitors > qual_mins[0]:
             min = 3
         if self.competitors > qual_mins[1]:
@@ -30,7 +31,19 @@ class Performance:
             min = 6
 
         if rank_num <= min:
-            return True
+            return " *State Champs Qualified* "
+
+        if self.competitors > fest_mins[0]:
+            min = 4
+
+        if self.competitors > fest_mins[1]:
+            min = 5
+
+        if self.competitors > fest_mins[2]:
+            min = 6
+
+        if rank_num <= min:
+            return " *Festival Qualified* "
         else:
             return False
 

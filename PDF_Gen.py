@@ -246,8 +246,9 @@ class PDF_Gen:
 
                 for performance in student.performances:
                     if performance.qualifier:
-                        row = [student.full_name,performance.event , performance.placement, str(performance.tournament)]
-                        data.append(row)
+                        if "Champ" in performance.qualifier:
+                            row = [student.full_name,performance.event , performance.placement, str(performance.tournament)]
+                            data.append(row)
 
 
             all_items = []
