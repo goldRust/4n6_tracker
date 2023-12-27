@@ -46,17 +46,19 @@ class Controller(QMainWindow):
             for table in tables:
                 table.resize(self.width() - 20, table.height())
 
-            movable_items = [self.label_12, self.label_11, self.label_10, self.label_13, self.np_tourney, self.np_event, self.np_rank, self.add_perf_button,  self.add_performance_frame]
+            # self.add_performance_frame.setGeometry(0, self.height() + 100, self.width(), 200)
+            # movable_items = [self.label_12, self.label_11, self.label_10, self.label_13, self.np_tourney, self.np_event, self.np_rank, self.add_perf_button]
+            movable_items = []
+            window_center_h = self.height() // 2
+            window_center_w = self.width() // 2
+
             for item in movable_items:
                 h_center = item.x() + item.width() // 2
                 v_center = item.y() + item.height() // 2
-
-
-                new_x =  int(item.x()* percent_w)
-
-                new_y =  int(item.y() * percent_h)
-                new_width = int(item.width() * percent_w)
-                new_height = int(item.height() * percent_h)
+                new_x = window_center_w - h_center
+                new_y = window_center_h - v_center
+                new_width = item.width()
+                new_height = item.height()
 
                 item.setGeometry(new_x, new_y, new_width, new_height)
                 print(new_x)
@@ -562,6 +564,8 @@ class Controller(QMainWindow):
         return folderName
 
     def closeEvent(self, event):
+        if self.team is None:
+            sys.exit()
         save_first = QtWidgets.QMessageBox.question(self, "QUIT", "Do you wish to save before you exit?",
                                                     QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
         if save_first == QtWidgets.QMessageBox.Yes:
@@ -679,8 +683,8 @@ class Controller(QMainWindow):
     def main(args):
         app = QApplication(args)
         mainwindow = Controller()
-        mainwindow.setFixedHeight(900)
-        mainwindow.setFixedWidth(1070)
+        mainwindow.setFixedHeight(884)
+        mainwindow.setFixedWidth(1067)
         mainwindow.show()
         app.exec_()
 
