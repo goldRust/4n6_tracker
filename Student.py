@@ -46,6 +46,8 @@ class Student:
         if performance in self.performances:
             return self.performances[self.performances.index(performance)]
 
+    def sort_performances(self):
+        self.performances = Student.perf_sort(self.performances)
 
     def __eq__(self, other):
         if isinstance(other, Student):
@@ -81,4 +83,28 @@ class Student:
 
         return output
 
+    @staticmethod
+    def perf_sort(perf_list):
+
+        front = []
+        mid = []
+        back = []
+        if len(perf_list) <2:
+            return perf_list
+        key = perf_list.pop()
+        mid.append(key)
+        for perf in perf_list:
+            if int(perf.placement) > int(key.placement):
+                back.append(perf)
+            elif int(perf.placement) < int(key.placement):
+                front.append(perf)
+            else:
+                mid.append(perf)
+        if len(front)>1:
+            front = Student.perf_sort(front)
+        if len(back)>1:
+            back = Student.perf_sort(back)
+
+        complete = front + mid + back
+        return complete
 

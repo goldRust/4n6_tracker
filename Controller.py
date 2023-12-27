@@ -125,14 +125,27 @@ class Controller(QMainWindow):
         table = []
 
         for student in self.team.students:
+            best = None
+            best_rank = 101
             events = ""
             tournaments = ""
+            tournament_count = 0
             for perf in student.performances:
+                rank_int = int(perf.placement)
+                if rank_int < best_rank:
+                    best_rank = rank_int
+                    best = perf
                 if perf.event not in events:
                     events += f"{perf.event}, "
                 if perf.tournament.school not in tournaments:
                     tournaments += f"{str(perf.tournament)} | "
-            table.append([student.full_name, tournaments, events])
+                    tournament_count += 1
+            if best is not None:
+                best_str = f"{best.event} -- Rank: {best.placement} -- Competitors: {best.competitors} at {str(best.tournament)}"
+            else:
+                best_str = ""
+
+            table.append([student.full_name, str(tournament_count), events, best_str])
         row_ind = 0
         col_ind = 0
 
@@ -144,6 +157,13 @@ class Controller(QMainWindow):
                 self.team_report.setItem(row_ind, col_ind, QtWidgets.QTableWidgetItem(col))
                 col_ind += 1
 
+        for i in range(self.team_report.columnCount()):
+            if self.team_report.item(i, 0):
+                width = 120
+                if len(self.team_report.item(0,i).text()) * 10 > width:
+                    width = len(self.team_report.item(0,i).text()) * 10
+                self.team_report.setColumnWidth(i, width)
+
     def update_student_report(self, student):
         if self.team is None:
             ErrorMessage("Load a file or create a new team first.", self)
@@ -153,6 +173,7 @@ class Controller(QMainWindow):
         self.selected_student.setText(student)
         self.stud_report.setRowCount(len(self.team.get_student(student).performances))
         perf_ind = 0
+        self.team.get_student(student).sort_performances()
         for perf in self.team.get_student(student).performances:
             rank = perf.placement
             if rank == -1 or rank == "" or rank == "100":
@@ -174,6 +195,14 @@ class Controller(QMainWindow):
         self.np_tourney.setEnabled(True)
 
         self.delete_student.setEnabled(True)
+
+
+        for i in range(self.stud_report.columnCount()):
+            if self.stud_report.item(i, 0):
+                width = 160
+                if len(self.stud_report.item(0,i).text()) * 10 > width:
+                    width = len(self.stud_report.item(0,i).text()) * 10
+                self.stud_report.setColumnWidth(i, width)
 
     def update_event_report(self, event):
         if self.team is None:

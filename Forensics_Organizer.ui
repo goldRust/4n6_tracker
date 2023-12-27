@@ -72,6 +72,11 @@
         <string>Events</string>
        </property>
       </column>
+      <column>
+       <property name="text">
+        <string>Best Performance</string>
+       </property>
+      </column>
      </widget>
      <widget class="QLabel" name="team_name">
       <property name="geometry">
