@@ -250,6 +250,8 @@ class Controller(QMainWindow):
             for i in range(len(stud.performances)):
                 new_perf = Performance(stud.performances[i].tournament, stud.performances[i].event)
                 new_perf.placement = stud.performances[i].placement
+                if stud.performances[i].competitors:
+                    new_perf.competitors = stud.performances[i].competitors
                 stud.performances[i] = new_perf
                 print(stud.performances[i].placement)
                 if len(stud.performances[i].placement) < 1:
@@ -282,7 +284,7 @@ class Controller(QMainWindow):
                     if perf.qualifier:
                         state_qualifier = perf.qualifier
                     rank = str(rank) + state_qualifier
-                    table.append([student.full_name, perf.event, rank])
+                    table.append([student.full_name, perf.event, rank, str(perf.sweeps_points())])
         self.tourney_report.setRowCount(len(table))
         row_ind = 0
         col_ind = 0

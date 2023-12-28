@@ -22,6 +22,9 @@ class EditPerformanceDialog(QDialog):
         self.edit_rank.setValue(int(self.perf.placement))
         self.edit_event.setText(self.perf.event)
         self.edit_competitors.setText(str(self.perf.competitors))
+        for i in range(len(self.perf.rounds)):
+            self.round_table.setItem(i, 0, QtWidgets.QTableWidgetItem(str(self.perf.rounds[i].rank)))
+            self.round_table.setItem(i, 1, QtWidgets.QTableWidgetItem(str(self.perf.rounds[i].qp)))
 
         self.edit_tournament.addItems(tournaments)
         self.edit_tournament.setCurrentText(str(self.perf.tournament))
@@ -33,6 +36,7 @@ class EditPerformanceDialog(QDialog):
         self.edit_rank.textChanged.connect(self.enableSave)
         self.edit_event.textChanged.connect(self.enableSave)
         self.edit_competitors.textChanged.connect(self.enableSave)
+        self.round_table.itemChanged.connect(self.enableSave)
         self.delete_button.clicked.connect(self.delete)
         self.cancel_button.clicked.connect(self.reject)
         self.save_button.clicked.connect(self.save)
@@ -47,7 +51,9 @@ class EditPerformanceDialog(QDialog):
         new_perf = Performance(tournament, self.edit_event.text())
         new_perf.placement = self.edit_rank.text()
         new_perf.competitors = int(self.edit_competitors.text())
-
+        new_perf.add_round(self.round_table.item(0,0).text(), self.round_table.item(0,1).text())
+        new_perf.add_round(self.round_table.item(1,0).text(), self.round_table.item(1,1).text())
+        new_perf.add_round(self.round_table.item(2,0).text(), self.round_table.item(2,1).text())
         self.parent.team.get_student(self.parent.selected_student.text()).delete_performance(self.perf)
         self.parent.team.get_student(self.parent.selected_student.text()).add_performance(new_perf)
 

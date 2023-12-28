@@ -638,6 +638,11 @@
         <string>Rank</string>
        </property>
       </column>
+      <column>
+       <property name="text">
+        <string>Sweeps</string>
+       </property>
+      </column>
      </widget>
      <widget class="QComboBox" name="tourney_selector">
       <property name="geometry">

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>314</height>
+    <width>598</width>
+    <height>296</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -70,7 +70,7 @@
   <widget class="QPushButton" name="delete_button">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>380</x>
      <y>260</y>
      <width>75</width>
      <height>23</height>
@@ -528,7 +528,7 @@
    </property>
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>120</x>
      <y>260</y>
      <width>75</width>
      <height>23</height>
@@ -541,7 +541,7 @@
   <widget class="QPushButton" name="cancel_button">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>250</x>
      <y>260</y>
      <width>75</width>
      <height>23</height>
@@ -566,7 +566,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>401</width>
+     <width>601</width>
      <height>91</height>
     </rect>
    </property>
@@ -587,7 +587,7 @@
     <rect>
      <x>190</x>
      <y>90</y>
-     <width>201</width>
+     <width>191</width>
      <height>22</height>
     </rect>
    </property>
@@ -629,6 +629,44 @@
      <height>22</height>
     </rect>
    </property>
+  </widget>
+  <widget class="QTableWidget" name="round_table">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>120</y>
+     <width>271</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked</set>
+   </property>
+   <row>
+    <property name="text">
+     <string>Round 1</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Round 2</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>Round 3</string>
+    </property>
+   </row>
+   <column>
+    <property name="text">
+     <string>Rank</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>Quality Points</string>
+    </property>
+   </column>
   </widget>
  </widget>
  <resources/>

@@ -1,17 +1,28 @@
 from Tournament import Tournament
-
+from Round import  Round
 class Performance:
     def __init__(self, tournament, event):
         self.tournament = tournament
         self.event = event
         self.placement = "100"
         self.competitors = 6
+        self.rounds = []
 
     def add_result(self, placement):
         self.placement = placement
 
     def add_competitors(self, comp):
         self.competitors = int(comp)
+
+    def add_round(self, rank, qp):
+        self.rounds.append(Round(rank, qp))
+
+    def sweeps_points(self):
+        total = 0
+        for round in self.rounds:
+            total += round.points
+        return total
+
 
     @property
     def qualifier(self):
