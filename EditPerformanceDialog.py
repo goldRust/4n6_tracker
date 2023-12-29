@@ -64,8 +64,8 @@ class EditPerformanceDialog(QDialog):
             if r1.isnumeric() and q1.isnumeric():
                 new_perf.add_round(r1, q1)
 
-        self.parent.team.get_student(self.parent.selected_student.text()).delete_performance(self.perf)
-        self.parent.team.get_student(self.parent.selected_student.text()).add_performance(new_perf)
+        self.student.delete_performance(self.perf)
+        self.student.add_performance(new_perf)
 
         #update table
 
