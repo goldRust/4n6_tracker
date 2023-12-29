@@ -7,21 +7,21 @@ from PyQt5 import QtWidgets
 from PyQt5.uic import loadUi
 
 class EditPerformanceDialog(QDialog):
-    def __init__(self, perf, tournaments, perf_ind, parent=None):
+    def __init__(self, student, event, tournament, tournaments, perf_ind, parent=None):
 
         self.parent = parent
         self.perf_ind = perf_ind
 
         super().__init__(parent)
         loadUi("edit_performance_dialog.ui", self)
-        host, date = perf[2].split(" -- ")
 
-        self.student = parent.team.get_student(parent.selected_student.text())
-        self.perf = self.student.get_performance(Performance(Tournament(host, date),perf[0]))
+        self.student = student
+        self.perf = self.student.get_performance(Performance(tournament, event))
 
         self.edit_rank.setValue(int(self.perf.placement))
         self.edit_event.setText(self.perf.event)
         self.edit_competitors.setText(str(self.perf.competitors))
+        self.student_name.setText(self.student.full_name)
         for i in range(len(self.perf.rounds)):
             self.round_table.setItem(i, 0, QtWidgets.QTableWidgetItem(str(self.perf.rounds[i].rank)))
             self.round_table.setItem(i, 1, QtWidgets.QTableWidgetItem(str(self.perf.rounds[i].qp)))

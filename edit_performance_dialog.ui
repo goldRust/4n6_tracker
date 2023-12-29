@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Edit Performance</string>
   </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
@@ -567,7 +567,7 @@
      <x>0</x>
      <y>0</y>
      <width>601</width>
-     <height>91</height>
+     <height>51</height>
     </rect>
    </property>
    <property name="font">
@@ -667,6 +667,24 @@
      <string>Quality Points</string>
     </property>
    </column>
+  </widget>
+  <widget class="QLabel" name="student_name">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>50</y>
+     <width>491</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Student</string>
+   </property>
   </widget>
  </widget>
  <resources/>

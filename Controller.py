@@ -5,7 +5,7 @@ from Performance import Performance
 from Tournament import Tournament
 from ErrorMessage import ErrorMessage
 from Partner_Dialog import Partner_Dialog
-from EditPerfromanceDialog import EditPerformanceDialog
+from EditPerformanceDialog import EditPerformanceDialog
 from Awards import Award
 from PDF_Gen import PDF_Gen
 from InfoMessage import InfoMessage
@@ -351,6 +351,8 @@ class Controller(QMainWindow):
         self.stud_report.cellClicked.connect(self.edit_performance)
         # Team Report click to view student
         self.team_report.cellClicked.connect(self.view_student)
+        # Tournament report click to edit
+        self.tourney_report.cellClicked.connect(self.edit_performance_tr)
         # Awards maker button
         self.awards_button.clicked.connect(self.make_awards)
         # Team PDF menu item
@@ -429,6 +431,7 @@ class Controller(QMainWindow):
         student = self.team.new_student(first, last)
         if student is not None:
             self.stud_selector.addItem(student.full_name)
+            self.stud_selector.setCurrentText(student.full_name)
         self.update_student_report(f"{first} {last}")
         self.ns_first.clear()
         self.ns_last.clear()
@@ -510,16 +513,35 @@ class Controller(QMainWindow):
 
     def edit_performance(self, row, col):
         tournaments = [str(tournament) for tournament in self.team.tournaments]
+        event = self.stud_report.item(row, 0).text()
+        tournament = self.stud_report.item(row, 2).text()
         perf = (self.stud_report.item(row, 0).text(), self.stud_report.item(row, 1).text(),
                 self.stud_report.item(row, 2).text())
+        student = self.team.get_student(self.stud_selector.currentText())
 
-
-        rebuild = EditPerformanceDialog(perf, tournaments, row, self).exec_()
+        rebuild = EditPerformanceDialog(student, event, tournament, tournaments, row, self).exec_()
         if rebuild:
             print("Clearing old")
             self.stud_report.clearContents()
             print("Entering new")
             self.update_student_report(self.selected_student.text())
+            print("Updated")
+
+    def edit_performance_tr(self, row, col):
+        tournaments = [str(tournament) for tournament in self.team.tournaments]
+        student = self.team.get_student(self.tourney_report.item(row, 0).text())
+        event = self.tourney_report.item(row,1).text()
+        tournament = self.tourney_selector.currentText()
+        perf = (self.tourney_report.item(row, 0).text(), self.tourney_report.item(row, 1).text(),
+                self.tourney_report.item(row, 2).text())
+
+
+        rebuild = EditPerformanceDialog(student, event, tournament, tournaments, row, self).exec_()
+        if rebuild:
+            print("Clearing old")
+            self.tourney_report.clearContents()
+            print("Entering new")
+            self.update_tournament_report(self.tourney_selector.currentText())
             print("Updated")
 
     def clicked(self, row, col):
