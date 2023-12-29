@@ -10,6 +10,7 @@ from Awards import Award
 from PDF_Gen import PDF_Gen
 from InfoMessage import InfoMessage
 from CalendarDialog import CalendarDialog
+from Welcome import Welcome
 import sys, os
 import pickle
 from PyQt5.uic import loadUi
@@ -31,6 +32,8 @@ class Controller(QMainWindow):
         self.setWindowTitle("4N6 Season Organizer")
         self.set_columns()
         self.set_interactive()
+
+        Welcome(self).exec_()
 
     # Working on resize... very buggy right now.
     def resizeEvent(self, event):

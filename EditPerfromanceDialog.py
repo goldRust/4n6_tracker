@@ -51,9 +51,19 @@ class EditPerformanceDialog(QDialog):
         new_perf = Performance(tournament, self.edit_event.text())
         new_perf.placement = self.edit_rank.text()
         new_perf.competitors = int(self.edit_competitors.text())
-        new_perf.add_round(self.round_table.item(0,0).text(), self.round_table.item(0,1).text())
-        new_perf.add_round(self.round_table.item(1,0).text(), self.round_table.item(1,1).text())
-        new_perf.add_round(self.round_table.item(2,0).text(), self.round_table.item(2,1).text())
+        if self.round_table.item(0,0) is not None and self.round_table.item(0,1) is not None:
+            r1, q1 = self.round_table.item(0,0).text(), self.round_table.item(0,1).text()
+            if r1.isnumeric() and q1.isnumeric():
+                new_perf.add_round(r1, q1)
+        if self.round_table.item(1, 0) is not None and self.round_table.item(1, 1) is not None:
+            r1, q1 = self.round_table.item(1, 0).text(), self.round_table.item(1, 1).text()
+            if r1.isnumeric() and q1.isnumeric():
+                new_perf.add_round(r1, q1)
+        if self.round_table.item(2, 0) is not None and self.round_table.item(2, 1) is not None:
+            r1, q1 = self.round_table.item(2, 0).text(), self.round_table.item(2, 1).text()
+            if r1.isnumeric() and q1.isnumeric():
+                new_perf.add_round(r1, q1)
+
         self.parent.team.get_student(self.parent.selected_student.text()).delete_performance(self.perf)
         self.parent.team.get_student(self.parent.selected_student.text()).add_performance(new_perf)
 
