@@ -277,20 +277,36 @@ class Controller(QMainWindow):
 
         tournament = self.team.get_tournament(host)
         table = []
+        longest_name = 0
+        longest_event = 0
+        longest_rank = 0
+        sweeps_total = 0
         for student in self.team.students:
+            if longest_name < len(student.full_name) * 10:
+                longest_name = len(student.full_name) * 10
             for perf in student.performances:
                 state_qualifier = ""
                 if str(perf.tournament) == host:
+                    if longest_event < len(perf.event) * 10:
+                        longest_event = len(perf.event) *10
+
                     rank = perf.placement
+
                     if rank == -1 or rank == "100":
                         rank = "Unranked"
                     if perf.qualifier:
                         state_qualifier = perf.qualifier
                     rank = str(rank) + state_qualifier
+                    if longest_rank < len(rank) * 10:
+                        longest_rank = len(rank) * 10
+
+                    sweeps_total += perf.sweeps_points()
                     table.append([student.full_name, perf.event, rank, str(perf.sweeps_points())])
+        table.append(["", "", "TOTAL SWEEPS:", str(sweeps_total)])
         self.tourney_report.setRowCount(len(table))
         row_ind = 0
         col_ind = 0
+
         for row in table:
             for col in row:
                 self.tourney_report.setItem(row_ind, col_ind, QtWidgets.QTableWidgetItem(col))
@@ -298,6 +314,10 @@ class Controller(QMainWindow):
 
             col_ind = 0
             row_ind += 1
+        self.tourney_report.setColumnWidth(0, longest_name)
+        self.tourney_report.setColumnWidth(1, longest_event)
+        self.tourney_report.setColumnWidth(2, longest_rank)
+        self.tourney_report.setColumnWidth(3, 5 * 12)
         if tournament.photo is not None:
             if os.path.isfile(tournament.photo):
                 try:
