@@ -22,6 +22,15 @@
      <height>311</height>
     </rect>
    </property>
+   <property name="gridVisible">
+    <bool>true</bool>
+   </property>
+   <property name="horizontalHeaderFormat">
+    <enum>QCalendarWidget::ShortDayNames</enum>
+   </property>
+   <property name="verticalHeaderFormat">
+    <enum>QCalendarWidget::NoVerticalHeader</enum>
+   </property>
   </widget>
   <widget class="QPushButton" name="ok_button">
    <property name="geometry">
