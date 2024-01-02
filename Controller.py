@@ -181,7 +181,7 @@ class Controller(QMainWindow):
         self.team.get_student(student).sort_performances()
         for perf in self.team.get_student(student).performances:
             rank = perf.placement
-            if rank == -1 or rank == "" or rank == "100":
+            if rank == -1 or rank == "" or rank == "100" or int(rank) > 10:
                 rank = "Unranked"
             state_qualifier = ""
             print("Checking Qualified")
@@ -221,7 +221,7 @@ class Controller(QMainWindow):
             for perf in student.performances:
                 if perf.event == event:
                     rank = perf.placement
-                    if rank == -1 or rank == "100":
+                    if rank == -1 or rank == "100" or int(rank) > 10:
                         rank = "Unranked"
                     state_qualifier = ""
                     if perf.qualifier:
@@ -292,7 +292,7 @@ class Controller(QMainWindow):
 
                     rank = perf.placement
 
-                    if rank == -1 or rank == "100":
+                    if rank == -1 or rank == "100" or int(rank) > 10:
                         rank = "Unranked"
                     if perf.qualifier:
                         state_qualifier = perf.qualifier
