@@ -117,6 +117,7 @@ class Controller(QMainWindow):
         tourneys = []
         self.np_tourney.clear()
         self.tourney_selector.clear()
+        self.team.sort_tournaments()
         for tourney in self.team.tournaments:
             tourneys.append(str(tourney))
         self.tourney_selector.addItems(tourneys)

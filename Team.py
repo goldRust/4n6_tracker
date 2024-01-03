@@ -27,6 +27,7 @@ class Team:
 
     def add_tournament(self,tournament):
         self.tournaments.append[tournament]
+        self.sort_tournaments()
 
     def get_tournament(self, host):
         for tournament in self.tournaments:
@@ -35,6 +36,8 @@ class Team:
 
         return None
 
+    def sort_tournaments(self):
+        self.tournaments = Team.sort_tourney(self.tournaments)
     def tournament_report(self, school):
         # Returns a list of tuples (student name, [performances])
         report = []
@@ -70,3 +73,29 @@ class Team:
             output += "\n" + str(student)
 
         return output
+
+    @staticmethod
+    def sort_tourney(tournaments):
+        front = []
+        mid = []
+        back = []
+
+        if len(tournaments) < 2:
+            return tournaments
+        key = tournaments.pop()
+        mid.append(key)
+        for tournament in tournaments:
+            if tournament.date < key.date:
+                front.append(tournament)
+            elif tournament.date > key.date:
+                back.append(tournament)
+            else:
+                mid.append(tournament)
+        if len(front) > 1:
+            front = Team.sort_tourney(front)
+        if len(back) > 1:
+            back = Team.sort_tourney(back)
+
+        complete = front + mid + back
+
+        return complete
