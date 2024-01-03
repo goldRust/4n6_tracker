@@ -781,22 +781,6 @@
        </property>
       </widget>
      </widget>
-     <widget class="QPushButton" name="awards_button">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>370</x>
-        <y>80</y>
-        <width>91</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Awards PDF</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="team_picture">
       <property name="geometry">
        <rect>
@@ -846,6 +830,22 @@
       </property>
       <property name="text">
        <string>Remove Photo</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="delete_tourney">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>80</y>
+        <width>131</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete Tournament</string>
       </property>
      </widget>
     </widget>
@@ -963,7 +963,7 @@
      <x>0</x>
      <y>0</y>
      <width>1067</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -999,6 +999,7 @@
     <addaction name="actionTeam_Report_2"/>
     <addaction name="actionStudent_Report_2"/>
     <addaction name="actionTournament_Report_2"/>
+    <addaction name="actionTournament_Awards"/>
     <addaction name="actionEvent_Report_2"/>
     <addaction name="actionState_Qualifier_Report"/>
    </widget>
@@ -1103,6 +1104,11 @@
     <string>State Qualifier Report</string>
    </property>
   </action>
+  <action name="actionTournament_Awards">
+   <property name="text">
+    <string>Tournament Awards</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>team_report</tabstop>
@@ -1120,7 +1126,6 @@
   <tabstop>tourney_selector</tabstop>
   <tabstop>nt_host</tabstop>
   <tabstop>nt_button</tabstop>
-  <tabstop>awards_button</tabstop>
   <tabstop>photo_button</tabstop>
   <tabstop>event_selector</tabstop>
   <tabstop>event_report</tabstop>

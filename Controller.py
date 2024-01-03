@@ -335,7 +335,7 @@ class Controller(QMainWindow):
             print("loading default picture.")
             pixmap = QPixmap("./images/no_team.jpg").scaledToWidth(408)
             self.team_picture.setPixmap(pixmap)
-        self.awards_button.setEnabled(True)
+        self.delete_tourney.setEnabled(True)
 
     def set_columns(self):
         for i in range(self.stud_report.columnCount()):
@@ -375,7 +375,7 @@ class Controller(QMainWindow):
         # Tournament report click to edit
         self.tourney_report.cellClicked.connect(self.edit_performance_tr)
         # Awards maker button
-        self.awards_button.clicked.connect(self.make_awards)
+        self.actionTournament_Awards.triggered.connect(self.make_awards)
         # Team PDF menu item
         self.actionTeam_Report_2.triggered.connect(self.pdf_team_report)
         # Student PDF menu item
@@ -391,6 +391,10 @@ class Controller(QMainWindow):
         # Student removal button
         self.delete_student.clicked.connect(self.gui_remove_student)
         self.delete_student.setStyleSheet("background-color: tomato")
+
+        # Tournament Removal button
+        self.delete_tourney.clicked.connect(self.gui_remove_tournament)
+        self.delete_tourney.setStyleSheet("background-color: tomato")
 
         # Team Picture clickable
         self.photo_button.clicked.connect(self.get_team_picture)
@@ -489,6 +493,17 @@ class Controller(QMainWindow):
         self.np_tourney.addItem(str(new_tourney))
         self.nt_host.clear()
         self.date_label.setText("Date:")
+
+    def gui_remove_tournament(self):
+        tournament = self.team.get_tournament(self.tourney_selector.currentText())
+        confirm = QtWidgets.QMessageBox.question(self, "DELETE STUDENT!",
+                                                 f"This will completely remove all records of this tournament.\nThis cannot be undone!\nAre you certain you wish to remove {tournament}?",
+                                                 QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.Yes)
+        if confirm == QtWidgets.QMessageBox.Yes:
+
+            self.team.delete_tournament(tournament)
+            self.update_tourney_list()
+            self.update_tournament_report(self.tourney_selector.currentText())
 
     def change_tourney_date(self):
         date = CalendarDialog(self).exec_()
