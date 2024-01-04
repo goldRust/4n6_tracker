@@ -2,7 +2,6 @@ import sys
 from PyQt5.QtWidgets import QApplication, QDialog
 from PyQt5.uic import loadUi
 
-
 class Welcome(QDialog):
     def __init__(self, parent=None):
         self.parent = parent

@@ -40,7 +40,7 @@ class Student:
         if performance in self.performances:
             self.performances.remove(performance)
         else:
-            print("Performance not found.")
+            return
 
     def get_performance(self, performance):
         if performance in self.performances:

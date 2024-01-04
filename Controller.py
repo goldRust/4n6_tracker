@@ -64,9 +64,9 @@ class Controller(QMainWindow):
                 new_height = item.height()
 
                 item.setGeometry(new_x, new_y, new_width, new_height)
-                print(new_x)
+
         except Exception as e:
-            print(e)
+            ErrorMessage(e,self)
 
     def load_team_info(self):
         if self.team is None:
@@ -88,13 +88,10 @@ class Controller(QMainWindow):
     def clear_team_info(self):
 
         self.stud_selector.clear()
-        print("Stud Cleared")
         self.np_tourney.clear()
-        print("Tourney Cleared")
         self.tourney_selector.clear()
-        print("Tourney Cleared")
         self.event_selector.clear()
-        print("Event Cleared")
+
 
     def update_student_list(self):
         students = []
@@ -158,7 +155,7 @@ class Controller(QMainWindow):
         self.team_report.setRowCount(len(table))
 
         for row in table:
-            # print(row)
+
             for col in row:
                 self.team_report.setItem(row_ind, col_ind, QtWidgets.QTableWidgetItem(col))
                 col_ind += 1
@@ -185,10 +182,10 @@ class Controller(QMainWindow):
             if rank == -1 or rank == "" or rank == "100" or int(rank) > 10:
                 rank = "Unranked"
             state_qualifier = ""
-            print("Checking Qualified")
+
             if perf.qualifier:
                 state_qualifier = perf.qualifier
-                print("Qualified")
+
 
             rank = str(rank) + state_qualifier
             self.stud_report.setItem(perf_ind, 0, QtWidgets.QTableWidgetItem(perf.event))
@@ -249,7 +246,7 @@ class Controller(QMainWindow):
 
     # Used to update old files in which the performance class didn't have the competitors attribute.
     def patch_performances(self):
-        print("Patching performances")
+
         for stud in self.team.students:
             for i in range(len(stud.performances)):
                 new_perf = Performance(stud.performances[i].tournament, stud.performances[i].event)
@@ -257,16 +254,16 @@ class Controller(QMainWindow):
                 if stud.performances[i].competitors:
                     new_perf.competitors = stud.performances[i].competitors
                 stud.performances[i] = new_perf
-                print(stud.performances[i].placement)
+
                 if len(stud.performances[i].placement) < 1:
                     stud.performances[i].placement = "100"
                 if not stud.performances[i].placement.isnumeric():
                     num = stud.performances[i].placement.split(" ")[0]
-                    print(num)
+
                     stud.performances[i].placement = num
 
 
-        print("Patch complete.")
+
 
     def update_tournament_report(self, host):
         if self.team is None:
@@ -332,7 +329,7 @@ class Controller(QMainWindow):
                     f"{tournament.photo} is not a valid file path. Perhaps it was loaded on a different computer?",
                     self)
         else:
-            print("loading default picture.")
+
             pixmap = QPixmap("./images/no_team.jpg").scaledToWidth(408)
             self.team_picture.setPixmap(pixmap)
         self.delete_tourney.setEnabled(True)
@@ -437,11 +434,11 @@ class Controller(QMainWindow):
                 return
 
         if done:
-            print(new_team)
+
             self.team = Team(new_team)
             self.load_team_info()
         else:
-            print("nope")
+
             return
 
     def gui_add_student(self):
@@ -472,7 +469,7 @@ class Controller(QMainWindow):
                 self.update_student_list()
                 self.update_student_report(self.stud_selector.curentText())
             except Exception as e:
-                print(e)
+                ErrorMessage(e,self)
 
     def gui_add_tournament(self):
         if self.team is None:
@@ -512,14 +509,14 @@ class Controller(QMainWindow):
         if self.team is None:
             ErrorMessage("No team!\nLoad a team file or make a new one by clicking File in the top left.", self)
         student = self.team.get_student(self.selected_student.text())
-        print(student)
+
         if student is None:
             ErrorMessage("Student not found!", self)
             return
         try:
             tourney = self.team.get_tournament(self.np_tourney.currentText())
         except Exception as e:
-            print(e)
+            ErrorMessage(e,self)
         # tourney = self.np_tourney.currentText().split(" -- ")
         if tourney is None:
             ErrorMessage("No Tournament Selected. \nSelect a tournament from the list or make a new one in the Tournament tab.", self)
@@ -557,11 +554,9 @@ class Controller(QMainWindow):
 
         rebuild = EditPerformanceDialog(student, event, tournament, tournaments, row, self).exec_()
         if rebuild:
-            print("Clearing old")
             self.stud_report.clearContents()
-            print("Entering new")
             self.update_student_report(self.selected_student.text())
-            print("Updated")
+
 
     def edit_performance_tr(self, row, col):
         tournaments = [str(tournament) for tournament in self.team.tournaments]
@@ -574,14 +569,8 @@ class Controller(QMainWindow):
 
         rebuild = EditPerformanceDialog(student, event, tournament, tournaments, row, self).exec_()
         if rebuild:
-            print("Clearing old")
             self.tourney_report.clearContents()
-            print("Entering new")
             self.update_tournament_report(self.tourney_selector.currentText())
-            print("Updated")
-
-    def clicked(self, row, col):
-        print(f"{row} {col} Clicked")
 
     def load(self):
         file = self.openFileNameDialog("4n6 Files (*.4n6)")
@@ -623,7 +612,6 @@ class Controller(QMainWindow):
         options = QFileDialog.Options()
         options |= QFileDialog.DontUseNativeDialog
         folderName = QFileDialog.getExistingDirectory(self, "Select Directory", "", options=options)
-        # print(folderName)
         return folderName
 
     def closeEvent(self, event):
@@ -653,7 +641,6 @@ class Controller(QMainWindow):
         folder = self.openFolderNameDialog()
         if len(folder) < 1:
             return
-        print(folder)
         pdf = PDF_Gen()
         pdf.create_awards(awards, folder, str(tournament), team_pic=tournament.photo)
         retval = InfoMessage(f"{tournament} awards file has been saved.",self).exec_()
@@ -739,7 +726,6 @@ class Controller(QMainWindow):
     def remove_photo(self):
         tournament = self.team.get_tournament(self.tourney_selector.currentText())
         tournament.photo = None
-        print("Updating Tournament")
         self.update_tournament_report(self.tourney_selector.currentText())
 
     @staticmethod

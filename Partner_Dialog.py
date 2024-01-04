@@ -20,7 +20,6 @@ class Partner_Dialog(QDialog):
         partner = self.parent.team.get_student(self.partner_select.currentText())
         partner_performance = partner.add_performance(Performance(self.perf[2], self.perf[1]))
         partner_performance.placement = self.perf[3]
-        print(partner)
         self.accept()
 
         return self.partner_select.currentText()
