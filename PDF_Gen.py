@@ -24,9 +24,9 @@ class PDF_Gen:
         event_ypos = 2 * inch
         place_ypos = .5 * inch
 
-        gold = '.\\images\\gold.jpg'
-        silver = '.\\images\\silver.jpg'
-        bronze = '.\\images\\bronze.jpg'
+        gold = './images/gold.jpg'
+        silver = './images/silver.jpg'
+        bronze = './images/bronze.jpg'
 
         for award in awards:
 
