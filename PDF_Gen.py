@@ -10,7 +10,8 @@ import os
 class PDF_Gen:
     def __init__(self):
         pass
-    def create_awards(self,awards, folder, tournament, team_pic=None):
+    def create_awards(self,awards, folder, tournament, team, team_pic=None):
+        self.team = team
         award_count = 0
         pdf_file_name = tournament.replace("/", "-")
         folder = f"{folder}/Awards for {pdf_file_name}.pdf"
@@ -87,7 +88,7 @@ class PDF_Gen:
 
     def team_picture(self,pdf, tournament, team_pic):
 
-        team_name = 'Osage City High School'
+        team_name = self.team.name
         center_pic_x = 4.5 * inch
         tn_y = 5.75 * inch
         tourn_y = inch

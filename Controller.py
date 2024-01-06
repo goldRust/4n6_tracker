@@ -76,14 +76,23 @@ class Controller(QMainWindow):
         self.team_name.resize(len(self.team.name)*24,24)
         # self.patch_tournaments()
         # self.patch_performances()
-        self.update_team_report()
         self.team.students.sort()
+        self.update_team_report()
+
         self.update_student_list()
 
         self.update_event_list()
 
         self.update_tourney_list()
         self.np_rank.clear()
+
+    def load_team_tab(self):
+        if self.team is None:
+            ErrorMessage("Load a file or create a new team first.", self)
+            return
+        self.team.students.sort()
+        self.update_team_report()
+
 
     def clear_team_info(self):
 
@@ -96,6 +105,7 @@ class Controller(QMainWindow):
     def update_student_list(self):
         students = []
         self.stud_selector.clear()
+
         for student in self.team.students:
             students.append(student.full_name)
 
@@ -168,6 +178,7 @@ class Controller(QMainWindow):
                 self.team_report.setColumnWidth(i, width)
 
     def update_student_report(self, student):
+
         if self.team is None:
             ErrorMessage("Load a file or create a new team first.", self)
             return
@@ -177,6 +188,7 @@ class Controller(QMainWindow):
         self.stud_report.setRowCount(len(self.team.get_student(student).performances))
         perf_ind = 0
         self.team.get_student(student).sort_performances()
+
         for perf in self.team.get_student(student).performances:
             rank = perf.placement
             if rank == -1 or rank == "" or rank == "100" or int(rank) > 10:
@@ -406,7 +418,7 @@ class Controller(QMainWindow):
 
     def click_tab(self, tab):
         if tab == 0:
-            self.load_team_info()
+            self.load_team_tab()
         if tab == 1:
             self.update_student_report(self.stud_selector.currentText())
         if tab == 2:
@@ -467,7 +479,7 @@ class Controller(QMainWindow):
                 student = self.team.get_student(self.selected_student.text())
                 self.team.delete_student(student)
                 self.update_student_list()
-                self.update_student_report(self.stud_selector.curentText())
+
             except Exception as e:
                 ErrorMessage(e,self)
 
@@ -494,7 +506,7 @@ class Controller(QMainWindow):
     def gui_remove_tournament(self):
         tournament = self.team.get_tournament(self.tourney_selector.currentText())
         confirm = QtWidgets.QMessageBox.question(self, "DELETE STUDENT!",
-                                                 f"This will completely remove all records of this tournament.\nThis cannot be undone!\nAre you certain you wish to remove {tournament}?",
+                                                 f"This will completely remove this tournament from the system.\nThis cannot be undone!\n*NOTE* Any existing performances must be removed one by one through the student performance page.\nAre you certain you wish to remove {tournament}?",
                                                  QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.Yes)
         if confirm == QtWidgets.QMessageBox.Yes:
 
@@ -561,7 +573,11 @@ class Controller(QMainWindow):
     def edit_performance_tr(self, row, col):
         tournaments = [str(tournament) for tournament in self.team.tournaments]
         student = self.team.get_student(self.tourney_report.item(row, 0).text())
+        if student is None:
+            return
+
         event = self.tourney_report.item(row,1).text()
+
         tournament = self.tourney_selector.currentText()
         perf = (self.tourney_report.item(row, 0).text(), self.tourney_report.item(row, 1).text(),
                 self.tourney_report.item(row, 2).text())
@@ -642,7 +658,7 @@ class Controller(QMainWindow):
         if len(folder) < 1:
             return
         pdf = PDF_Gen()
-        pdf.create_awards(awards, folder, str(tournament), team_pic=tournament.photo)
+        pdf.create_awards(awards, folder, str(tournament),self.team, team_pic=tournament.photo)
         retval = InfoMessage(f"{tournament} awards file has been saved.",self).exec_()
 
     def pdf_team_report(self):
@@ -710,7 +726,7 @@ class Controller(QMainWindow):
 
     def get_team_picture(self):
 
-        file = self.openFileNameDialog("Image Files (*.png *.jpg *.bmp)")
+        file = self.openFileNameDialog("Image Files (*.gif *.jpg *.bmp)")
         if not file:
             return
 
