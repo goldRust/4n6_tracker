@@ -184,6 +184,7 @@ class Controller(QMainWindow):
             return
         if len(student) < 1:
             return
+
         self.selected_student.setText(student)
         self.stud_report.setRowCount(len(self.team.get_student(student).performances))
         perf_ind = 0
@@ -203,7 +204,10 @@ class Controller(QMainWindow):
             self.stud_report.setItem(perf_ind, 0, QtWidgets.QTableWidgetItem(perf.event))
             self.stud_report.setItem(perf_ind, 1, QtWidgets.QTableWidgetItem(rank))
             self.stud_report.setItem(perf_ind, 2, QtWidgets.QTableWidgetItem(str(perf.tournament)))
-
+            partner_name = ""
+            if perf.partner is not None:
+                partner_name = perf.partner.full_name
+            self.stud_report.setItem(perf_ind, 3, QtWidgets.QTableWidgetItem(partner_name))
             perf_ind += 1
 
         self.add_performance_frame.setEnabled(True)
@@ -260,6 +264,7 @@ class Controller(QMainWindow):
     def patch_performances(self):
 
         for stud in self.team.students:
+            print(f"Patching performances for {stud.full_name}")
             for i in range(len(stud.performances)):
                 new_perf = Performance(stud.performances[i].tournament, stud.performances[i].event)
                 new_perf.placement = stud.performances[i].placement
@@ -273,6 +278,7 @@ class Controller(QMainWindow):
                     num = stud.performances[i].placement.split(" ")[0]
 
                     stud.performances[i].placement = num
+
 
 
 
@@ -347,8 +353,6 @@ class Controller(QMainWindow):
         self.delete_tourney.setEnabled(True)
 
     def set_columns(self):
-        for i in range(self.stud_report.columnCount()):
-            self.stud_report.setColumnWidth(i, 200)
         for i in range(self.team_report.columnCount()):
             self.team_report.setColumnWidth(i, 200)
         for i in range(self.tourney_report.columnCount()):
@@ -545,9 +549,9 @@ class Controller(QMainWindow):
         performance.placement = placement
         if performance.event == "IDA" or performance.event == "DA" or performance.event == "DI":
             students = [stud.full_name for stud in self.team.students]
-            partner = self.team.get_student(Partner_Dialog((f"{student.full_name}'s partner for {performance.event}:",
-                                                            performance.event, performance.tournament,
-                                                            performance.placement), students, self).exec_())
+            partner =Partner_Dialog((f"{student.full_name}'s partner for {performance.event}:", performance.event, performance.tournament, performance.placement), students, self).exec_()
+
+
         self.np_rank.clear()
         self.np_event.clear()
         self.update_student_report(student.full_name)

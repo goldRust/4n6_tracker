@@ -1,5 +1,6 @@
 from Tournament import Tournament
 from Round import  Round
+
 class Performance:
     def __init__(self, tournament, event):
         self.tournament = tournament
@@ -7,6 +8,7 @@ class Performance:
         self.placement = "100"
         self.competitors = 6
         self.rounds = []
+        self.partner = None
 
     def add_result(self, placement):
         self.placement = placement
@@ -23,6 +25,23 @@ class Performance:
             total += round.points
         return total
 
+    def add_partner(self, partner):
+
+        self.partner = partner
+
+
+
+    def get_partner(self):
+        return self.partner
+
+    def duplicate(self):
+        new_performance = Performance(self.tournament, self.event)
+        new_performance.placement = self.placement
+        new_performance.partner = self.partner
+        print(self.partner)
+        new_performance.competitors = self.competitors
+        new_performance.rounds = self.rounds
+        return new_performance
 
     @property
     def qualifier(self):

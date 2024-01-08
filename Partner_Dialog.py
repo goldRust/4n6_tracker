@@ -16,10 +16,18 @@ class Partner_Dialog(QDialog):
         self.okay_button.clicked.connect(self.getValues)
         self.cancel_button.clicked.connect(self.close)
 
+
+
     def getValues(self):
         partner = self.parent.team.get_student(self.partner_select.currentText())
         partner_performance = partner.add_performance(Performance(self.perf[2], self.perf[1]))
         partner_performance.placement = self.perf[3]
-        self.accept()
+        try:
+            part1 = self.parent.team.get_student(self.parent.stud_selector.currentText())
+            print(part1.full_name)
 
-        return self.partner_select.currentText()
+            partner_performance.add_partner(part1)
+            part1.get_performance(partner_performance).add_partner(partner)
+        except Exception as e:
+            print(e)
+        self.accept()
