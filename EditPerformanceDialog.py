@@ -93,7 +93,7 @@ class EditPerformanceDialog(QDialog):
             students = [student.full_name for student in self.parent.team.students]
             self.old_partner = self.perf.partner
             self.perf.partner.delete_performance(self.perf)
-            new_partner = Partner_Dialog((f"{self.student.full_name}'s partner for {self.perf.event}:", self.perf.event, self.perf.tournament, self.perf.placement), students, self.parent).exec_()
+            new_partner = Partner_Dialog((f"{self.student.full_name}'s partner for {self.perf.event}:", self.perf.event, self.perf.tournament, self.perf.placement), students,self.student, self.parent).exec_()
             self.student_name.setText(f"{self.student.full_name} & {self.perf.partner.full_name}" )
             self.enableSave()
         except Exception as e:

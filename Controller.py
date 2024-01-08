@@ -549,7 +549,7 @@ class Controller(QMainWindow):
         performance.placement = placement
         if performance.event == "IDA" or performance.event == "DA" or performance.event == "DI":
             students = [stud.full_name for stud in self.team.students]
-            partner =Partner_Dialog((f"{student.full_name}'s partner for {performance.event}:", performance.event, performance.tournament, performance.placement), students, self).exec_()
+            partner =Partner_Dialog((f"{student.full_name}'s partner for {performance.event}:", performance.event, performance.tournament, performance.placement), students, student, self).exec_()
 
 
         self.np_rank.clear()
