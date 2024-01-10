@@ -297,6 +297,7 @@ class Controller(QMainWindow):
         longest_event = 0
         longest_rank = 0
         sweeps_total = 0
+        partner_performances = []
         for student in self.team.students:
             if longest_name < len(student.full_name) * 10:
                 longest_name = len(student.full_name) * 10
@@ -316,8 +317,21 @@ class Controller(QMainWindow):
                     if longest_rank < len(rank) * 10:
                         longest_rank = len(rank) * 10
 
-                    sweeps_total += perf.sweeps_points()
-                    table.append([student.full_name, perf.event, rank, str(perf.sweeps_points())])
+                    sweeps_points = perf.sweeps_points()
+
+                    if perf.partner is not None:
+                        for partner_performance in partner_performances:
+                            if partner_performance.partner == student:
+                                sweeps_points = 0
+
+
+                        else:
+                            partner_performances.append(perf)
+                    sweeps_total += sweeps_points
+                    if sweeps_points != perf.sweeps_points():
+                        sweeps_points = "Partner"
+
+                    table.append([student.full_name, perf.event, rank, str(sweeps_points)])
         table.append(["", "", "TOTAL SWEEPS:", str(sweeps_total)])
         self.tourney_report.setRowCount(len(table))
         row_ind = 0
@@ -730,7 +744,7 @@ class Controller(QMainWindow):
 
     def get_team_picture(self):
 
-        file = self.openFileNameDialog("Image Files (*.gif *.jpg *.bmp)")
+        file = self.openFileNameDialog("Image Files (*.jpg)")
         if not file:
             return
 
