@@ -1,4 +1,8 @@
 from Performance import Performance
+"""
+Student objects contain all of the data about a particular student. All performances are properties of students.
+"""
+
 class Student:
     def __init__(self, fname, lname):
         self.first_name = fname
@@ -110,6 +114,5 @@ class Student:
 
         complete = front + mid + back
         return complete
-
 
 

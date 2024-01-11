@@ -260,7 +260,7 @@ class Controller(QMainWindow):
             tournament = Tournament(self.team.tournaments[i].school, self.team.tournaments[i].date)
             self.team.tournaments[i] = tournament
 
-    # Used to update old files in which the performance class didn't have the competitors attribute.
+    # Used to update old files in which the performance class didn't have the competitors or partner attributes.
     def patch_performances(self):
 
         for stud in self.team.students:

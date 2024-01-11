@@ -7,6 +7,10 @@ from PyQt5.QtWidgets import QApplication, QDialog
 from PyQt5 import QtWidgets
 from PyQt5.uic import loadUi
 
+
+"""
+This dialog allows users to update information about a particular performance.
+"""
 class EditPerformanceDialog(QDialog):
     def __init__(self, student, event, tournament, tournaments, perf_ind, parent=None):
 

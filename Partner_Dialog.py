@@ -3,6 +3,7 @@ from Performance import Performance
 from PyQt5.QtWidgets import QApplication, QDialog
 from PyQt5.uic import loadUi
 
+'''This dailog allows users to add the performance details to both participants in 2 person events.'''
 
 class Partner_Dialog(QDialog):
     def __init__(self, perf, students, student, parent=None):
