@@ -1,6 +1,14 @@
 from Student import Student
 from Tournament import Tournament
 
+"""
+The team class is the core of all the data contained in the program.
+Team objects are what is saved in the save file.
+They must  be initialized with a String representing the team name.
+
+All other data is built as the user enters it. 
+
+"""
 class Team:
 
     def __init__(self, name):
