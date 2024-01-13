@@ -1,6 +1,10 @@
 from Tournament import Tournament
 from Round import  Round
 
+'''
+The performance class is utlized by the Student class and is the base of nearly all the data in the program.
+
+'''
 class Performance:
     def __init__(self, tournament, event):
         self.tournament = tournament
