@@ -20,7 +20,11 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
-
+'''
+Due to the nature of PyQT5, this is a combination of Controller and View in the MCV paradigm. It's less than ideal, 
+because it can only really be used with a single view. It will have to be rebuilt whole cloth when porting it over to 
+another GUI. 
+'''
 class Controller(QMainWindow):
     def __init__(self):
         self.team = None
