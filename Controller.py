@@ -158,7 +158,10 @@ class Controller(QMainWindow):
                     tournaments += f"{str(perf.tournament)} | "
                     tournament_count += 1
             if best is not None:
-                best_str = f"{best.event} -- Rank: {best.placement} -- Competitors: {best.competitors} at {str(best.tournament)}"
+                placement = best.placement
+                if rank_int > 10:
+                    placement = "Unranked"
+                best_str = f"{best.event} -- Rank: {placement} -- Competitors: {best.competitors} at {str(best.tournament)}"
             else:
                 best_str = ""
 
