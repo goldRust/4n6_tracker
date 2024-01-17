@@ -530,7 +530,7 @@ class Controller(QMainWindow):
 
     def gui_remove_tournament(self):
         tournament = self.team.get_tournament(self.tourney_selector.currentText())
-        confirm = QtWidgets.QMessageBox.question(self, "DELETE STUDENT!",
+        confirm = QtWidgets.QMessageBox.question(self, "DELETE TOURNAMENT!",
                                                  f"This will completely remove this tournament from the system.\nThis cannot be undone!\n*NOTE* Any existing performances must be removed one by one through the student performance page.\nAre you certain you wish to remove {tournament}?",
                                                  QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.Yes)
         if confirm == QtWidgets.QMessageBox.Yes:
