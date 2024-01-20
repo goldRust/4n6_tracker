@@ -306,8 +306,7 @@ class Controller(QMainWindow):
         sweeps_total = 0
         partner_performances = []
         for student in self.team.students:
-            if longest_name < len(student.full_name) * 10:
-                longest_name = len(student.full_name) * 10
+
             for perf in student.performances:
                 state_qualifier = ""
                 if str(perf.tournament) == host:
@@ -325,20 +324,26 @@ class Controller(QMainWindow):
                         longest_rank = len(rank) * 10
 
                     sweeps_points = perf.sweeps_points()
+                    name = student.full_name
 
                     if perf.partner is not None:
+                        perf_found = False
                         for partner_performance in partner_performances:
+
                             if partner_performance.partner == student:
-                                sweeps_points = 0
-
-
+                                perf_found = True
+                        if perf_found:
+                            continue
                         else:
+                            name = f"{name} & {perf.partner.full_name}"
                             partner_performances.append(perf)
+
                     sweeps_total += sweeps_points
                     if sweeps_points != perf.sweeps_points():
                         sweeps_points = "Partner"
-
-                    table.append([student.full_name, perf.event, rank, str(sweeps_points)])
+                    if longest_name < len(name) * 10:
+                        longest_name = len(name) * 10
+                    table.append([name, perf.event, rank, str(sweeps_points)])
         table.append(["", "", "TOTAL SWEEPS:", str(sweeps_total)])
         self.tourney_report.setRowCount(len(table))
         row_ind = 0
@@ -597,7 +602,10 @@ class Controller(QMainWindow):
 
     def edit_performance_tr(self, row, col):
         tournaments = [str(tournament) for tournament in self.team.tournaments]
-        student = self.team.get_student(self.tourney_report.item(row, 0).text())
+        name = self.tourney_report.item(row, 0).text()
+        if " & " in name:
+            name = name.split(" & ")[0]
+        student = self.team.get_student(name)
         if student is None:
             return
 
