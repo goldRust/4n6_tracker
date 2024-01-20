@@ -341,8 +341,8 @@ class Controller(QMainWindow):
                     sweeps_total += sweeps_points
                     if sweeps_points != perf.sweeps_points():
                         sweeps_points = "Partner"
-                    if longest_name < len(name) * 10:
-                        longest_name = len(name) * 10
+                    if longest_name < len(name):
+                        longest_name = len(name)
                     table.append([name, perf.event, rank, str(sweeps_points)])
         table.append(["", "", "TOTAL SWEEPS:", str(sweeps_total)])
         self.tourney_report.setRowCount(len(table))
@@ -356,7 +356,7 @@ class Controller(QMainWindow):
 
             col_ind = 0
             row_ind += 1
-        self.tourney_report.setColumnWidth(0, longest_name)
+        self.tourney_report.setColumnWidth(0, longest_name * 7)
         self.tourney_report.setColumnWidth(1, longest_event)
         self.tourney_report.setColumnWidth(2, longest_rank)
         self.tourney_report.setColumnWidth(3, 5 * 12)
