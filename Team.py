@@ -75,6 +75,10 @@ class Team:
 
     def delete_tournament(self, tournament):
         self.tournaments.remove(tournament)
+        for student in self.students:
+            for performance in student.performances:
+                if performance.tournament == tournament:
+                    student.delete_performance(performance)
     def __str__(self):
         output = "*"*10
         output += f"{self.name}\n\n" + "*"*10

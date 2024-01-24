@@ -536,7 +536,7 @@ class Controller(QMainWindow):
     def gui_remove_tournament(self):
         tournament = self.team.get_tournament(self.tourney_selector.currentText())
         confirm = QtWidgets.QMessageBox.question(self, "DELETE TOURNAMENT!",
-                                                 f"This will completely remove this tournament from the system.\nThis cannot be undone!\n*NOTE* Any existing performances must be removed one by one through the student performance page.\nAre you certain you wish to remove {tournament}?",
+                                                 f"This will completely remove this tournament from the system.\nThis cannot be undone!\n*NOTE* Any existing performances will also be deleted!\nAre you certain you wish to remove {tournament}?",
                                                  QtWidgets.QMessageBox.No | QtWidgets.QMessageBox.Yes)
         if confirm == QtWidgets.QMessageBox.Yes:
 
@@ -635,6 +635,7 @@ class Controller(QMainWindow):
                 self.team = pickle.load(f)
                 self.load_team_info()
         except Exception as e:
+            print(e)
             ErrorMessage(e, self)
 
     def save(self):
