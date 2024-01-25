@@ -140,7 +140,7 @@ class Controller(QMainWindow):
             return
 
         table = []
-
+        longest_best = 0
         for student in self.team.students:
             best = None
             best_rank = 101
@@ -162,6 +162,8 @@ class Controller(QMainWindow):
                 if rank_int > 10:
                     placement = "Unranked"
                 best_str = f"{best.event} -- Rank: {placement} -- Competitors: {best.competitors} at {str(best.tournament)}"
+                if len(best_str) > longest_best:
+                    longest_best = len(best_str)
             else:
                 best_str = ""
 
@@ -183,6 +185,7 @@ class Controller(QMainWindow):
                 if len(self.team_report.item(0,i).text()) * 10 > width:
                     width = len(self.team_report.item(0,i).text()) * 10
                 self.team_report.setColumnWidth(i, width)
+        self.team_report.setColumnWidth(3, longest_best * 6)
 
     def update_student_report(self, student):
 
