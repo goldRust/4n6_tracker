@@ -91,11 +91,16 @@ class PDF_Gen:
         team_name = self.team.name
         center_pic_x = 4.5 * inch
         tn_y = 5.75 * inch
-        tourn_y = inch
+        tourn_y = 1.5 * inch
         pdf.drawImage(team_pic, inch, inch, 7 * inch, 5.27* inch)
         pdf.setFont('Courier', 32)
-        pdf.drawCentredString(center_pic_x, tn_y, team_name)
         pdf.setFillColor(colors.white)
+        pdf.drawCentredString(center_pic_x, tn_y, team_name)
+        pdf.setFillColor(colors.black)
+        max_font = 48 - len(tournament)
+        if max_font > 34:
+            max_font = 34
+        pdf.setFont('Courier', max_font)
         pdf.drawCentredString(center_pic_x, tourn_y, tournament)
         pdf.showPage()
 
