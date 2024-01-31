@@ -183,13 +183,27 @@ class PDF_Gen:
         data = [["Student","Event", "Rank"]]
         empty = [[" ", " ", " "]]
         empty_table = Table(empty)
+        partner_performances = []
         for student in team.students:
-           for performance in student.performances:
+            for performance in student.performances:
+                name = student.full_name
+                if performance.tournament != tournament:
+                    continue
+                if performance.partner:
+                    perf_found = False
+                    for perf in partner_performances:
+                        if perf.partner == student:
+                            perf_found = True
+                    if perf_found:
+                        continue
+                    partner_performances.append(performance)
+                    name = name + " & " + performance.partner.full_name
+
                 placement = performance.placement
-                if placement == "100":
+                if int(placement) > 10:
                     placement = "Unranked"
                 if performance.tournament == tournament:
-                    row = [student.full_name, performance.event, placement]
+                    row = [name, performance.event, placement]
                     data.append(row)
 
         all_items = []
