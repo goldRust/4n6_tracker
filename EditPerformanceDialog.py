@@ -82,6 +82,13 @@ class EditPerformanceDialog(QDialog):
             partner_perf.partner = self.student
             self.perf.partner.add_performance(partner_perf)
 
+        if self.perf.competitors != new_perf.competitors:
+            for other_student in self.parent.team.students:
+                for other_performance in other_student.performances:
+                    if other_performance.tournament == new_perf.tournament and other_performance.event == new_perf.event:
+                        other_performance.competitors = new_perf.competitors
+
+
         #update table
 
         self.accept()
