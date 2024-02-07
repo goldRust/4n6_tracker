@@ -94,9 +94,9 @@ class PDF_Gen:
         tourn_y = 1.5 * inch
         pdf.drawImage(team_pic, inch, inch, 7 * inch, 5.27* inch)
         pdf.setFont('Courier', 32)
-        pdf.setFillColor(colors.white)
-        pdf.drawCentredString(center_pic_x, tn_y, team_name)
         pdf.setFillColor(colors.black)
+        pdf.drawCentredString(center_pic_x, tn_y, team_name)
+        pdf.setFillColor(colors.white)
         max_font = 48 - len(tournament)
         if max_font > 34:
             max_font = 34
