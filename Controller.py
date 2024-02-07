@@ -16,7 +16,7 @@ import pickle
 from PyQt5.uic import loadUi
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QBitmap
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
@@ -364,7 +364,13 @@ class Controller(QMainWindow):
         self.tourney_report.setColumnWidth(2, longest_rank)
         self.tourney_report.setColumnWidth(3, 5 * 12)
         if tournament.photo is not None:
-            if os.path.isfile(tournament.photo):
+            if isinstance(tournament.photo, QPixmap):
+                try:
+                    self.team_picture.setPixmap(tournament.photo.scaledToWidth(408))
+                except Exception as e:
+                    print(e)
+
+            elif os.path.isfile(tournament.photo):
                 try:
                     file = QPixmap(tournament.photo).scaledToWidth(408)
                     self.team_picture.setPixmap(file)
@@ -769,11 +775,16 @@ class Controller(QMainWindow):
 
         try:
             tournament = self.team.get_tournament(self.tourney_selector.currentText())
+            # This seems to crash the save process. Likely it is a problem with pickle.
+            #tournament.photo = QPixmap(file)
             tournament.photo = file
+
+
             pixmap = QPixmap(file).scaledToWidth(408)
 
             self.team_picture.setPixmap(pixmap)
         except Exception as e:
+            print(e)
             ErrorMessage(e, self)
 
     def remove_photo(self):
