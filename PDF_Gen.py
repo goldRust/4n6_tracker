@@ -6,6 +6,8 @@ from reportlab.lib.units import inch
 from reportlab.lib import colors
 from reportlab.platypus import Table, SimpleDocTemplate, TableStyle, Paragraph
 import os
+from PIL import Image
+import numpy as np
 
 class PDF_Gen:
     def __init__(self):
@@ -88,10 +90,16 @@ class PDF_Gen:
 
     def team_picture(self,pdf, tournament, team_pic):
 
+        from_data = Image.fromarray(team_pic)
+        from_data.save(os.getcwd() + "\\report_team_pic.jpg")
+
+        team_pic = os.getcwd() + "\\report_team_pic.jpg"
         team_name = self.team.name
         center_pic_x = 4.5 * inch
         tn_y = 5.75 * inch
         tourn_y = 1.5 * inch
+
+
         pdf.drawImage(team_pic, inch, inch, 7 * inch, 5.27* inch)
         pdf.setFont('Courier', 32)
         pdf.setFillColor(colors.black)

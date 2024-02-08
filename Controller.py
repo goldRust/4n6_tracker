@@ -19,6 +19,8 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QFileDialog
 from PyQt5.QtGui import QPixmap, QBitmap
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+from PIL import Image
+import numpy as np
 
 '''
 Due to the nature of PyQT5, this is a combination of Controller and View in the MCV paradigm. It's less than ideal, 
@@ -364,9 +366,16 @@ class Controller(QMainWindow):
         self.tourney_report.setColumnWidth(2, longest_rank)
         self.tourney_report.setColumnWidth(3, 5 * 12)
         if tournament.photo is not None:
-            if isinstance(tournament.photo, QPixmap):
+            print(type(tournament.photo))
+            if isinstance(tournament.photo, np.ndarray):
+
                 try:
-                    self.team_picture.setPixmap(tournament.photo.scaledToWidth(408))
+                    from_data = Image.fromarray(tournament.photo)
+                    from_data.save(os.getcwd() + f"\\{tournament}_team_pic.jpg")
+
+                    pixmap = QPixmap(os.getcwd() + f"\\{tournament}_team_pic.jpg").scaledToWidth(408)
+
+                    self.team_picture.setPixmap(pixmap)
                 except Exception as e:
                     print(e)
 
@@ -777,10 +786,16 @@ class Controller(QMainWindow):
             tournament = self.team.get_tournament(self.tourney_selector.currentText())
             # This seems to crash the save process. Likely it is a problem with pickle.
             #tournament.photo = QPixmap(file)
-            tournament.photo = file
+            picture = Image.open(file)
+            pic_data = np.asarray(picture)
+            print(pic_data)
+
+            tournament.photo = pic_data
+            from_data = Image.fromarray(pic_data)
+            from_data.save(os.getcwd() + f"\\{tournament}_team_pic.jpg")
 
 
-            pixmap = QPixmap(file).scaledToWidth(408)
+            pixmap = QPixmap(os.getcwd() + f"\\{tournament}_team_pic.jpg").scaledToWidth(408)
 
             self.team_picture.setPixmap(pixmap)
         except Exception as e:
