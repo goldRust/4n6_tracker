@@ -90,10 +90,9 @@ class PDF_Gen:
 
     def team_picture(self,pdf, tournament, team_pic):
 
-        from_data = Image.fromarray(team_pic)
-        from_data.save(os.getcwd() + "\\report_team_pic.jpg")
 
-        team_pic = os.getcwd() + "\\report_team_pic.jpg"
+
+        team_pic = team_pic
         team_name = self.team.name
         center_pic_x = 4.5 * inch
         tn_y = 5.75 * inch

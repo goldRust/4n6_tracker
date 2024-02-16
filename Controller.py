@@ -784,15 +784,15 @@ class Controller(QMainWindow):
 
         try:
             tournament = self.team.get_tournament(self.tourney_selector.currentText())
-            # This seems to crash the save process. Likely it is a problem with pickle.
-            #tournament.photo = QPixmap(file)
+
             picture = Image.open(file)
             pic_data = np.asarray(picture)
             print(pic_data)
-
-            tournament.photo = pic_data
             from_data = Image.fromarray(pic_data)
             from_data.save(os.getcwd() + f"\\{tournament}_team_pic.jpg")
+
+            tournament.photo = os.getcwd() + f"\\{tournament}_team_pic.jpg"
+
 
 
             pixmap = QPixmap(os.getcwd() + f"\\{tournament}_team_pic.jpg").scaledToWidth(408)
