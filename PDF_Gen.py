@@ -90,7 +90,7 @@ class PDF_Gen:
 
     def team_picture(self,pdf, tournament, team_pic):
 
-
+        # The plan is to load the image as an Image file, find the correct pixels for the top and bottom text, then pick white for dark colors and white for light ones.
 
         team_pic = team_pic
         team_name = self.team.name
