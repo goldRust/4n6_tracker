@@ -791,7 +791,7 @@ class Controller(QMainWindow):
             from_data = Image.fromarray(pic_data)
             from_data.save(os.getcwd() + f"\\{tournament}_team_pic.jpg")
 
-            tournament.photo = os.getcwd() + f"\\{tournament}_team_pic.jpg"
+            tournament.photo =f"\\{tournament}_team_pic.jpg"
 
 
 
