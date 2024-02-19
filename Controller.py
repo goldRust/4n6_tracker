@@ -379,9 +379,9 @@ class Controller(QMainWindow):
                 except Exception as e:
                     print(e)
 
-            elif os.path.isfile(tournament.photo):
+            elif os.path.isfile(os.getcwd() + tournament.photo):
                 try:
-                    file = QPixmap(tournament.photo).scaledToWidth(408)
+                    file = QPixmap(os.getcwd() +tournament.photo).scaledToWidth(408)
                     self.team_picture.setPixmap(file)
                     self.photo_button.setText("Change Photo")
                 except Exception as e:
@@ -710,7 +710,10 @@ class Controller(QMainWindow):
         if len(folder) < 1:
             return
         pdf = PDF_Gen()
-        pdf.create_awards(awards, folder, str(tournament),self.team, team_pic=tournament.photo)
+        photo = None
+        if tournament.photo is not None:
+            photo = os.getcwd() + tournament.photo
+        pdf.create_awards(awards, folder, str(tournament),self.team, team_pic=photo)
         retval = InfoMessage(f"{tournament} awards file has been saved.",self).exec_()
 
     def pdf_team_report(self):
