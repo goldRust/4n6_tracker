@@ -90,10 +90,27 @@ class PDF_Gen:
 
     def team_picture(self,pdf, tournament, team_pic):
 
-        # The plan is to load the image as an Image file, find the correct pixels for the top and bottom text, then pick white for dark colors and white for light ones.
-        # This proves to be rather difficult. Looking for a new library to do so.
 
         team_pic = team_pic
+        img = Image.open(team_pic)
+        width, height = img.size
+
+        top_section = img.crop((0,0, width, height //3))
+        bottom_section = img.crop((0,0,width,height //3))
+
+        top_brightness = self.calculate_brightness(top_section)
+        bottom_brightness = self.calculate_brightness(bottom_section)
+        if top_brightness > 127:
+            top_color = colors.black
+        else:
+            top_color = colors.white
+
+        if bottom_brightness > 127:
+            bottom_color = colors.black
+        else:
+            bottom_color = colors.white
+
+
         team_name = self.team.name
         center_pic_x = 4.5 * inch
         tn_y = 5.75 * inch
@@ -102,15 +119,20 @@ class PDF_Gen:
 
         pdf.drawImage(team_pic, inch, inch, 7 * inch, 5.27* inch)
         pdf.setFont('Courier', 32)
-        pdf.setFillColor(colors.black)
+        pdf.setFillColor(top_color)
         pdf.drawCentredString(center_pic_x, tn_y, team_name)
-        pdf.setFillColor(colors.white)
+        pdf.setFillColor(bottom_color)
         max_font = 48 - len(tournament)
         if max_font > 34:
             max_font = 34
         pdf.setFont('Courier', max_font)
         pdf.drawCentredString(center_pic_x, tourn_y, tournament)
         pdf.showPage()
+
+    def calculate_brightness(self, image_selection):
+        grayscale = image_selection.convert("L")
+        brightness = np.array(grayscale).mean()
+        return brightness
 
     def team_report(self, team, folder):
         file_name = f"{folder}/{team.name}-Season_Report.pdf"
